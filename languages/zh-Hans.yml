@@ -10,21 +10,21 @@ archives:
   menu: "归档"
   title: "归档"
   count:
-    zero: 暂无文章
+    zero: "暂无文章"
     other: "目前共计 %d 篇文章"
 
 categories:
   menu: "分类"
   title: "分类"
   count:
-    zero: 暂无分类
+    zero: "暂无分类"
     other: "目前共计 %d 个分类"
 
 tags:
   menu: "标签"
   title: "标签"
   count:
-    zero: 暂无标签
+    zero: "暂无标签"
     other: "目前共计 %d 个标签"
 
 about:

@@ -1,0 +1,104 @@
+name: "繁體中文"
+
+home:
+  menu: "首頁"
+  title: "首頁"
+  read_more: "閱讀全文"
+  sticky: "置頂"
+
+archives:
+  menu: "歸檔"
+  title: "歸檔"
+  count:
+    zero: "暫無文章"
+    other: "目前共計 %d 篇文章"
+
+categories:
+  menu: "分類"
+  title: "分類"
+  count:
+    zero: 暫無分類
+    other: "目前共計 %d 個分類"
+
+tags:
+  menu: "標籤"
+  title: "標籤"
+  count:
+    zero: "暫無標籤"
+    other: "目前共計 %d 個標籤"
+
+about:
+  menu: "關於"
+  title: "關於"
+
+redirect:
+  menu: "重定向"
+  title: "重定向"
+  tips: "重定向到其他網站，請注意您的帳號和財產安全"
+  message: "您即將離開 %s，前往："
+  continue: "繼續"
+
+page404:
+  menu: "404"
+  title: "404"
+  content: "Ops！你來到了沒有人煙的荒漠~~"
+
+sidebar:
+  toc:
+    menu: "文章目錄"
+    title: "文章目錄"
+    toc_title: "目錄"
+    have_read: "您已閱讀了"
+    empty: "此文章未包含目錄"
+  info:
+    menu: "站點概覽"
+    title: "站點概覽"
+
+header:
+  search:
+    menu: "搜索"
+    title: "搜索"
+    keywords: "請輸入關鍵字"
+
+footer:
+  statistics:
+    site_uv: "本站總訪客數 {} 人"
+    site_pv: "本站總訪問量 {} 次"
+    page_pv: "本文總訪問量 {} 次"
+
+post:
+  menu: "文章"
+  title: "文章"
+  created: "創建於"
+  modified: "更新於"
+  posted: "發表於"
+  untitled: "未命名文章"
+  copyright:
+    author: "本文作者"
+    link: "本文鏈接"
+    copyright_notice: "版權聲明"
+    copyright_content: '本站點所有文章除特別聲明外，均採用 <a href="%s">%s</a> 許可協議。轉載請註明來自 <a href="%s">%s</a>！'
+
+copy:
+  menu: "複製"
+  success: "複製成功"
+  error: "複製錯誤"
+  noSupport: "瀏覽器不支持"
+
+comment:
+  title: "評論"
+  placeholder: "請輸入評論內容"
+  submit: "提交"
+  reply: "回覆"
+  cancel: "取消"
+  tips: "評論功能由第三方服務提供，評論內容與本站無關"
+
+search:
+  algolia:
+    placeholder: "搜索文章"
+    hits_empty: "找不到您查詢的內容:${query}"
+    hits_stats: "找到 ${hits} 條結果，用時 ${time} 毫秒"
+  local:
+    placeholder: "搜索文章"
+    hits_empty: "找不到您查詢的內容:${query}"
+    hits_stats: "找到 ${hits} 條結果，用時 ${time} 毫秒"
