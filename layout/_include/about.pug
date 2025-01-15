@@ -1,0 +1,7 @@
+article#post
+  .post-item
+    .post-item-content!= page.content
+    .post-item-comment
+      - let enableComment = theme.comment.enable && (page.comments !== false)
+      if(enableComment)
+        #comment-container

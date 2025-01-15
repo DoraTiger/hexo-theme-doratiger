@@ -49,4 +49,6 @@ article#post
           span.post-item-copyright-item-meta= _p("post.copyright.copyright_notice")+ ": "
           span.post-item-copyright-item-text!= __('post.copyright.copyright_content',copyright_license_link,copyright_license,config.url, config.title)
     .post-item-comment
-      #comment-container
+      - let enableComment = theme.comment.enable && (page.comments !== false)
+      if(enableComment)
+        #comment-container
