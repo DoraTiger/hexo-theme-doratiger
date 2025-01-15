@@ -1,0 +1,77 @@
+
+pre {
+  display: flex; // 启用 Flexbox 布局
+  flex-direction: column; // 设置代码块为纵向排列
+  padding: 0; // 设置内边距
+  margin: 1rem 0; // 设置外边距
+  border-radius: 4px; // 边框圆角
+  background: $color-code-background; // 代码块背景色
+
+  .code-header {
+    display: flex; // 弹性布局
+    justify-content: space-between; // 两端对齐
+    align-items: center; // 垂直居中
+    color: $color-text; // 文字颜色
+    user-select: none; // // 禁止选中
+    background: $color-code-header-background; // 代码块头部背景色
+
+    &-type {
+      margin-left: 1rem;
+      color: $color-theme; // 文字颜色
+    }
+
+    &-copy {
+      display: flex; // 弹性布局
+      cursor: pointer; // 鼠标指针
+      align-items: center; // 垂直居中
+
+      &-tips {
+        margin-right: 0.5rem;
+        text-align: center;
+        color: $color-theme; // 文字颜色
+        overflow: hidden; // 确保文字不会溢出
+        white-space: nowrap; // 防止文字换行
+        display: inline-block; // 确保动画生效
+        opacity: 0; // 初始透明度为0
+        transform: translateX(100%); // 初始位置在右侧
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; // 添加过渡效果
+
+        &.active {
+          opacity: 1; // 激活透明度为1
+          transform: translateX(0); // 激活位置在左侧
+        }
+      }
+
+      &-button {
+        padding: 0.25rem 0.5rem; // 内边距
+        border-top-right-radius: 4px; // 右上圆角
+        border-bottom-left-radius: 4px; // 左下圆角
+        background: $color-button-background; // 按钮背景色
+      }
+    }
+  }
+
+  .code-content {
+    display: flex; // 弹性布局
+    flex-direction: row; // 水平布局
+
+    .line-numbers {
+      display: flex;
+      flex-direction: column; // 垂直布局
+      width: 2.5rem; // 宽度
+      text-align: right; // 文字右对齐
+      color: #999; // 行号颜色
+      user-select: none; // // 禁止选中
+      padding: 1rem 0.5rem 1rem 0; // 内边距
+
+      &-item {
+      }
+    }
+
+    code {
+      padding: 1rem 0.5rem 1rem 0; // 内边距
+      background: none !important;
+      overflow-x: auto;
+    }
+  }
+}

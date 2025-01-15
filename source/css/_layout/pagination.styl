@@ -1,0 +1,53 @@
+#pagination {
+  padding: 2rem 1rem 2rem 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .pagination {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+
+    .prev, .page-number, .next {
+      button-hover-effect();
+      display: inline-block;
+      height: 2.5rem;
+      width: 2.5rem;
+      margin-left: 0.5rem;
+      text-align: center;
+      line-height: 2.5rem;
+      text-decoration: none;
+      border-radius: 4px;
+      color: $color-text;
+      transition: $transition-delay;
+      box-sizing: border-box; // 统一盒模型，元素的宽度和高度包括内容区域、内边距和边框。
+    }
+
+    .current {
+      color: $color-theme;
+    }
+  }
+
+  .post-pagination {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .prev-post, .next-post {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      color: $color-text;
+
+      i {
+        margin: 0rem 0.5rem;
+      }
+    }
+  }
+
+  .pull-left, .pull-right {
+    border-animation();
+  }
+}

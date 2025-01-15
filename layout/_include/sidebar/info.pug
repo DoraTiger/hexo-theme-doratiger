@@ -1,0 +1,52 @@
+- const author_avatar = theme.sidebar.info.avatar ?? theme.global.avatar;
+- const author_name = theme.sidebar.info.user ?? config.author;
+- const author_description = theme.sidebar.info.description ?? config.description;
+-
+  const social_links = theme.sidebar.social?.enable && theme.sidebar.social.item?.length > 0
+    ? theme.sidebar.social.item
+    : null;
+-
+  const friend_links = theme.sidebar.friendlink?.enable && theme.sidebar.friendlink.item?.length > 0
+    ? theme.sidebar.friendlink.item
+    : null;
+
+#sidebar-info(class= showToc ? 'hide' : '')
+  .author-info
+    .author-info-avatar
+      img.author-info-avatar-img(src=author_avatar)
+    .author-info-name= author_name
+    .author-info-description= author_description
+    if social_links
+      .author-info-social-link
+        each item in social_links
+          a.author-info-social-link-item(href=item.url target='_blank')= item.text
+            i.author-info-social-link-item-dot(class="bg-color" + Math.round(Math.random()*10))
+    .author-info-articles
+      if site.posts.length
+        a(href=url_for(config.archive_dir)).author-info-articles-item
+          span.author-info-articles-item-text= _p('post.title')
+          span.author-info-articles-item-num= site.posts.length
+          .line.line-top
+          .line.line-right
+          .line.line-bottom
+          .line.line-left
+      if site.tags.length
+        a(href=url_for(config.tag_dir)).author-info-articles-item
+          span.author-info-articles-item-text= _p('tags.title')
+          span.author-info-articles-item-num= site.tags.length
+          .line.line-top
+          .line.line-right
+          .line.line-bottom
+          .line.line-left
+      if site.categories.length
+        a(href=url_for(config.category_dir)).author-info-articles-item
+          span.author-info-articles-item-text= _p('categories.title')
+          span.author-info-articles-item-num= site.categories.length
+          .line.line-top
+          .line.line-right
+          .line.line-bottom
+          .line.line-left
+  if friend_links
+    .friend-link
+      each item in friend_links
+        a.friend-link-item(href=item.url target='_blank')= item.text

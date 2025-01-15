@@ -1,0 +1,720 @@
+# --------------------------------------------------
+# Hexo Theme DoraTiger
+# Author: DoraTiger
+# Github: https://github.com/doratiger/hexo-theme-doratiger
+# License: MIT
+#
+# 配置指南：./docs/config.md
+# 主题更新日志：./docs/changelog.md
+#
+# Guide: ./docs/config.md
+# Changelog: ./docs/changelog.md
+# --------------------------------------------------
+
+# --------------------------------------------------
+# 全局功能配置
+# Global Function Configuration
+# --------------------------------------------------
+global:
+    # 是否开启控制台提示
+    # Whether to enable console prompts
+    hello: true
+
+    # 用于浏览器标签的默认图片
+    # Default image for browser tab
+    favicon: /images/favicon_default.png
+
+    # 用于用户头像的默认图片
+    # Default image for user avatar
+    avatar: /images/avatar_default.png
+
+# --------------------------------------------------
+# 侧边栏功能配置
+# Sidebar Function Configuration
+# --------------------------------------------------
+sidebar:
+    # 侧边栏展示用户信息
+    info:
+        # 是否开启用户信息
+        # Whether to enable user information
+        enable: true
+
+        # 用户名称，覆盖默认配置中的 'author'
+        # User name, override the 'author' in the default configuration
+        user:
+
+        # 用户头像，覆盖主题配置中的 'global.avatar'
+        # User avatar, override the 'global.avatar' in the theme configuration
+        avatar:
+
+        # 用户简介，覆盖默认配置中的 description
+        # User introduction, override the 'description' in the default configuration
+        intro:
+
+    # 用户社交链接
+    # User social links
+    social:
+        # 是否开启社交链接
+        # Whether to enable social links
+        enable: true
+
+        # 社交链接数据
+        # Social link item
+        item:
+            - { text: "Github", url: "https://github.com/DoraTiger" }
+
+    # 侧边栏展示文章目录
+    # Table of contents (TOC) in the sidebar
+    toc:
+        # 是否开启文章目录
+        # Whether to enable TOC
+        enable: true
+
+        # 是否开启文章目录数字编号
+        # Whether to enable TOC
+        number: false
+
+        # 目录深度
+        # TOC depth
+        depth: 3
+
+    # 侧边栏友链
+    # Friendlink in the sidebar
+    friendlink:
+        # 是否开启友链
+        # Whether to enable friendlink
+        enable: true
+
+        # 友链数据
+        # Friendlink item
+        item:
+            - { text: "DoraTiger", url: "https://www.superheaoz.top" }
+
+# --------------------------------------------------
+# 页头功能配置
+# Header Function Configuration
+# --------------------------------------------------
+header:
+    # 导航栏菜单，key 用来关联 languages/*.yml，显示顺序按照配置顺序
+    # Navigation menu, key is used to associate languages/*.yml,
+    # and the display order is in the order of configuration
+    menu:
+        - { key: "home", url: "/" }
+        - { key: "archives", url: "/archives" }
+        - { key: "categories", url: "/categories" }
+        - { key: "tags", url: "/tags" }
+        - { key: "about", url: "/about" }
+        # - { key: "page404", url: "/404" }
+        # - { key: "redirect", url: "/redirect" }
+
+    # 时间显示
+    # Time display
+    time:
+        # 是否开启时间显示
+        # Whether to enable time display
+        enable: true
+
+# --------------------------------------------------
+# 页脚功能配置
+# Footer Function Configuration
+# --------------------------------------------------
+footer:
+    # 网站运行时间
+    # Website running time
+    since:
+        # 是否开启网站运行时间
+        # Whether to enable website running time
+        enable: true
+
+        # 网站创建时间
+        # Website creation time
+        year: 2018
+
+    # 中国大陆服务器网站备案信息
+    # Website record information for servers in mainland China
+    beian:
+        # 工信部备案信息
+        # MIIT record information
+        miit:
+            # 是否开启工信部备案信息
+            # Whether to enable MIIT record information
+            enable: false
+
+            # 工信部备案号
+            # MIIT record text
+            text: ""
+
+            # 工信部备案链接
+            # MIIT record link
+            link: "https://beian.miit.gov.cn"
+
+        # 公安部备案信息
+        # MPS record information
+        mps:
+            # 是否开启公安部备案信息
+            # Whether to enable MPS record information
+            enable: false
+
+            # 公安部备案号
+            # MPS record text
+            text: ""
+
+            # 公安部备案链接
+            # MPS record link
+            link: "https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=xxxxxxx"
+
+            # 公安部备案图标
+            # MPS record icon
+            icon: "/images/police_beian.png"
+
+# --------------------------------------------------
+# 搜索功能配置
+# Search Function Configuration
+# --------------------------------------------------
+search:
+    # 是否开启搜索
+    # Whether to enable search
+    enable: false
+
+    # 搜索系统
+    # Search system
+    type: "algolia"
+
+    # algolia 搜索配置
+    # Algolia search configuration
+    algolia:
+        # Algolia hits 数量
+        # Algolia hits
+        hits:
+            per_page: 10
+
+        # Algolia 应用 ID
+        # Algolia App ID
+        app_id: ""
+
+        # Algolia 索引 API 密钥，用于索引更新
+        # Algolia index API Key, used for index update
+        api_key: ""
+
+        # Algolia 搜索 API 密钥，用于网页搜索
+        # Algolia Search API Key, used for web search
+        # empty for use api_key
+        search_key: ""
+
+        # Algolia 索引名称
+        # Algolia Index Name
+        index_name: ""
+
+    # 本地搜索配置
+    # Local search configuration
+    local:
+        # 搜索结果显示数量
+        # Number of search results displayed
+        hits:
+            per_page: 10
+
+        # 搜索索引文件位置
+        # Search index file location
+        path:
+            - local-search.xml
+
+        # 搜索范围
+        # Search field
+        field:
+            - post
+
+        # 是否搜索正文
+        # Whether to search the content
+        content: false
+
+        # 搜索索引文件模板
+        # Search index file template
+        template: /lib/local-search.xml
+
+# --------------------------------------------------
+# 统计功能配置
+# Statistics Function Configuration
+# --------------------------------------------------
+statistics:
+    # 是否开启 PV 统计
+    # Whether to enable PV statistics
+    enable: false
+
+    # 统计系统
+    # Statistics system
+    type: "busuanzi"
+
+    # busuanzi 配置
+    # Busuanzi configuration
+    # See: https://busuanzi.ibruce.info/
+    busuanzi:
+        # 是否开启 PV 统计
+        # Whether to enable PV statistics
+        pv: true
+
+        # 是否开启 UV 统计
+        # Whether to enable UV statistics
+        uv: true
+
+# --------------------------------------------------
+# 评论功能配置
+# Comment Function Configuration
+# --------------------------------------------------
+comment:
+    # 是否开启评论
+    # Whether to enable comment
+    enable: false
+
+    # 评论系统
+    # Comment system
+    type: "twikoo"
+
+    # gitment 配置
+    # Gitment configuration
+    # See: https://github.com/imsun/gitment
+    gitment:
+        owner: ""
+        repo: ""
+        client_id: ""
+        client_secret: ""
+
+    # valine 配置
+    # Valine configuration
+    # See: https://github.com/xCss/Valine
+    valine:
+        appId: ""
+        appKey: ""
+        placeholder: ""
+
+    # twikoo 配置
+    # Twikoo configuration
+    # See: https://github.com/twikoojs/twikoo
+    twikoo:
+        envId: ""
+
+# --------------------------------------------------
+# 首页配置
+# Home Page Configuration
+# --------------------------------------------------
+home:
+    # 最近文章中显示的字数，推荐使用 '<!-- more -->' 来定位要截断的内容
+    # Number of words displayed in recent articles,
+    # it is recommended to use '<!-- more -->' to locate the content to be truncated
+    auto_excerpt:
+        enable: true
+        length: 200
+
+    # 文章元数据显示
+    # Article metadata display
+    post_meta:
+        # 是否显示文章发布时间
+        # Whether to display the article release time
+        date: true
+
+        # 是否显示文章更新时间
+        # Whether to display the article release time
+        update: true
+
+        # 是否显示文章分类
+        # Whether to display article categories
+        categories: true
+
+        # 是否显示文章标签
+        # Whether to display article tags
+        tags: true
+
+        # 是否显示文章摘要
+        # Whether to display the article abstract
+        excerpt: true
+
+# --------------------------------------------------
+# 文章页配置
+# Post Page Configuration
+# --------------------------------------------------
+post:
+    # 文章元数据显示
+    # Article metadata display
+    post_meta:
+        # 是否显示文章发布时间
+        # Whether to display the article release time
+        date: true
+
+        # 是否显示文章更新时间
+        # Whether to display the article release time
+        update: true
+
+        # 是否显示文章分类
+        # Whether to display article categories
+        categories: true
+
+        # 是否显示文章标签
+        # Whether to display article tags
+        tags: true
+
+        # 是否显示文章摘要
+        # Whether to display the article abstract
+        excerpt: true
+
+    # 代码样式
+    # Code style
+    highlight:
+        # 是否开启代码高亮
+        # Whether to enable code highlighting
+        enable: true
+
+        # 代码高亮样式
+        # Code highlighting style
+        type: "highlight.js"
+
+        # 是否开启代码行号
+        # Whether to enable code line numbers
+        line_number: true
+
+        # 是否开启代码复制
+        # Whether to enable code copy
+        copy: true
+
+    # 版权声明
+    # Copyright statement
+    copyright:
+        # 是否开启版权声明
+        # Whether to enable copyright statement
+        enable: true
+
+        # 版权声明类型
+        # Copyright statement type
+        # See: https://creativecommons.org/licenses/
+        license: "CC BY-NC-SA 4.0"
+
+        # 版权声明链接
+        # Copyright statement link
+        link: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+
+        # 作者邮箱
+        # Author email
+        email: ""
+
+# --------------------------------------------------
+# 归档页配置
+# Archive Page Configuration
+# --------------------------------------------------
+archive:
+
+# --------------------------------------------------
+# 分类页配置
+# Category Page Configuration
+# --------------------------------------------------
+category:
+    # 是否开启分类页
+    # Whether to enable the category page
+    enable: true
+
+# --------------------------------------------------
+# 标签页配置
+# Tag Page Configuration
+# --------------------------------------------------
+tag:
+    # 是否开启标签页
+    # Whether to enable the tag page
+    enable: true
+
+# --------------------------------------------------
+# 404 页配置
+# 404 Page Configuration
+# --------------------------------------------------
+page404:
+    # 是否开启 404 页
+    # Whether to enable the 404 page
+    enable: true
+
+    # 重定向延迟时间（毫秒）
+    # Redirect delay time (milliseconds)
+    redirect_delay: 5000
+
+# --------------------------------------------------
+# 关于页配置
+# about Page Configuration
+# --------------------------------------------------
+about:
+    # 是否开启关于页
+    # Whether to enable the about page
+    enable: true
+
+# --------------------------------------------------
+# 重定向页配置
+# Redirect Page Configuration
+# --------------------------------------------------
+redirect:
+    # 是否开启重定向页
+    # Whether to enable the redirect page
+    enable: true
+
+    # 重定源站点提示，覆盖默认配置中的 'config.title'
+    # Redirect site prompt, override the 'config.title' in the default configuration
+    source: "DoraTiger 的次元"
+
+    # 重定向内容索引方式
+    # Redirect content indexing method
+    # include | exclude
+    method: "exlude"
+
+    # 包含页面
+    # Include pages
+    include:
+
+    # 排除页面
+    # Exclude pages
+    exlude:
+
+# --------------------------------------------------
+# 主题样式配置
+# Theme Style Configuration
+# --------------------------------------------------
+style:
+    # 主题颜色配置
+    # Theme color configuration
+    color:
+        # 主题颜色，用于动效、标题等
+        # Theme color, used for animation, titles, etc.
+        theme: "rgba(230, 119, 0, 1)"
+
+        # 次主题颜色，用于链接、小图标等
+        # Sub-theme color, used for links, small icons, etc.
+        sub_theme: "rgba(73, 177, 245, 1)"
+
+        # 文本默认颜色
+        # Text default color
+        text: "rgba(255, 255, 255, 1)"
+
+        # 侧边栏背景色
+        # Sidebar background color
+        sidebar_background: "rgba(255, 255, 255, 0.1)"
+
+        # 正文背景色
+        # Content background color
+        content_background: "rgba(255, 255, 255, 0.1)"
+
+        # 按键背景色
+        # Button background color
+        button_background: "rgba(255, 255, 255, 0.1)"
+
+        # 代码背景色
+        # Code background color
+        code_background: "rgba(255, 255, 255, 0.1)"
+
+        # 边框颜色
+        # Border color
+        border: "rgba(128, 128, 128, 0.8)"
+
+        # 边框阴影颜色
+        # Border shadow color
+        border_shadow: "rgba(0, 0, 0, 0.5)"
+
+    # 主题字体配置
+    # Theme Font Configuration
+    font:
+        # 字体大小
+        # Font size
+        size: "16px"
+
+    # 侧边栏容器配置
+    # Sidebar Container Configuration
+    sidebar:
+        # 侧边栏宽度
+        # Sidebar width
+        width: "300px"
+
+    # 主容器配置
+    # Main Container Configuration
+    main:
+        header:
+            height: "3rem"
+            border_botton: "1px solid rgba(128, 128, 128, 0.8)"
+        content:
+            max_width: "1200px"
+            padding: "1rem"
+        footer:
+            height: "3rem"
+            border_top: "1px solid rgba(128, 128, 128, 0.8)"
+
+    # 动画效果配置
+    # Animation Configuration
+# --------------------------------------------------
+# 全局资源配置
+# Global Resource Configuration
+# --------------------------------------------------
+resource:
+    # 是否全局开启 CDN
+    # Whether to enable CDN globally
+    # true for CDN | false for local
+    enable_cdn: false
+
+    # busuanzi 资源路径
+    # Resource path for busuanzi
+    busuanzi:
+        # 必须使用 CDN 防止回源鉴权问题
+        # must use CDN to prevent back-to-source authentication issues
+        enable_cdn: true
+
+        cdn:
+            js:
+                - "https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+
+    # highlight.js 资源路径
+    # Resource path for highlight.js
+    highlight.js:
+        # 是否启用 CDN，优先级高于全局配置
+        # Whether to enable CDN, higher priority than global configuration
+        # true for CDN | false for local | empty for global
+        enable_cdn:
+
+        local:
+            css:
+                - "/lib/highlight.js/@11.10.0/styles/github-dark.min.css"
+            js:
+                - "/lib/highlight.js/@11.10.0/highlight.min.js"
+
+        cdn:
+            css:
+                - "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/styles/default.min.css"
+            js:
+                - "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"
+
+        script: |
+            hljs.configure({
+                ignoreUnescapedHTML: true,
+                });
+            hljs.registerAliases(['plain'], { languageName: 'plaintext' });
+            hljs.highlightAll();
+
+    # prism.js 资源路径
+    # Resource path for prism.js
+    # not support yet
+    prism.js:
+        # 是否启用 CDN，优先级高于全局配置
+        # Whether to enable CDN, higher priority than global configuration
+        # true for CDN | false for local | empty for global
+        enable_cdn:
+
+        local:
+            css:
+                - "/lib/prism.js/@1.29.0/themes/prism.min.css"
+            js:
+                - "/lib/prism.js/@1.29.0/prism.min.js"
+
+        cdn:
+            css:
+                - "https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css"
+            js:
+                - "https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"
+
+        script: |
+            Prism.highlightAll();
+
+    # gitment 资源路径
+    # Resource path for gitment
+    gitment:
+        # 是否启用 CDN，优先级高于全局配置
+        # Whether to enable CDN, higher priority than global configuration
+        # true for CDN | false for local | empty for global
+        enable_cdn:
+
+        local:
+            css:
+                - "/lib/gitment/default.css"
+            js:
+                - "/lib/gitment/gitment.browser.js"
+
+        cdn:
+            css:
+                - "https://imsun.github.io/gitment/style/default.css"
+            js:
+                - "https://imsun.github.io/gitment/dist/gitment.browser.js"
+
+    # twikoo 资源路径
+    # Resource path for twikoo
+    twikoo:
+        # 是否启用 CDN，优先级高于全局配置
+        # Whether to enable CDN, higher priority than global configuration
+        # true for CDN | false for local | empty for global
+        enable_cdn:
+
+        local:
+            js:
+                - "/lib/twikoo/@1.6.40/twikoo.all.min.js"
+
+        cdn:
+            js:
+                - "https://cdn.jsdelivr.net/npm/twikoo@1.6.40/dist/twikoo.min.js"
+
+    # valine 资源路径
+    # Resource path for valine
+    valine:
+        # 是否启用 CDN，优先级高于全局配置
+        # Whether to enable CDN, higher priority than global configuration
+        # true for CDN | false for local | empty for global
+        enable_cdn:
+
+        local:
+            js:
+                - "/lib/valine/@1.5.3/Valine.min.js"
+
+        cdn:
+            js:
+                - "https://cdn.jsdelivr.net/npm/valine@1.5.3/dist/Valine.min.js"
+
+    # instantsearch 资源路径
+    # Resource path for instantsearch
+    instantsearch:
+        # 是否启用 CDN，优先级高于全局配置
+        # Whether to enable CDN, higher priority than global configuration
+        # true for CDN | false for local | empty for global
+        enable_cdn:
+
+        local:
+            css:
+                - "/lib/instantsearch.js/@2.10.5/instantsearch-theme-algolia.min.css"
+            js:
+                - "/lib/instantsearch.js/@2.10.5/instantsearch.min.js"
+
+        cdn:
+            css:
+                - "https://unpkg.com/instantsearch.js@2.10.5/dist/instantsearch-theme-algolia.min.css"
+            js:
+                - "https://unpkg.com/instantsearch.js@2.10.5/dist/instantsearch.min.js"
+# --------------------------------------------------
+# 第三方资源配置，全部页面生效
+# Thirdpary Resource Configuration, effective on all pages
+# --------------------------------------------------
+thirdpary:
+    # font-awesome 资源路径
+    # Resource path for font-awesome
+    font_awesome:
+        # 是否启用 CDN，优先级高于全局配置
+        # Whether to enable CDN, higher priority than global configuration
+        # true for CDN | false for local | empty for global
+        enable_cdn:
+
+        local:
+            css:
+                - "/lib/font-awesome/@6.7.2/css/all.min.css"
+
+        cdn:
+            css:
+                - "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+
+    # mathjax 资源路径
+    # Resource path for mathjax
+    mathjax:
+        # 是否启用 CDN，优先级高于全局配置
+        # Whether to enable CDN, higher priority than global configuration
+        # true for CDN | false for local | empty for global
+        enable_cdn:
+
+        local:
+            js:
+                - "/lib/mathjax/@3.2.2/tex-mml-chtml.js"
+
+        cdn:
+            js:
+                - "https://www.unpkg.com/mathjax@3.2.2/es5/tex-mml-chtml.js"

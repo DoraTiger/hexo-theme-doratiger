@@ -1,0 +1,67 @@
+-
+  const getPageTitle = (page, config) =>{
+    let pageTitle = page.title || config.subtitle || ''
+    if (pageTitle === 'about') pageTitle = _p('about.title')
+    if (is_archive()) pageTitle = _p('archives.title')
+    if (is_tag()) pageTitle = _p('tags.title') + ':' + page.tag
+    if (is_category())
+      pageTitle = _p('categories.title') + ':' + page.category
+    if (is_month()) pageTitle += ':' + page.month + '/' + page.year
+    if (is_year()) pageTitle += ':' + page.year
+    pageTitle += '【' + config.title + '】'
+    return pageTitle
+  }
+
+  const pageTitle = getPageTitle(page, config)
+  const pageDescription =
+    page.description || page.title || config.description || ''
+  const pageKeywords =
+    page.tags && page.tags.data
+      ? page.tags.data.map(tag => tag.name).join(',')
+      : Array.isArray(config.keywords)
+      ? config.keywords.join(',')
+      : config.keywords || ''
+  const pageAuthor = `${config.author},${config.email}`
+  const pageCopyright = config.copyright || config.author
+  const pageImage = page.image || theme.avatar
+  const themeFavicon = theme.global.favicon
+  const themeColor = theme.style.color.theme || "rgba(230, 119, 0, 1)"
+
+//- 基础标签
+meta(charset='UTF-8')
+meta(http-equiv="X-UA-Compatible" content="IE=edge")
+meta(
+  name="viewport"
+  content="width=device-width, initial-scale=1, maximum-scale=1"
+)
+
+//- Favicon
+link(rel="icon", href=url_for(themeFavicon))
+
+//- title
+title= pageTitle
+
+//- SEO 标签
+meta(name="description" content=pageDescription)
+meta(name="keywords" content=pageKeywords)
+meta(name="author" content=pageAuthor)
+meta(name="copyright" content=pageCopyright)
+meta(property="og:title" content=pageTitle)
+meta(property="og:description" content=pageDescription)
+meta(property="og:image" content=url_for(pageImage))
+meta(property="og:url" content=url_for(page.permalink))
+meta(name="twitter:card" content="summary_large_image")
+
+//- 移动端优化标签
+meta(name="theme-color" content=themeColor)
+meta(name="mobile-web-app-capable" content="yes")
+meta(
+  name="apple-mobile-web-app-status-bar-style"
+  content="black-translucent"
+)
+meta(name="format-detection" content="telephone=no")
+
+//- 其他标签
+meta(name="robots" content="index, follow")
+meta(name="revisit-after" content="7 days")
+meta(name="generator" content="Hexo")

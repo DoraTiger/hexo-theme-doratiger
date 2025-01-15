@@ -1,0 +1,138 @@
+#archive {
+  width: 100%;
+  margin-top: 2rem;
+
+  .archive-title {
+    font-size: 2rem;
+    color: $color-text;
+    text-align: center;
+
+    &-text {
+      display: inline-block;
+    }
+
+    &-line {
+      display: inline-block;
+      margin: 0 1rem;
+    }
+
+    &-amount {
+      display: inline-block;
+    }
+  }
+
+  .archive-list {
+    margin-top: 2rem;
+    color: $color-text;
+    line-height: 3rem;
+
+    &-item {
+      margin-left: 2rem;
+      white-space: nowrap; // 防止内容换行
+      display: flex; // 使用 Flexbox 布局
+      align-items: center; // 垂直居中
+      position: relative; // 设置相对定位
+      &::before {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 65%;
+        transform: translateX(-50%);
+        width: 2.5px;
+        height: 2.2rem;
+        background: white;
+        box-sizing: border-box; // 统一盒模型，元素的宽度和高度包括内容区域、内边距和边框。
+      }
+
+      &:last-child::before {
+        display: none;
+      }
+
+      &-year {
+
+        &::before {
+          content: '';
+          display: inline-block;
+          margin-right: 1rem;
+          transform: translateX(-50%);
+          width: 1.25rem; // 空心圆直径
+          height: 1.25rem; // 空心圆直径
+          border: 0.375rem solid $color-sub-theme; // 空心圆边框
+          border-radius: 50%; // 圆形
+          background: transparent; // 透明背景
+          z-index: 1; // 确保空心圆在实线上方
+          box-sizing: border-box; // 统一盒模型，元素的宽度和高度包括内容区域、内边距和边框。
+        }
+
+        &:hover {
+          &::before {
+            border: 0.375rem solid $color-theme;
+            transition: $transition-delay
+          }
+        }
+
+        &-text {
+          display: inline-block;
+          font-size: 1.5rem;
+          font-weight: bold;
+
+          &:hover {
+            color: $color-theme;
+            transition: $transition-delay
+          }
+        }
+      }
+
+      &-post {
+        display: flex; // 使用 Flexbox 布局
+        align-items: center; // 垂直居中
+        flex-grow: 1; // 允许占用剩余空间
+
+        &::before {
+          content: '';
+          display: inline-block;
+          margin-right: 1rem;
+          transform: translateX(-50%);
+          width: 1rem; // 空心圆直径
+          min-width: 1rem; // 空心圆直径
+          height: 1rem; // 空心圆直径
+          border: 0.25rem solid $color-sub-theme; // 空心圆边框
+          border-radius: 50%; // 圆形
+          background: transparent; // 透明背景
+          z-index: 1; // 确保空心圆在实线上方
+          box-sizing: border-box; // 统一盒模型，元素的宽度和高度包括内容区域、内边距和边框。
+        }
+
+        &:hover {
+          &::before {
+            border: 0.25rem solid $color-theme;
+            transition: $transition-delay
+          }
+        }
+
+
+
+        &-time {
+          margin-left: 1rem;
+          display: inline-block;
+          color: #99a9bf;
+          flex-shrink: 0; // 防止被压缩
+        }
+
+        &-link {
+          margin-left: 1rem;
+          display: inline-block;
+          white-space: normal; // 允许内容换行
+          word-break: break-word; // 防止长单词溢出
+          flex-grow: 1; // 允许占用剩余空间
+          line-height: 1.5rem;
+
+          &:hover {
+            color: $color-theme;
+            transition: $transition-delay
+          }
+        }
+      }
+    }
+  }
+}

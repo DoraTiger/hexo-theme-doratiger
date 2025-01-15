@@ -1,0 +1,11 @@
+#categories
+  .category-title
+    .category-title-text= _p("categories.title")
+    span.category-title-line -
+    span.category-title-amount= site.categories.length
+  .category-list
+    each item in page.categories.data
+      .category-list-item
+        a.category-list-item-link(href=item.path)= item.name
+        span.category-list-item-count= item.posts.length
+

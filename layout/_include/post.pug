@@ -1,0 +1,52 @@
+article#post
+  .post-item
+    .post-item-header
+      - let title_text = page.title || _p("post.untitled")
+      .post-item-header-title= title_text
+      .post-item-header-meta
+        - let enableDate = theme.post.post_meta?.date || false
+        - let enableUpdate = theme.post.post_meta?.update || false
+        - let enableCategories = (theme.post.post_meta?.categories  || false) && page.categories
+        - let enableTags = (theme.post.post_meta?.tags || false) && page.tags
+        if(enableDate)
+          - let date_text = _p("post.created")+ " " + date(page.date,'YYYY-MM-DD')
+          .post-item-header-meta-item
+            i.fas.fa-calendar-alt.post-item-header-meta-item-icon(aria-hidden="true")
+            span.post-item-header-meta-item-text= date_text
+        if(enableUpdate)
+          - let update_text = _p("post.modified")+ " " + date(page.updated,'YYYY-MM-DD')
+          .post-item-header-meta-item
+            i.fas.fa-calendar-alt.post-item-header-meta-item-icon(aria-hidden="true")
+            span.post-item-header-meta-item-text= update_text
+        if(enableCategories)
+          each category in page.categories.data
+            .post-item-header-meta-item
+              i.fa.fa-inbox.post-item-header-meta-item-icon(aria-hidden="true")
+              a.post-item-header-meta-item-text(href=url_for(category.path))= category.name
+        if(enableTags)
+          each tag in page.tags.data
+            .post-item-header-meta-item
+              i.fa.fa-tag.post-item-header-meta-item-icon(aria-hidden="true")
+              a.post-item-header-meta-item-text(href=url_for(tag.path))= tag.name
+    .post-item-content!= page.content
+    .post-item-copyright
+      - let enableCopyright = (theme.post.copyright?.enable ?? false)
+      - let copyright_author = page.author ? page.author : config.author
+      - let copyright_email = "mailto:" + (page.email ? page.email : theme.post.copyright?.email ?? "")
+      - let copyright_link = url_for(page.permalink)
+      .post-item-copyright-item
+        span.post-item-copyright-item-meta= __('post.copyright.author')+ ": "
+        span.post-item-copyright-item-text
+          a(href=copyright_email)= copyright_author
+      .post-item-copyright-item
+        span.post-item-copyright-item-meta= __('post.copyright.link')+ ": "
+        span.post-item-copyright-item-text
+          a(href=copyright_link)= decodeURI(page.permalink)
+      if(enableCopyright)
+        - let copyright_license = theme.post.copyright?.license ?? ""
+        - let copyright_license_link = theme.post.copyright?.link ?? ""
+        .post-item-copyright-item
+          span.post-item-copyright-item-meta= _p("post.copyright.copyright_notice")+ ": "
+          span.post-item-copyright-item-text!= __('post.copyright.copyright_content',copyright_license_link,copyright_license,config.url, config.title)
+    .post-item-comment
+      #comment-container

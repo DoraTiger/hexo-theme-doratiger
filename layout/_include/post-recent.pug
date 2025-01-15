@@ -1,0 +1,48 @@
+#post-recent
+  each post in page.posts
+    - var link = post.link || post.path
+    .post-item
+      .post-item-header
+        if post.sticky
+          i.post-item-header-sticky
+        - let title_text = post.title || _p("post.untitled")
+        a.post-item-header-title= title_text
+        .post-item-header-meta
+          - let enableDate = (theme.home.post_meta?.date ?? false)
+          - let enableUpdate = (theme.home.post_meta?.update ?? false)
+          - let enableCategories = theme.home.post_meta?.categories ?? false
+          - let enableTags = theme.home.post_meta?.tags ?? false
+
+          if(enableDate)
+            - let date_text = _p("post.created")+ " " + date(post.date,'YYYY-MM-DD')
+            .post-item-header-meta-item
+              i.fas.fa-calendar-alt.post-item-header-meta-item-icon(aria-hidden="true")
+              span.post-item-header-meta-item-text= date_text
+
+          if(enableUpdate)
+            - let update_text = _p("post.modified")+ " " + date(post.updated,'YYYY-MM-DD')
+            .post-item-header-meta-item
+              i.fas.fa-calendar-alt.post-item-header-meta-item-icon(aria-hidden="true")
+              span.post-item-header-meta-item-text= update_text
+
+          if(enableCategories && post.categories.length)
+            each category in post.categories.data
+              .post-item-header-meta-item
+                i.fa.fa-inbox.post-item-header-meta-item-icon(aria-hidden="true")
+                a.post-item-header-meta-item-text(href=url_for(category.path))= category.name
+
+          if(enableTags && post.tags.length)
+            each tag in post.tags.data
+              .post-item-header-meta-item
+                i.fa.fa-tag.post-item-header-meta-item-icon(aria-hidden="true")
+                a.post-item-header-meta-item-text(href=url_for(tag.path))= tag.name
+      -
+        let content = post.excerpt ||
+          (theme.home.auto_excerpt?.enable ? post.content.replace(/<[^>]+>/g, '').substring(0, theme.home.auto_excerpt.length) :
+          post.content);
+        if (content.length < post.content.length) {
+          content += '...';
+        }
+      -  content = theme.home.post_meta?.excerpt ? content : ''
+      .post-item-content!= content
+      a.post-item-more(href=url_for(link))= __('home.read_more')

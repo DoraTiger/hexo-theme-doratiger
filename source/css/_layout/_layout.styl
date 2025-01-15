@@ -1,0 +1,143 @@
+* {
+  box-sizing: border-box; // 统一元素盒模型,元素的宽度和高度包括内容区域、内边距和边框
+}
+
+
+a {
+  color: $color-text; // 默认链接颜色
+  text-decoration: none; // 移除链接下划线
+}
+
+html, body {
+  height: 100vh; // 默认高度为视口高度
+  min-height: 100vh; // 最小高度为视口高度
+  line-height: 1.5rem; // 默认行高
+  padding: 0; // 移除默认内边距
+  margin: 0; // 移除默认外边距
+  overflow: hidden; // 禁止全局滚动
+  font-size: $font-size; // 默认根字体大小
+  color: $color-text; // 默认字体颜色
+}
+
+body {
+  display: flex; // 主体启用弹性布局
+  flex-direction: row; // 主体区域为横向排列
+
+  #universe {
+    position: fixed; // 设置背景固定定位
+    top: 0; // 设置背景顶部距离
+    left: 0; // 设置背景左边距离
+    width: 100%; // 设置背景宽度
+    height: 100%; // 设置背景高度
+    z-index: -1; // 设置背景层级，保证在最下层
+    background: $color-background; // 设置背景渐变色
+  }
+
+  #sidebar-container {
+    display: flex; // 侧边栏启用弹性布局
+    flex-direction: column; // 设置侧边栏为纵向排列
+    align-items: center; // 设置内容垂直居中
+    width: $sidebar-width; // 设置侧边栏宽度
+    min-width: $sidebar-width; // 设置侧边栏最小宽度，防止收缩
+    height: 100%; // 设置侧边栏高度
+    background: $color-sidebar-background; // 设置侧边栏背景色
+    transition: $transition-delay ease; // 添加过渡效果
+
+    @media (max-width: 1199px) {
+      opacity: 0; // 完全透明
+      width: 0;
+      min-width: 0;
+      visibility: hidden; // 隐藏侧边栏
+
+      * {
+        display: none;
+      }
+    }
+
+    &.closed {
+      opacity: 0; // 完全透明
+      width: 0;
+      min-width: 0;
+      // transform: translateX(-100%); // 向左移动 100%，隐藏侧边栏
+      visibility: hidden; // 隐藏侧边栏
+
+      * {
+        display: none;
+      }
+    }
+  }
+
+  #main-container {
+    display: flex; // 启用 Flexbox 布局
+    flex-direction: column; // 设置主体区域为纵向排列
+    height: 100%; // 设置主体区域高度
+    align-items: center;
+    justify-content: center;
+    flex 1
+
+    #header-wrapper {
+      height: $main-header-height; // 设置头部高度
+      line-height: $main-header-height; // 设置头部行高
+      display: flex; // 启用 Flexbox 布局
+      flex-direction: row; // 设置头部为横向排列
+      justify-content: space-between; // 设置头部内容两端对齐
+      align-items: center; // 设置头部内容垂直居中
+      width: 100%; // 设置头部宽度
+      border-bottom: 1px solid $color-border; // 设置头部底部边框
+    }
+
+    #content-wrapper {
+      display: flex; // 启用 Flexbox 布局
+      overflow-y: auto; // 设置内容区域滚动
+      overflow-x: hidden; // 设置内容区域横向隐藏
+      width: 100%; // 设置头部宽度
+      justify-content: center; // 设置内容区域内容居中
+
+      #content {
+        display: flex; // 启用 Flexbox 布局
+        flex-direction: column; // 设置内容区域为纵向排列
+        width: 80%; // 设置内容区域宽度
+
+        max-width: $main-content-max-width; // 设置内容区域最大宽度
+        align-items: center;
+
+        &.hidden {
+          display: none; // 隐藏内容区域
+        }
+      }
+
+      #return-top {
+        display: flex; // 设置返回顶部按钮为块级元素
+        opacity 0; // 设置返回顶部按钮透明度为 0
+        position: fixed; // 设置返回顶部按钮绝对定位
+        right: 2rem; // 设置返回顶部按钮右边距
+        bottom: $main-footer-height; // 设置返回顶部按钮底边距
+        align-items: center; // 设置返回顶部按钮内容垂直居中
+        justify-content: center; // 设置返回顶部按钮内容居中
+        width: 2rem; // 设置返回顶部按钮宽度
+        height: 2rem; // 设置返回顶部按钮高度
+        z-index: 999; // 设置返回顶部按钮层级
+        margin-bottom: 1rem;
+        background: $color-button-background;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: $transition-delay; // 添加过渡效果
+
+        &.show {
+          opacity 1; // 设置返回顶部按钮透明度为 1
+        }
+      }
+    }
+
+    #footer-wrapper {
+      height: $main-footer-height; // 设置底部高度
+      line-height: $main-footer-height; // 设置底部行高
+      display: flex; // 启用 Flexbox 布局
+      flex-direction: row; // 设置底部为横向排列
+      justify-content: space-between; // 设置底部内容两端对齐
+      align-items: center; // 设置底部内容垂直居中
+      width: 100%; // 设置底部宽度
+      border-top: 1px solid $color-border; // 设置底部顶部边框
+    }
+  }
+}

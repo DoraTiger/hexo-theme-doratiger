@@ -1,0 +1,26 @@
+- let layout = page.layout
+- let title = is_archive() ? _p("archives.title") : is_category() ? _p("categories.title") : is_tag() ? _p("tags.title") : ''
+- let subtitle = is_archive() ? site.posts.length : is_category() ? page.category : is_tag() ? page.tag : ''
+
+#archive
+  .archive-title
+    .archive-title-text= title
+    span.archive-title-line -
+    span.archive-title-amount= subtitle
+  .archive-list
+    - let year
+    - page.posts.each(function(post) {
+      - let tempYear = date(post.date, 'YYYY')
+      - if (year != tempYear) {
+        - year = tempYear
+          .archive-list-item
+            .archive-list-item-year
+              .archive-list-item-year-text= year
+      - }
+      - let post_title = post.title || 'No Title'
+      - let post_link = post.link || post.path
+      .archive-list-item
+        .archive-list-item-post
+          .archive-list-item-post-time(datetime=date_xml(post.date))= date(post.date)
+          a.archive-list-item-post-link(href=url_for(post_link))= post_title
+    - })

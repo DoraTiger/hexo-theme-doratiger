@@ -1,0 +1,10 @@
+
+- let enableToc = theme.sidebar.toc?.enable || false
+- let showToc =  enableToc && is_post()
+
+if showToc
+  #sidebar-menu
+    .sidebar-menu-item
+      span(data-toggle= _p('sidebar.toc.menu'))= _p('sidebar.info.menu')
+  include ./sidebar/toc.pug
+include ./sidebar/info.pug

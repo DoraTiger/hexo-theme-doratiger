@@ -1,0 +1,126 @@
+// 鼠标悬停时，下划线从指定位置扩展到两侧，同时改变文字颜色
+// @param $left 下划线的初始位置距离左侧百分比（默认值为0）
+hover-underline($left = 0) {
+  position: relative;
+  transition: $transition-delay;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: $left;
+    bottom: 0;
+    width: 0;
+    height: 0.125rem;
+    background: $color-theme;
+    transition: $transition-delay;
+  }
+
+  &:hover {
+    color: $color-theme;
+    transition: $transition-delay;
+
+    a {
+      color: $color-theme;
+    }
+
+    &:after {
+      left: 0;
+      width: 100%;
+      transition: $transition-delay;
+    }
+  }
+}
+
+// 鼠标悬停时，边框从指定位置扩展到四周，同时改变文字颜色
+border-animation() {
+  position: relative;
+  .line {
+    position: absolute;
+    transition: $transition-delay;
+    background: $color-theme;
+
+    &-top {
+      width: 0;
+      height: 1px;
+      left: -110%;
+      top: -1px;
+    }
+
+    &-right {
+      width: 1px;
+      height: 0;
+      right: -1px;
+      top: -110%;
+    }
+
+    &-bottom {
+      width: 1px;
+      height: 0;
+      left: -1px;
+      bottom: -110%;
+    }
+
+    &-left {
+      width: 0;
+      height: 1px;
+      bottom: -1px;
+      right: -110%;
+    }
+  }
+
+  &:hover {
+    color: $color-theme;
+    transition: $transition-delay;
+
+    .line-top {
+      width: 100%;
+      left: 0;
+    }
+
+    .line-right {
+      height: 100%;
+      top: 0;
+    }
+
+    .line-bottom {
+      height: 100%;
+      bottom: 0;
+    }
+
+    .line-left {
+      width: 100%;
+      right: 0;
+    }
+
+    a {
+      color: $color-theme;
+    }
+  }
+}
+
+// 定义按钮动效
+button-hover-effect() {
+  position: relative; // 设置按钮为相对定位，以便其伪元素（::before）可以相对于按钮定位。
+  overflow: hidden; // 隐藏超出按钮范围的内容，确保光影效果不会溢出按钮。
+  background: $color-button-background;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &::before {
+    content: ''; // 伪元素必须设置 content，即使为空。
+    position: absolute; // 将伪元素设置为绝对定位，相对于按钮（position: relative）定位。
+    left: -100%; // 将伪元素移动到按钮左侧，使其光影效果完全隐藏。
+    top: 0;
+    width: 100%; // 设置伪元素宽度为按钮宽度，使其光影效果完全覆盖按钮。
+    height: 100%; // 设置伪元素高度为按钮高度，使其光影效果完全覆盖按钮。
+    background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); // 线性渐变光效
+  }
+
+  // 鼠标悬停效果
+  &:hover {
+    &::before {
+      left: 100%; // 将伪元素移动到按钮右侧，使其光影效果完全显示。
+      transition: left 0.5s ease; // 添加过渡效果，使光影效果平滑过渡。
+    }
+  }
+}

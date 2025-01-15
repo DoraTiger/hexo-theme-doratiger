@@ -1,0 +1,29 @@
+mixin header-search
+  if (theme.search.enable)
+    - let search_menu = _p('header.search.menu')
+    #header-right-search
+      i.fab.fa-search
+      span= search_menu
+
+mixin header-time
+  if (theme.header.time.enable)
+    #header-right-time
+      span.header-right-time-time
+
+#header-left
+  #header-left-menu-icon
+    i.fas.fa-bars
+  #header-left-menu-list
+    each item in (theme.header.menu || [])
+      - let i18n = item.key + ".menu"
+      a.header-left-menu-list-item(href=item.url)= _p(i18n)
+
+#header-center
+
+#header-right
+  +header-search
+  #header-right-title
+    a.heade-right-title-text(href=config.root)= config.title
+  +header-time
+
+

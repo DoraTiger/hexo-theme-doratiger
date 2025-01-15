@@ -1,0 +1,103 @@
+name: "English"
+
+home:
+  menu: "Home"
+  title: "Home"
+  read_more: "more"
+  sticky: "置顶"
+
+archives:
+  menu: "归档"
+  title: "归档"
+  count:
+    zero: 暂无文章
+    other: "目前共计 %d 篇文章"
+
+categories:
+  menu: "分类"
+  title: "分类"
+  count:
+    zero: 暂无分类
+    other: "目前共计 %d 个分类"
+
+tags:
+  menu: "标签"
+  title: "标签"
+  count:
+    zero: 暂无标签
+    other: "目前共计 %d 个标签"
+
+about:
+  menu: "关于"
+  title: "关于"
+
+redirect:
+  menu: "重定向"
+  title: "重定向"
+  tips: "重定向到其他网站，请注意您的账号和财产安全"
+  message: "您即将离开 %s，去往："
+  continue: "继续"
+
+page404:
+  menu: "404"
+  title: "404"
+  content: "Ops！你来到了没有人烟的荒漠~~"
+
+sidebar:
+  toc:
+    menu: "文章目录"
+    title: "文章目录"
+    toc_title: "目录"
+    have_read: "您已阅读了"
+    empty: "此文章未包含目录"
+  info:
+    menu: "站点概览"
+    title: "站点概览"
+
+header:
+  search:
+    menu: "搜索"
+    title: "搜索"
+    keywords: "请输入关键字"
+
+
+footer:
+  statistics:
+    site_uv: "本站总访客数 {} 人"
+    site_pv: "本站总访问量 {} 次"
+    page_pv: "本文总访问量 {} 次"
+
+post:
+  menu: "文章"
+  title: "文章"
+  created: "创建于"
+  modified: "更新于"
+  posted: "发表于"
+  copyright:
+    author: "本文作者"
+    link: "本文链接"
+    copyright_notice: "版权声明"
+    copyright_content: '本站点所有文章除特别声明外，均采用 <a href="%s">%s</a> 许可协议。转载请注明来自 <a href="%s">%s</a>！'
+
+copy:
+  success: 复制成功
+  error: 复制错误
+  noSupport: 浏览器不支持
+
+comment:
+  title: "评论"
+  placeholder: "请输入评论内容"
+  submit: "提交"
+  reply: "回复"
+  cancel: "取消"
+  tips: "评论功能由第三方服务提供，评论内容与本站无关"
+
+search:
+  algolia:
+    placeholder: "搜索文章"
+    hits_empty: "找不到您查询的内容:${query}"
+    hits_stats: "找到 ${hits} 条结果，用时 ${time} 毫秒"
+  local:
+    placeholder: "搜索文章"
+    hits_empty: "找不到您查询的内容:${query}"
+    hits_stats: "找到 ${hits} 条结果，用时 ${time} 毫秒"

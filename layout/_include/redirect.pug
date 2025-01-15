@@ -1,0 +1,30 @@
+//- variables.pug
+- const redirectTips = _p('redirect.tips')
+- const redirectMessage = _p('redirect.message', theme.redirect.source || config.title)
+- const redirectButtonText = _p('redirect.continue')
+
+div#redirect
+  div.redirect-content
+    div.redirect-content-tips!= redirectTips
+    .redirect-content-url
+      span= redirectMessage
+      a#redirect-link= ""
+    button#redirect-button.redirect-button!= redirectButtonText
+script.
+  function getURLParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  const redirectLink = document.getElementById('redirect-link');
+  const targetURL = getURLParam('url');
+  if (targetURL) {
+    redirectLink.textContent = targetURL;
+  }
+
+  const redirectButton = document.getElementById('redirect-button');
+  redirectButton.addEventListener('click', function() {
+    if (targetURL) {
+      window.location.href = targetURL;
+    }
+  });

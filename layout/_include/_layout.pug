@@ -1,0 +1,28 @@
+doctype html
+html(lang=config.language)
+  head
+    include head.pug
+  body
+    //- 全局背景元素
+    canvas(id="universe")
+
+    //- 侧边栏容器
+    #sidebar-container
+      include sidebar.pug
+
+    //- 主体容器
+    #main-container
+      //- 头部
+      header#header-wrapper
+        include header.pug
+
+      //- 内容
+      main#content-wrapper
+        #content
+          block content
+        #return-top
+          i.fas.fa-arrow-up(aria-hidden="true")
+
+      //- 底部
+      footer#footer-wrapper
+        include footer.pug

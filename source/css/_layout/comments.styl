@@ -1,0 +1,95 @@
+#comment-container {
+  padding: 1rem;
+
+  .gitment {
+    &-container {
+      margin: 0 1rem;
+      border-radius: 4px;
+    }
+
+    &-header-container {
+      margin: 1rem 0;
+    }
+
+    &-comments-container {
+      margin: 1rem 0;
+
+      .gitment-comment-header {
+        padding: 0.25rem 0.5rem;
+        background-color: $color-content-background;
+      }
+
+      .gitment-comments-error {
+        color: $color-text;
+      }
+    }
+
+    &-editor-container {
+      margin: 1rem 0;
+
+      .gitment-editor-avatar {
+      }
+
+      .gitment-editor-main {
+        &::before {
+          border-right-color: $color-content-background;
+        }
+
+        &::after {
+          border-right-color: $color-content-background;
+        }
+
+        .gitment-editor-header {
+          position: relative;
+
+          .gitment-editor-tabs {
+            .gitment-selected {
+              background-color: $color-content-background;
+              color: $color-theme;
+            }
+          }
+
+          .gitment-editor-login {
+            padding: 0 0.5rem;
+            button-hover-effect();
+          }
+        }
+
+        .gitment-editor-body {
+          .gitment-editor-write-field {
+            textarea {
+              background-color: transparent;
+
+              &:focus {
+                background-color: transparent;
+              }
+            }
+          }
+
+          .gitment-editor-preview-field {
+          }
+        }
+      }
+
+      .gitment-editor-footer {
+        position: relative;
+
+        &-tip {
+          color: $color-text;
+        }
+
+        .gitment-editor-submit {
+          button-hover-effect();
+        }
+      }
+    }
+
+    &-footer-container {
+      margin: 1rem 0;
+    }
+  }
+}
+
+#twikoo {
+  padding: 1rem;
+}

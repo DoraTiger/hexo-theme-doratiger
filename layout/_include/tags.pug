@@ -1,0 +1,6 @@
+#tags
+  .tags-title
+    .tags-title-text=_p('tags.title')
+    span.tags-title-line -
+    span.tags-title-amount= site.tags.length
+  .tags-cloud!= tagcloud({min_font: 12,max_font: 30,amount: 200,color: true,start_color: '#A4D8FA',end_color: '#0790E8'})

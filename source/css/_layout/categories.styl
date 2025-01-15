@@ -1,0 +1,77 @@
+#categories {
+  width: 100%;
+  margin-top: 2rem;
+
+  .category-title {
+    font-size: 2rem;
+    color: $color-text;
+    text-align: center;
+
+    &-text {
+      display: inline-block;
+    }
+
+    &-line {
+      display: inline-block;
+      margin: 0 1rem;
+    }
+
+    &-amount {
+      display: inline-block;
+    }
+  }
+
+  .category-list {
+    margin-top: 2rem;
+    line-height: 2.5rem;
+    list-style: none;
+    counter-reset: li;
+    text-align: left;
+    color: $color-text;
+    display: flex; // 使用 Flexbox 布局
+    flex-direction: column; // 设置内容区域为纵向排列
+
+    &-item {
+      height: auto;
+      margin-left: 1rem;
+      padding: 0.5rem 3rem 0.5rem 1rem; // 上 右 下 左
+      position: relative; // 设置相对定位
+      list-style: none;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: -1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1rem; // 空心圆直径
+        height: 1rem; // 空心圆直径
+        border: 0.25rem solid $color-sub-theme; // 空心圆边框
+        border-radius: 50%; // 圆形
+        background: transparent; // 透明背景
+        z-index: 1; // 确保空心圆在实线上方
+        box-sizing: border-box; // 统一盒模型，元素的宽度和高度包括内容区域、内边距和边框。
+      }
+
+      &-link {
+        color: $color-text;
+        text-decoration: none;
+        cursor: pointer;
+        position: relative;
+      }
+
+      &-count {
+        margin-left: 1rem;
+        color: $color-text;
+
+        &::before {
+          content: '(';
+        }
+
+        &::after {
+          content: ')';
+        }
+      }
+    }
+  }
+}

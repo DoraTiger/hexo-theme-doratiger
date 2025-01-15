@@ -1,0 +1,74 @@
+mixin statistics
+  if (theme.statistics.enable || false)
+    - const statistics_type = (theme.statistics.type || '')
+    - const site_uv = _p('footer.statistics.site_uv').split('{}')
+    - const site_pv = _p('footer.statistics.site_pv').split('{}')
+    - const page_pv = _p('footer.statistics.page_pv').split('{}')
+    #footer-right-statistics
+      if statistics_type == "busuanzi"
+        - let enable_pv = theme.statistics.busuanzi.pv || false
+        - let enable_uv = theme.statistics.busuanzi.uv || false
+        - let cdn_js = theme.resource.busuanzi.cdn.js || 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'
+
+        script(src=url_for(cdn) async='')
+        if(!is_post())
+          if enable_uv
+            span#busuanzi_container_site_uv
+              | #{site_uv[0]}
+              span#busuanzi_value_site_uv
+              | #{site_uv[1]}
+          if enable_pv
+            if enable_uv
+              span.footer-right-separator |
+            span#busuanzi_container_site_pv
+              | #{site_pv[0]}
+              span#busuanzi_value_site_pv
+              | #{site_pv[1]}
+        else
+          if enable_pv
+            span#busuanzi_container_page_pv
+              | #{page_pv[0]}
+              span#busuanzi_value_page_pv
+              | #{page_pv[1]}
+
+mixin copyright
+  if (theme.footer.since.enable || false)
+    - let now = new Date()
+    - let nowYear = now.getFullYear()
+    - let since_year = theme.footer.since.year || nowYear
+
+    - let copyrightSince
+    if since_year != nowYear
+      - copyrightSince = `&copy;${since_year} ～ ${nowYear} By ${config.author}`
+    else
+      - copyrightSince = `&copy;${since_year} By ${config.author}`
+    #footer-right-copyright
+      .copyright!= copyrightSince
+
+mixin miit
+  if theme.footer.beian.miit.enable
+    if theme.footer.beian.miit.text != undefine && theme.footer.beian.miit.text != ''
+      - miit_link = theme.footer.beian.miit.link
+      - miit_text = theme.footer.beian.miit.text.replace(/\s/g, '')
+      #footer-right-miit
+        a.miit-text(rel='noopener' href=miit_link target='_blank') #{miit_text}
+
+mixin mps
+  if theme.footer.beian.mps.enable
+    if theme.footer.beian.mps.text != undefine && theme.footer.beian.mps.text != ''
+      - mps_link = theme.footer.beian.mps.link
+      - mps_text = theme.footer.beian.mps.text.replace(/\s/g, '')
+      - mps_icon = theme.footer.beian.mps.icon
+      #footer-right-mps
+        img.mps-img(src=url_for(mps_icon))
+        a.mps-text(rel='noopener' href=mps_link target='_blank') #{mps_text}
+
+#footer-left
+  #footer-left-sidebar-icon
+    i.fas.fa-arrow-left
+#footer-center
+#footer-right
+  +statistics
+  +copyright
+  +miit
+  +mps

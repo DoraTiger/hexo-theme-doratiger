@@ -1,0 +1,11 @@
+- let tocNumber = page.toc_number || theme.sidebar.toc?.number || false
+- let tocDepth = page.toc_depth?? theme.sidebar.toc?.depth?? 3
+#sidebar-toc
+  .sidebar-toc-title= _p('sidebar.toc.title')
+  .sidebar-toc-progress
+    .sidebar-toc-progress-notice= _p('sidebar.toc.have_read')
+      span.sidebar-toc-progress-num 0
+      span.sidebar-toc-progress-percentage %
+    .sidebar-toc-progress-bar
+  .sidebar-toc-content
+    !=toc(page.content,{list_number: tocNumber,max_depth: tocDepth,exclude: ['h1']})

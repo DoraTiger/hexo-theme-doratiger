@@ -1,0 +1,34 @@
+// color
+$color-theme = theme-config('style.color.theme', 'rgba(230, 119, 0, 1)'); // 主题色
+$color-sub-theme = theme-config('style.color.sub_theme', 'rgba(73, 177, 245, 1)'); // 次主题色
+$color-text = theme-config('style.color.text', 'rgba(255, 255, 255, 1)'); // 文字颜色
+$color-background = theme-config('style.color.background', 'radial-gradient(100% 100% at 70% 120%, rgba(33, 39, 80, 1) 10%, #020409 100%)'); // 全局背景色
+$color-content-background = theme-config('style.color.content_background', 'rgba(255, 255, 255, 0.1)'); // 内容默认背景色
+$color-sidebar-background = theme-config('style.color.sidebar_background', $color-content-background); // 侧边栏背景色
+$color-button-background = theme-config('style.color.button_background', $color-content-background); // 按钮背景色
+$color-code-header-background = theme-config('style.color.code_header_background', $color-content-background); // 代码块头部背景色
+$color-code-background = theme-config('style.color.code_background', $color-content-background); // 代码块背景色
+$color-border = theme-config('style.color.border', 'rgba(128, 128, 128, 0.8)'); // 边框颜色
+// color for random
+$colors = #495057 #f03e3e #ae3ec9 #7048e8 #4263eb #1098ad #0ca678 #37b24d #f59f00 #f76707 #6f42c1;
+
+for color, i in $colors {
+  .bg-color{i} {
+    background: color;
+  }
+}
+
+// font
+$font-size = theme-config('style.font.size', '16px');
+// sidebar-container
+$sidebar-width = theme-config('style.sidebar.width', '300px');
+// main-container
+// main-header
+$main-header-height = theme-config('style.main.header.height', '3rem');
+// main-content
+$main-content-max-width = theme-config('style.main.content.max_width', '800px');
+$main-content-padding = theme-config('style.main.content.padding', '1rem');
+// main-footer
+$main-footer-height = theme-config('style.main.footer.height', '3rem');
+// amimation
+$transition-delay = all 0.5s;
