@@ -75,6 +75,17 @@ class Star {
     constructor(background) {
         this.background = background;
         this.reset();
+        this.twinkle = Math.random() * 0.5 + 0.5; // 闪烁速度
+        this.twinkleDirection = 1; // 闪烁方向（1 表示变亮，-1 表示变暗）
+    }
+    // 更新闪烁效果
+    twinkleEffect() {
+        if (this.opacity >= this.opacityTresh) {
+            this.twinkleDirection = -1; // 开始变暗
+        } else if (this.opacity <= 0.2) {
+            this.twinkleDirection = 1; // 开始变亮
+        }
+        this.opacity += this.twinkleDirection * this.twinkle * 0.04;
     }
 
     // 重置星星属性
@@ -97,8 +108,8 @@ class Star {
             (this.comet + 1 - 1) * baseSpeed * this.getRandInterval(50, 120); // y 方向速度
 
         if (this.comet) {
-            this.dx = this.dx / 5;
-            this.dy = this.dy / 5;
+            this.dx = this.dx / 3;
+            this.dy = this.dy / 3;
         }
 
         this.fadingOut = null; // 是否正在淡出
@@ -138,26 +149,32 @@ class Star {
         universe.beginPath();
         if (this.giant) {
             universe.fillStyle = `rgba(${giantColor},${this.opacity})`;
-            universe.arc(this.x, this.y, 2, 0, 2 * Math.PI, false); // 绘制巨型星星
+            // universe.arc(this.x, this.y, 2, 0, 2 * Math.PI, false); // 绘制巨型方框星星
+            // universe.arc(this.x, this.y, 2, 0, 2 * Math.PI, false); // 绘制巨型圆形星星
+            this.drawStar(this.x, this.y, 4, this.opacity); // 绘制巨型五角星星
         } else if (this.comet) {
             universe.fillStyle = `rgba(${cometColor},${this.opacity})`;
             universe.arc(this.x, this.y, 1.5, 0, 2 * Math.PI, false); // 绘制彗星头部
             // 绘制彗星尾巴
-            for (let i = 0; i < 30; i++) {
+            for (let i = 1; i <= 30; i++) {
                 universe.fillStyle = `rgba(${cometColor},${
                     this.opacity - (this.opacity / 20) * i
                 })`;
-                universe.rect(
+                universe.arc(
                     this.x - this.dx * i,
-                    this.y - this.dy * i - 2,
-                    2,
-                    2
+                    this.y - this.dy * i,
+                    1 - i / 30,
+                    2 * Math.PI,
+                    false
                 );
                 universe.fill();
             }
         } else {
             universe.fillStyle = `rgba(${starColor},${this.opacity})`;
-            universe.rect(this.x, this.y, this.r, this.r); // 绘制普通星星
+            // universe.rect(this.x, this.y, this.r, this.r); // 绘制方框星星
+            // universe.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false); // 绘制圆形星星
+            // this.twinkleEffect();
+            this.drawStar(this.x, this.y, this.r, this.opacity); // 绘制五角星星
         }
         universe.closePath();
         universe.fill();
@@ -186,6 +203,39 @@ class Star {
     // 随机数生成
     getRandInterval(min, max) {
         return Math.random() * (max - min) + min; // 返回指定范围内的随机数
+    }
+
+    drawStar(x, y, radius, opacity) {
+        const { universe, starColor } = this.background;
+        const spikes = 5; // 五角星
+        const outerRadius = radius; // 外半径
+        const innerRadius = radius * 0.4; // 内半径
+        let rotation = (Math.PI / 2) * 3; // 起始角度
+        let step = Math.PI / spikes; // 每个顶点的角度间隔
+
+        universe.beginPath();
+        universe.moveTo(x, y - outerRadius); // 从顶部开始
+
+        for (let i = 0; i < spikes; i++) {
+            // 外顶点
+            universe.lineTo(
+                x + Math.cos(rotation) * outerRadius,
+                y + Math.sin(rotation) * outerRadius
+            );
+            rotation += step;
+
+            // 内顶点
+            universe.lineTo(
+                x + Math.cos(rotation) * innerRadius,
+                y + Math.sin(rotation) * innerRadius
+            );
+            rotation += step;
+        }
+
+        universe.lineTo(x, y - outerRadius); // 回到起点
+        universe.closePath();
+        universe.fillStyle = `rgba(${starColor},${opacity})`;
+        universe.fill();
     }
 }
 
