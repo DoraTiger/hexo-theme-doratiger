@@ -6,6 +6,6 @@
   .category-list
     each item in page.categories.data
       .category-list-item
-        a.category-list-item-link(href=item.path)= item.name
+        a.category-list-item-link(href=url_for(item.path))= item.name
         span.category-list-item-count= item.posts.length
 
