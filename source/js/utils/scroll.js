@@ -80,7 +80,7 @@ class ScrollHandler {
      * @description 更新激活的 TOC 链接
      */
     updateActiveTocLink() {
-        const scrollTop = this.contentWrapper.scrollTop; // 滚动高度.
+        const scrollTop = this.contentWrapper.scrollTop; // 滚动高度
         const scrollHeight = this.contentWrapper.scrollHeight; // 内容高度
         const clientHeight = this.contentWrapper.clientHeight; // 可视区域高度
         const headerHeight =
