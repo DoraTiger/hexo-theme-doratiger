@@ -9,6 +9,7 @@ hexo.extend.injector.register(
     function () {
         let inject_content = [];
         inject_content.push(require("./lib/injector-config.js")(hexo));
+        inject_content.push(require("./lib/injector-search.js")(hexo));
         inject_content.push(require("./lib/injector-resource.js")(hexo, "css"));
         return inject_content.join("\n");
     },

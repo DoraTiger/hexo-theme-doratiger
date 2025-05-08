@@ -1,0 +1,90 @@
+#algolia-box {
+  width: 100%;
+  .ais-SearchBox-form {
+    display: flex;
+  }
+}
+
+#algolia-hits {
+  .algolia-hit-item {
+    height: auto;
+    margin-left: 1rem;
+    padding: 0 0 0 2rem; // 上 右 下 左
+    position: relative; // 设置相对定位
+    list-style: none;
+    line-height: 2rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1rem; // 空心圆直径
+      height: 1rem; // 空心圆直径
+      border: 0.25rem solid $color-sub-theme; // 空心圆边框
+      border-radius: 50%; // 圆形
+      background: transparent; // 透明背景
+      z-index: 1; // 确保空心圆在实线上方
+      box-sizing: border-box; // 统一盒模型，元素的宽度和高度包括内容区域、内边距和边框。
+    }
+
+    &:hover {
+        a {
+          color: $color-theme;
+        }
+      }
+  }
+}
+
+#algolia-hits-empty {
+  display: block;
+  height: 2rem;
+  line-height: 2rem;
+  color: $color-theme-font;
+  font-size: 1rem;
+}
+
+#algolia-pagination {
+  padding: 1rem 0 0 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .pagination {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+
+    .ais-Pagination-item--previousPage, .ais-Pagination-item--page, .ais-Pagination-item--nextPage {
+      button-hover-effect();
+      display: inline-block;
+      height: 2.5rem;
+      width: 2.5rem;
+      text-align: center;
+      line-height: 2.5rem;
+      text-decoration: none;
+      border-radius: 4px;
+      color: $color-text;
+      transition: $transition-delay;
+      box-sizing: border-box; // 统一盒模型，元素的宽度和高度包括内容区域、内边距和边框。
+
+      &:hover {
+        a {
+          color: $color-theme;
+        }
+      }
+    }
+
+    .current {
+      a {
+        color: $color-theme;
+      }
+    }
+
+    .ais-Pagination-item--disabled {
+      color: gray;
+    }
+  }
+}

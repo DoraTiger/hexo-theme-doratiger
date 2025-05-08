@@ -1,0 +1,85 @@
+#search-container
+  .search-content
+    .search-content-header
+      .search-content-header-title
+      img.search-content-header-logo(src=("/images/Algolia-logo-blue.svg"))
+      .search-content-header-closebutton
+        i.fa.fa-times
+    #algolia-box.search-content-box
+    #algolia-hits.search-content-result
+    #algolia-pagination.search-content-pagination
+  .search-mask
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+
+      var algoliaConfig = searchConfig.algolia;
+
+      const { liteClient: algoliasearch } = window['algoliasearch/lite'];
+
+      const search = instantsearch({
+        indexName: algoliaConfig.indexName,
+        searchClient: algoliasearch(
+          algoliaConfig.appId,
+          algoliaConfig.searchKey
+          ),
+      });
+      search.addWidgets([
+        instantsearch.widgets.configure({
+          hitsPerPage: algoliaConfig.per_page, // 设置每页显示的结果数量
+        }),
+        instantsearch.widgets.searchBox({
+          container: '#algolia-box',
+          placeholder: algoliaConfig.placeholder,
+          searchAsYouType: true,
+          showReset: false,
+          showSubmit: false,
+          showLoadingIndicator: false,
+          cssClasses: {
+            input: 'search-content-box-input',
+          },
+        }),
+        instantsearch.widgets.hits({
+          container: '#algolia-hits',
+          templates: {
+            item: (hit) => {
+              return `
+                <a href="${hit.permalink}" class="algolia-hit-item-link">
+                  ${hit.title}
+                </a>
+              `;
+            },
+            empty: (result) => {
+              return `
+                <div class="algolia-hit-empty">
+                  ${algoliaConfig.empty}
+                </div>
+              `;
+            },
+          },
+          cssClasses:{
+            item: 'algolia-hit-item'
+          }
+        }),
+        instantsearch.widgets.pagination({
+          container: '#algolia-pagination',
+          scrollTo: false,
+          showFirst: false,
+          showLast: false,
+          templates: {
+            first: '<i class="fa fa-angle-double-left"></i>',
+            last: '<i class="fa fa-angle-double-right"></i>',
+            previous: '<i class="fa fa-angle-left"></i>',
+            next: '<i class="fa fa-angle-right"></i>',
+          },
+          cssClasses: {
+            root: "pagination",
+            item: "pagination-item",
+            link: "page-number",
+            selectedItem: "current",
+            disabledItem: "disabled-item",
+          },
+        }),
+      ]);
+
+      search.start();
+    });

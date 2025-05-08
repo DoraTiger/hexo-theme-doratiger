@@ -2,7 +2,7 @@ mixin header-search
   if (theme.search.enable)
     - let search_menu = _p('header.search.menu')
     #header-right-search
-      i.fab.fa-search
+      i.fas.fa-search
       span= search_menu
 
 mixin header-time
@@ -26,4 +26,5 @@ mixin header-time
     a.heade-right-title-text(href=config.root)= config.title
   +header-time
 
-
+if(theme.search.type ==="algolia")
+  include ./header/algolia.pug

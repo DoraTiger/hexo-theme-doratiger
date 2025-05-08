@@ -20,8 +20,8 @@ module.exports = (hexo) => {
     };
 
     return `
-    <script>
-        window.MathJax = ${JSON.stringify(mathJaxConfig)};
-    </script>
-`;
+        <script>
+            window.MathJax = ${JSON.stringify(mathJaxConfig)};
+        </script>
+    `;
 };

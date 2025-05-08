@@ -55,7 +55,6 @@ const initToggleHeaderMenu = (
     });
 };
 
-
 const autoResizeHeaderRight = () => {
     const headerWrapper = document.querySelector("#header-wrapper");
     const headerLeft = document.querySelector("#header-left");
@@ -93,7 +92,7 @@ const autoResizeHeaderRight = () => {
             for (let j = 0; j <= i; j++) {
                 const element = headerRight.querySelector(elements[j].selector);
                 if (element) element.classList.add("hidden");
-                console.log(element);
+                // console.log(element);
             }
             break;
         }
@@ -107,4 +106,25 @@ const initAutoResizeHeaderRight = () => {
     });
 };
 
-export { initClock, initAutoResizeHeaderRight,initToggleHeaderMenu };
+const initSearchButton = () => {
+    const searchButton = document.querySelector("#header-right-search");
+    const searchContainer = document.querySelector("#search-container");
+
+    if (searchButton && searchContainer) {
+        const searchMask = searchContainer.querySelector(".search-mask");
+        const searchCloseButton = searchContainer.querySelector(
+            ".search-content-header-closebutton"
+        );
+        searchButton.addEventListener("click", () => {
+            searchContainer.classList.toggle("show");
+        });
+        searchMask.addEventListener("click", () => {
+            searchContainer.classList.remove("show");
+        });
+        searchCloseButton.addEventListener("click", () => {
+            searchContainer.classList.remove("show");
+        });
+    }
+};
+
+export { initClock, initAutoResizeHeaderRight, initToggleHeaderMenu,initSearchButton };

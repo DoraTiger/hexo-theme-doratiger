@@ -1,5 +1,5 @@
 import { initPageVisibility } from "./utils/PageVisibility.js";
-import { initClock, initAutoResizeHeaderRight,initToggleHeaderMenu } from "./layout/header.js";
+import { initClock, initAutoResizeHeaderRight,initToggleHeaderMenu,initSearchButton } from "./layout/header.js";
 import { initToggleSidebar ,initSidebarSwitch} from "./layout/sidebar.js";
 import { initAutoResizeFooterRight } from "./layout/footer.js";
 import {initCodeCopy} from "./utils/codeCopy.js";
@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initToggleHeaderMenu();
     initSidebarSwitch();
     initCodeCopy();
+    initSearchButton();
     new ScrollHandler();
     new Background();
 

@@ -50,7 +50,7 @@ hexo.on("generateBefore", () => {
  */
 hexo.on("generateAfter", () => {
     require("./lib/hello.js")(hexo);
-    require("./lib/algolia.js")(hexo);
+    // require("./lib/algolia.js")(hexo);
 });
 
 /**
