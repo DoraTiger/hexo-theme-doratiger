@@ -215,6 +215,19 @@ search:
     # Algolia Index Name
     index_name: ""
 
+    # Algolia 索引字段
+    # Algolia Index Field
+    fields:
+      - title
+      - slug
+      - excerpt
+      - permalink
+      - date
+      - updated
+      - tags
+      - categories
+      - layout
+
   # 本地搜索配置
   # Local search configuration
   local:
