@@ -6,7 +6,9 @@
  * 监听 Hexo 的 "ready" 事件，该事件在初始化完成后触发。
  * 可用于扩展 Hexo 的功能或加载额外的插件。
  */
-hexo.on("ready", () => {});
+hexo.on("ready", () => {
+    require("./lib/themeConfig.js")(hexo);
+});
 
 /**
  * 监听 Hexo 的 "processBefore" 事件，该事件在处理原始文件前触发。
@@ -41,7 +43,7 @@ hexo.on("deployAfter", () => {});
  * 可用于准备生成器所需的环境或执行预处理操作。
  */
 hexo.on("generateBefore", () => {
-    require("./lib/merge-config.js")(hexo);
+    require("./lib/mergeConfig.js")(hexo);
 });
 
 /**
@@ -50,7 +52,6 @@ hexo.on("generateBefore", () => {
  */
 hexo.on("generateAfter", () => {
     require("./lib/hello.js")(hexo);
-    // require("./lib/algolia.js")(hexo);
 });
 
 /**
