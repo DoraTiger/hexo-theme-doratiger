@@ -1,0 +1,43 @@
+extends _include/_layout.pug
+
+block content
+  article#post
+    .post-item
+      .post-item-content
+        h1= theme.terms.title || "服务条款"
+
+        p: strong= "最后更新日期：" + new Date().toISOString().split('T')[0]
+
+        p 感谢您访问本站。使用本站即表示您同意以下条款。
+
+        h2 1. 服务内容
+        p 本站提供个人博客内容和相关技术服务。本站保留随时修改、暂停或终止服务的权利。
+
+        h2 2. 用户行为
+        p 用户在使用本站时应遵守中华人民共和国相关法律法规，不得利用本站从事违法活动。
+
+        h2 3. 知识产权
+        - const license = theme.terms.license || (theme.copyright && theme.copyright.license) || "CC BY-NC-SA 4.0"
+        - const link = (theme.copyright && theme.copyright.link) || "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+        p
+          | 本站原创内容采用
+          a(href=link target="_blank")= " " + license
+          |  进行许可。您可以自由地共享和演绎本作品，但须遵守署名、非商业性使用和相同方式共享的条件。
+
+        h2 4. 免责声明
+        p 本站内容仅供参考，不构成任何形式的保证。使用本站内容产生的任何后果由用户自行承担。
+
+        h2 5. 隐私保护
+        p 本站重视用户隐私，详细信息请参阅
+          a(href="/privacy") 隐私政策
+          | 。
+
+        if theme.terms.extra_content
+          != theme.terms.extra_content
+
+        h2 6. 联系方式
+        if theme.copyright && theme.copyright.email
+          p 如有疑问，请联系：
+            a(href="mailto:" + theme.copyright.email)= theme.copyright.email
+        else
+          p 如有疑问，请通过页面底部联系方式联系作者。

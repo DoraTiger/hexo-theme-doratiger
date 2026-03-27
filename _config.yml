@@ -747,3 +747,56 @@ thirdpary:
     cdn:
       js:
         - "https://www.unpkg.com/mathjax@3.2.2/es5/tex-mml-chtml.js"
+
+# --------------------------------------------------
+# 主题生成页面配置
+# Theme Generated Pages Configuration
+# --------------------------------------------------
+
+# robots.txt 配置
+# Robots.txt Configuration
+robots:
+  # 是否开启
+  # Whether to enable
+  enable: true
+
+  # 额外禁止路径（除默认的 /admin/ /api/ /tmp/ 外）
+  # Additional disallow paths
+  disallow:
+    - /admin/
+    - /api/
+    - /tmp/
+
+# 服务条款页面
+# Terms of Service Page
+terms:
+  # 是否开启
+  # Whether to enable
+  enable: true
+
+  # 标题
+  # Title
+  title: 服务条款
+
+  # 知识产权声明（为空则自动使用 copyright 配置）
+  # License statement (empty = auto use copyright config)
+  license: ""
+
+  # 额外条款内容（支持 HTML）
+  # Additional terms content (HTML supported)
+  extra_content: ""
+
+# 隐私政策页面
+# Privacy Policy Page
+privacy:
+  # 是否开启
+  # Whether to enable
+  enable: true
+
+  # 标题
+  # Title
+  title: 隐私政策
+
+  # 额外内容（支持 HTML）
+  # Additional content (HTML supported)
+  extra_content: ""

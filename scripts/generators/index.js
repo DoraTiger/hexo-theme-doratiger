@@ -12,3 +12,6 @@ hexo.extend.generator.register(
 
 hexo.extend.generator.register("doratiger_redirect", require("./lib/redirect"));
 hexo.extend.generator.register("index", require("./lib/index"));
+hexo.extend.generator.register("doratiger_robots", require("./lib/robots"));
+hexo.extend.generator.register("doratiger_terms", require("./lib/terms"));
+hexo.extend.generator.register("doratiger_privacy", require("./lib/privacy"));

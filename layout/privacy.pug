@@ -1,0 +1,37 @@
+extends _include/_layout.pug
+
+block content
+  article#post
+    .post-item
+      .post-item-content
+        h1= theme.privacy.title || "隐私政策"
+
+        p: strong= "最后更新日期：" + new Date().toISOString().split('T')[0]
+
+        p 本站重视您的隐私。本政策说明我们如何收集、使用和保护您的信息。
+
+        h2 1. 信息收集
+        p 我们可能收集以下信息：
+        ul
+          li 访问日志（IP 地址、浏览器类型、访问时间）
+          li Cookie 信息
+          li 通过联系表单提交的信息
+
+        h2 2. 信息使用
+        p 收集的信息仅用于：
+        ul
+          li 提升网站服务质量
+          li 分析网站访问情况
+          li 回复您的留言或询问
+
+        h2 3. 信息保护
+        p 我们采取合理的技术措施保护您的个人信息，但无法保证绝对安全。
+
+        h2 4. 第三方服务
+        p 本站可能使用第三方服务（如统计分析工具），这些服务有自己的隐私政策。
+
+        h2 5. 政策更新
+        p 本政策可能不时更新，更新后将在本页面发布。继续使用本站即表示接受更新后的政策。
+
+        if theme.privacy.extra_content
+          != theme.privacy.extra_content
