@@ -102,3 +102,12 @@ search:
     placeholder: "搜索文章"
     hits_empty: "找不到您查詢的內容:${query}"
     hits_stats: "找到 ${hits} 條結果，用時 ${time} 毫秒"
+
+terms:
+  menu: "服務條款"
+  title: "服務條款"
+
+privacy:
+  menu: "隱私政策"
+  title: "隱私政策"
+

@@ -103,3 +103,11 @@ search:
     placeholder: "搜索文章"
     hit_empty: "找不到您查询的内容"
     hit_stats: "找到 ${hits} 条结果，用时 ${time} 毫秒"
+
+terms:
+  menu: "服务条款"
+  title: "服务条款"
+
+privacy:
+  menu: "隐私政策"
+  title: "隐私政策"

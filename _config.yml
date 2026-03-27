@@ -106,6 +106,8 @@ header:
     - { key: "about", url: "/about" }
     # - { key: "page404", url: "/404" }
     # - { key: "redirect", url: "/redirect" }
+    # - { key: "terms", url: "/terms" }
+    # - { key: "privacy", url: "/privacy" }
 
   # 时间显示
   # Time display

@@ -102,3 +102,12 @@ search:
     placeholder: "Search articles"
     hits_empty: "No results found for: ${query}"
     hits_stats: "Found ${hits} results in ${time} ms"
+
+terms:
+  menu: "Terms"
+  title: "Terms of Service"
+
+privacy:
+  menu: "Privacy"
+  title: "Privacy Policy"
+
