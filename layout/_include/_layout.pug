@@ -26,3 +26,15 @@ html(lang=config.language)
       //- 底部
       footer#footer-wrapper
         include footer.pug
+
+    //- 外链重定向拦截
+    script.
+      (function() {
+        document.addEventListener('click', function(e) {
+          var link = e.target.closest('a.external-link[data-redirect]');
+          if (!link) return;
+          e.preventDefault();
+          var url = link.getAttribute('data-redirect');
+          window.location.href = '/redirect/?url=' + url;
+        });
+      })();
