@@ -56,7 +56,8 @@ hexo.extend.filter.register("before_post_render", (data) => {
  * @returns {Object} 修改后的数据对象。
  */
 hexo.extend.filter.register("after_post_render", (data) => {
-    require("./lib/code")(hexo,data);
+    require("./lib/code")(hexo, data);
+    require("./lib/redirect")(hexo, data);
     return data;
 });
 

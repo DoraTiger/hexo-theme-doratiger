@@ -264,8 +264,10 @@ statistics:
   enable: false
 
   # 统计系统
-  # Statistics system
-  type: "busuanzi"
+  # Statistics system: busuanzi | counter
+  # busuanzi: 第三方服务（可能不稳定）
+  # counter: 自建统计（轻量级，支持 API 或 localStorage）
+  type: "counter"
 
   # busuanzi 配置
   # Busuanzi configuration
@@ -274,6 +276,18 @@ statistics:
     # 是否开启 PV 统计
     # Whether to enable PV statistics
     pv: true
+
+    # 是否开启 UV 统计
+    # Whether to enable UV statistics
+    uv: true
+
+  # 自建 counter 配置
+  # Self-hosted counter configuration
+  counter:
+    # Counter API 地址（留空使用 localStorage 方案）
+    # Counter API URL (empty = use localStorage)
+    # API 接口格式: GET /count?page=<path> 返回 { site: number, page: number }
+    api: ""
 
     # 是否开启 UV 统计
     # Whether to enable UV statistics
