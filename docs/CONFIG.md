@@ -4,7 +4,9 @@
 
 ---
 
-## 全局配置
+## 第一部分：主题基本功能
+
+### 全局配置
 
 ```yaml
 global:
@@ -13,72 +15,36 @@ global:
   avatar: /images/avatar_default.png   # 默认头像
 ```
 
-| 字段 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `hello` | bool | `true` | 启动时在控制台显示主题 logo |
-| `favicon` | string | `/images/favicon_default.png` | 浏览器标签页图标路径 |
-| `avatar` | string | `/images/avatar_default.png` | 默认用户头像路径 |
+| 字段 | 说明 |
+|------|------|
+| `hello` | 启动时在控制台显示主题 logo |
+| `favicon` | 浏览器标签页图标路径 |
+| `avatar` | 默认用户头像路径 |
 
----
-
-## 侧边栏配置
+### 侧边栏
 
 ```yaml
 sidebar:
   info:
     enable: true
-    user: ""       # 留空使用 hexo _config.yml 的 author
+    user: ""       # 留空使用 hexo 的 author
     avatar: ""     # 留空使用 global.avatar
-    intro: ""      # 留空使用 hexo _config.yml 的 description
+    intro: ""      # 留空使用 hexo 的 description
   social:
     enable: true
     item:
       - { text: "Github", url: "https://github.com/DoraTiger" }
-      - { text: "E-Mail", url: "mailto:xxx@example.com" }
   toc:
     enable: true
-    number: false
-    depth: 3
+    number: false   # 目录编号
+    depth: 3        # 目录深度
   friendlink:
     enable: true
     item:
       - { text: "站点名", url: "https://example.com" }
 ```
 
-### sidebar.info — 用户信息
-
-| 字段 | 说明 |
-|------|------|
-| `enable` | 是否显示用户信息卡片 |
-| `user` | 用户名，留空使用 `hexo.config.author` |
-| `avatar` | 头像路径，留空使用 `global.avatar` |
-| `intro` | 个人简介，留空使用 `hexo.config.description` |
-
-### sidebar.social — 社交链接
-
-| 字段 | 说明 |
-|------|------|
-| `enable` | 是否显示社交链接 |
-| `item` | 链接数组，每项含 `text`（显示文本）和 `url`（链接地址） |
-
-### sidebar.toc — 文章目录
-
-| 字段 | 说明 |
-|------|------|
-| `enable` | 文章页是否显示目录 |
-| `number` | 是否显示目录编号 |
-| `depth` | 目录深度（1-6） |
-
-### sidebar.friendlink — 友链
-
-| 字段 | 说明 |
-|------|------|
-| `enable` | 是否显示友链 |
-| `item` | 友链数组，格式同社交链接 |
-
----
-
-## 导航栏配置
+### 导航栏
 
 ```yaml
 header:
@@ -91,19 +57,12 @@ header:
     # - { key: "terms", url: "/terms" }
     # - { key: "privacy", url: "/privacy" }
   time:
-    enable: true
+    enable: true    # 右上角显示时间
 ```
 
-| 字段 | 说明 |
-|------|------|
-| `menu` | 导航菜单数组，`key` 对应 `languages/*.yml` 中的翻译 |
-| `time` | 是否在右上角显示当前时间 |
+`key` 对应 `languages/*.yml` 中的翻译。内置 key：`home`、`archives`、`categories`、`tags`、`about`、`terms`、`privacy`、`redirect`、`page404`。
 
-**内置菜单 key：** `home`、`archives`、`categories`、`tags`、`about`、`terms`、`privacy`、`redirect`、`page404`
-
----
-
-## 页脚配置
+### 页脚
 
 ```yaml
 footer:
@@ -113,174 +72,22 @@ footer:
   beian:
     miit:
       enable: false
-      text: ""
+      text: "豫 ICP 备 xxxxxx 号 -1"
       link: "https://beian.miit.gov.cn"
     mps:
       enable: false
-      text: ""
-      link: ""
+      text: "豫公网安备 xxxxxxxxxx 号"
+      link: "https://www.beian.gov.cn/..."
       icon: "/images/police_beian.png"
 ```
 
-### footer.since — 网站运行时间
-
-显示在页脚，格式为 `©2018 ～ 2026 By 作者名`。
-
-| 字段 | 说明 |
-|------|------|
-| `enable` | 是否显示 |
-| `year` | 网站创建年份 |
-
-### footer.beian — 备案信息
-
-适用于中国大陆服务器。
-
-| 字段 | 说明 |
-|------|------|
-| `miit.enable` | 是否显示工信部备案号 |
-| `miit.text` | 备案号文本 |
-| `miit.link` | 备案查询链接 |
-| `mps.enable` | 是否显示公安部备案号 |
-| `mps.text` | 公安备案号 |
-| `mps.link` | 公安备案链接 |
-| `mps.icon` | 公安备案图标 |
-
----
-
-## 搜索配置
-
-```yaml
-search:
-  enable: true
-  type: "algolia"    # algolia | local
-```
-
-### Algolia 搜索
-
-需要安装 `hexo-algolia` 插件并配置 API Key。
-
-```yaml
-algolia:
-  hit:
-    per_page: 10
-    empty: "找不到您查询的内容"
-    placeholder: "搜索文章"
-  app_id: "YOUR_APP_ID"
-  api_key: "YOUR_INDEX_API_KEY"
-  search_key: "YOUR_SEARCH_API_KEY"  # 留空则使用 api_key
-  index_name: "YOUR_INDEX_NAME"
-  fields:
-    - title
-    - slug
-    - excerpt
-    - permalink
-    - date
-    - updated
-    - tags
-    - categories
-    - layout
-```
-
-### 本地搜索
-
-需要安装 `hexo-generator-searchdb` 插件。
-
-```yaml
-local:
-  hits:
-    per_page: 10
-  path:
-    - local-search.xml
-  field:
-    - post
-  content: false
-```
-
----
-
-## 统计配置
-
-```yaml
-statistics:
-  enable: true
-  type: "counter"    # busuanzi | counter
-```
-
-### busuanzi
-
-第三方统计服务，国内访问可能不稳定。
-
-```yaml
-busuanzi:
-  pv: true   # 页面访问量
-  uv: true   # 独立访客数
-```
-
-### counter（自建）
-
-轻量级统计，无需后端。
-
-```yaml
-counter:
-  api: ""    # API 地址，留空使用 localStorage
-  uv: true
-```
-
-**API 模式：** `api` 填写后端地址，前端调用 `GET /count?page=<path>`，需返回 `{ site: number, page: number }`。
-
-**localStorage 模式：** `api` 留空，使用浏览器本地存储记录访问，适合个人博客。
-
----
-
-## 评论配置
-
-```yaml
-comment:
-  enable: false
-  type: "twikoo"    # gitment | valine | twikoo
-```
-
-### Gitment
-
-基于 GitHub Issues 的评论系统。
-
-```yaml
-gitment:
-  owner: "GitHub 用户名"
-  repo: "仓库名"
-  client_id: "OAuth App Client ID"
-  client_secret: "OAuth App Client Secret"
-```
-
-### Valine
-
-基于 LeanCloud 的无后端评论。
-
-```yaml
-valine:
-  appId: "LeanCloud App ID"
-  appKey: "LeanCloud App Key"
-  placeholder: "欢迎评论"
-```
-
-### Twikoo
-
-自部署评论系统。
-
-```yaml
-twikoo:
-  envId: "https://your-twikoo-server.vercel.app"
-```
-
----
-
-## 首页配置
+### 首页
 
 ```yaml
 home:
   auto_excerpt:
     enable: true
-    length: 200     # 摘要字数
+    length: 200       # 摘要字数，建议配合 <!-- more -->
   post_meta:
     date: true
     update: true
@@ -289,15 +96,7 @@ home:
     excerpt: true
 ```
 
-| 字段 | 说明 |
-|------|------|
-| `auto_excerpt.enable` | 是否自动截取摘要 |
-| `auto_excerpt.length` | 摘要字数限制，建议配合 `<!-- more -->` 使用 |
-| `post_meta.*` | 首页文章卡片显示的元信息 |
-
----
-
-## 文章页配置
+### 文章页
 
 ```yaml
 post:
@@ -319,105 +118,144 @@ post:
     email: ""
 ```
 
-### post.highlight — 代码高亮
+### 样式
 
-| 字段 | 说明 |
-|------|------|
-| `enable` | 是否开启代码高亮 |
-| `type` | 高亮引擎（目前仅 `highlight.js`） |
-| `line_number` | 是否显示行号 |
-| `copy` | 是否显示复制按钮 |
+```yaml
+style:
+  color:
+    theme: "rgba(230, 119, 0, 1)"       # 主题色，改这一个全局换色
+    sub_theme: "rgba(73, 177, 245, 1)"
+    text: "rgba(255, 255, 255, 1)"
+  font:
+    size: "16px"
+  sidebar:
+    width: "300px"
+  main:
+    content:
+      max_width: "1200px"
+      padding: "1rem"
+```
 
-### post.copyright — 版权声明
+### 资源管理
 
-文章底部自动显示版权声明，引用许可证协议。
+```yaml
+resource:
+  enable_cdn: false    # 全局 CDN 开关
+```
 
-| 字段 | 说明 |
-|------|------|
-| `enable` | 是否开启 |
-| `license` | 许可证名称（如 `CC BY-NC-SA 4.0`） |
-| `link` | 许可证链接 |
-| `email` | 作者邮箱 |
+每个资源可独立覆盖：`enable_cdn` 留空跟随全局，`true` 强制 CDN，`false` 强制本地。
+
+支持的资源：`highlight.js`、`busuanzi`、`twikoo`、`valine`、`algolia`、`font_awesome`、`mathjax`。
+
+### 第三方资源
+
+```yaml
+thirdparty:
+  font_awesome:
+    enable_cdn:
+    local: { css: ["/lib/font-awesome/@6.7.2/css/all.min.css"] }
+    cdn: { css: ["https://cdnjs.cloudflare.com/..."] }
+  mathjax:
+    enable_cdn:
+    local: { js: ["/lib/mathjax/@3.2.2/tex-mml-chtml.js"] }
+    cdn: { js: ["https://www.unpkg.com/..."] }
+```
+
+### 多语言
+
+翻译文件在 `languages/` 目录下：`zh-Hans.yml`（简中）、`zh-Hant.yml`（繁中）、`en.yml`（English）。通过 `_config.yml` 的 `language` 字段指定。
 
 ---
 
-## 特殊页面配置
+## 第二部分：主题扩展功能
 
-### 404 页面
+### 文章置顶
+
+在文章 front-matter 中添加 `sticky` 字段，数字越大越靠前。
+
+```markdown
+---
+title: 置顶文章
+sticky: 100
+---
+```
+
+置顶文章在首页显示 `📌 置顶` 标记。
+
+### 文章加密
+
+构建时 AES-256-GCM 加密，前端 Web Crypto API 解密。**需要 HTTPS 环境。**
 
 ```yaml
-page404:
+encrypt:
   enable: true
-  redirect_delay: 5000    # 自动跳转延迟（毫秒）
+  abstract: "这是一篇加密文章，需要密码才能继续阅读。"
+  message: "请输入密码："
+  wrong_pass_message: "密码错误，请重试。"
 ```
 
-> ⚠️ Hexo 生成的是静态文件，404 功能需要 web server 配合才能生效。
+**使用方式：**
 
-**各平台配置方式：**
+1. 单篇文章 — front-matter 添加 `password`：
 
-| 平台 | 自动生效 | 说明 |
-|------|----------|------|
-| GitHub Pages | ✅ | 无需配置，自动识别根目录 `404.html` |
-| Vercel / Netlify | ✅ | 无需配置 |
-| Cloudflare Pages | ✅ | 无需配置 |
-| Nginx | ❌ | 需手动配置（见下） |
-| Apache | ❌ | 需手动配置（见下） |
-
-**Nginx 配置：**
-
-```nginx
-server {
-    # ... 其他配置 ...
-
-    # 返回 404.html 并保持 404 状态码
-    error_page 404 /404.html;
-    location = /404.html {
-        root /path/to/hexo/public;
-        internal;
-    }
-}
+```markdown
+---
+title: 私密文章
+password: my-secret-password
+abstract: 🔒 这是一篇加密文章    # 可选，覆盖主题默认
+message: 请输入密码             # 可选，覆盖主题默认
+---
 ```
 
-修改后重载 nginx：`nginx -s reload`
-
-**Apache 配置：**
-
-在网站根目录的 `.htaccess` 中添加：
-
-```apache
-ErrorDocument 404 /404.html
-```
-
-### 关于页面
+2. 按标签批量加密：
 
 ```yaml
-about:
-  enable: true
+encrypt:
+  tags:
+    - name: "private"
+      password: "shared-password"
 ```
 
-内容写在 `source/about/index.md` 中。
+**安全性：**
+- AES-256-GCM + PBKDF2（100000 次迭代）
+- 密码不在 JS 代码中，仅用于解密
+- 标题/标签/日期仍是明文
+- 首页摘要自动替换为加密提示
 
-### 重定向页面
+### sitemap.xml / sitemap.txt
 
-外链点击时跳转到确认页面，保障用户安全。
+主题自建生成器，不依赖外部插件。
 
 ```yaml
-redirect:
+sitemap:
   enable: true
-  source: "DoraTiger 的次元"   # 离站提示文案
-  method: "exclude"
-  include: []
-  exclude:
-    - "127.0.0.1"
-    - "localhost"
-    - "your-domain.com"
+  format: "both"        # xml | txt | both
+  changefreq: "weekly"
+  priority:
+    home: 1.0
+    post: 0.8
+    page: 0.6
+    category: 0.5
+    tag: 0.5
+    archive: 0.4
 ```
 
-| 字段 | 说明 |
-|------|------|
-| `enable` | 是否开启外链拦截 |
-| `source` | 离站提示中的站点名称 |
-| `exclude` | 不拦截的域名列表（自己的域名必须加入） |
+文章 front-matter 中 `sitemap: false` 可排除该文章。
+
+### robots.txt
+
+主题自动生成。
+
+```yaml
+robots:
+  enable: true
+  disallow:
+    - /admin/
+    - /api/
+    - /tmp/
+```
+
+URL 从 `hexo.config.url` 自动取，sitemap 引用自动关联。
 
 ### 服务条款 & 隐私政策
 
@@ -436,159 +274,133 @@ privacy:
   extra_content: ""
 ```
 
-### robots.txt
+### 外链重定向
+
+外链点击时跳转确认页面，保障用户安全。
 
 ```yaml
-robots:
+redirect:
   enable: true
-  disallow:
-    - /admin/
-    - /api/
-    - /tmp/
+  source: "DoraTiger 的次元"
+  exclude:
+    - "your-domain.com"    # 自己的域名必须加入
 ```
 
-自动生成，URL 从 `hexo.config.url` 自动取。
-
----
-
----
-
-## 文章加密
-
-基于 [hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt) 插件，需在 Hexo 根目录安装：
-
-```bash
-npm install hexo-blog-encrypt
-```
-
-主题自动提供配置，无需手动编辑 Hexo 的 `_config.yml`。
+### 404 页面
 
 ```yaml
-encrypt:
+page404:
   enable: true
-  abstract: "这是一篇加密文章，需要密码才能继续阅读。"
-  message: "请输入密码："
-  theme: "default"   # default | blink | flip | shrink | surge | up | wave | xray
-  wrong_pass_message: "密码错误，请重试。"
-  wrong_hash_message: "内容可能被修改，但仍可查看。"
-  tags:
-    # - name: "private"        # 按标签批量加密
-    #   password: "tag-password"
+  redirect_delay: 5000    # 自动跳转延迟（毫秒）
 ```
 
-**使用方式：**
+> ⚠️ Hexo 生成的是静态文件，404 功能需要 web server 配合。
 
-1. 文章 front-matter 中添加 `password` 字段：
+**各平台配置方式：**
 
-```markdown
----
-title: 私密文章
-password: my-secret-password
----
+| 平台 | 自动生效 |
+|------|----------|
+| GitHub Pages / Vercel / Netlify | ✅ |
+| Nginx | ❌ 需手动配置 |
+
+**Nginx：**
+```nginx
+error_page 404 /404.html;
+location = /404.html {
+    root /path/to/hexo/public;
+    internal;
+}
 ```
 
-2. 或通过 `tags` 配置按标签批量加密：
+**Apache：**
+```apache
+ErrorDocument 404 /404.html
+```
+
+### 搜索
 
 ```yaml
-encrypt:
-  tags:
-    - name: "private"
-      password: "shared-password"
+search:
+  enable: true
+  type: "algolia"    # algolia | local
 ```
 
-**安全性：**
-- AES-256-GCM 加密，PBKDF2 密钥派生
-- 密码不在 JS 代码中，仅用于解密
-- 标题/标签/日期等元数据仍是明文
-- 建议使用强密码
+#### Algolia 搜索
 
-## 样式配置
+需安装 `hexo-algolia` 插件。
 
 ```yaml
-style:
-  color:
-    theme: "rgba(230, 119, 0, 1)"           # 主题色
-    sub_theme: "rgba(73, 177, 245, 1)"      # 次主题色
-    text: "rgba(255, 255, 255, 1)"          # 文本色
-    sidebar_background: "rgba(255, 255, 255, 0.1)"
-    content_background: "rgba(255, 255, 255, 0.1)"
-    button_background: "rgba(255, 255, 255, 0.1)"
-    code_background: "rgba(255, 255, 255, 0.1)"
-    border: "rgba(128, 128, 128, 0.8)"
-    border_shadow: "rgba(0, 0, 0, 0.5)"
-  font:
-    size: "16px"
-  sidebar:
-    width: "300px"
-  main:
-    header:
-      height: "3rem"
-      border_bottom: "1px solid rgba(128, 128, 128, 0.8)"
-    content:
-      max_width: "1200px"
-      padding: "1rem"
-    footer:
-      height: "3rem"
-      border_top: "1px solid rgba(128, 128, 128, 0.8)"
+algolia:
+  app_id: "YOUR_APP_ID"
+  api_key: "YOUR_INDEX_API_KEY"
+  search_key: ""
+  index_name: ""
+  hit:
+    per_page: 10
+    empty: "找不到内容"
+    placeholder: "搜索文章"
 ```
 
-所有颜色支持 `rgba()` 和 `hex` 格式。改 `style.color.theme` 即可全局换色。
+#### 本地搜索
 
----
-
-## 资源配置
-
-### 全局 CDN 开关
+需安装 `hexo-generator-searchdb`。
 
 ```yaml
-resource:
-  enable_cdn: false    # true 使用 CDN | false 使用本地
+local:
+  hits: { per_page: 10 }
+  path: [local-search.xml]
+  field: [post]
+  content: false
 ```
 
-### 单项资源 CDN
-
-每个资源可独立控制：
+### 统计
 
 ```yaml
-highlight.js:
-  enable_cdn:          # 留空跟随全局 | true 强制 CDN | false 强制本地
-  local:
-    css: ["/lib/highlight.js/@11.10.0/styles/github-dark.min.css"]
-    js: ["/lib/highlight.js/@11.10.0/highlight.min.js"]
-  cdn:
-    css: ["https://cdn.jsdelivr.net/..."]
-    js: ["https://cdn.jsdelivr.net/..."]
-  script: |            # 初始化脚本
-    hljs.configure({...});
-    hljs.highlightAll();
+statistics:
+  enable: true
+  type: "counter"    # busuanzi | counter
 ```
 
-**支持的资源：** `busuanzi`、`highlight.js`、`prism.js`、`gitment`、`twikoo`、`valine`、`algolia`
+#### busuanzi
 
-### 第三方资源
+第三方服务，国内可能不稳定。
 
 ```yaml
-thirdparty:
-  font_awesome:
-    enable_cdn:
-    local: { css: ["/lib/font-awesome/@6.7.2/css/all.min.css"] }
-    cdn: { css: ["https://cdnjs.cloudflare.com/..."] }
-  mathjax:
-    enable_cdn:
-    local: { js: ["/lib/mathjax/@3.2.2/tex-mml-chtml.js"] }
-    cdn: { js: ["https://www.unpkg.com/..."] }
+busuanzi:
+  pv: true
+  uv: true
 ```
+
+#### counter（自建）
+
+轻量级，无需后端。
+
+```yaml
+counter:
+  api: ""      # 留空用 localStorage，填后端地址调 API
+  uv: true
+```
+
+API 模式：`GET /count?page=<path>` → `{ site: number, page: number }`
+
+### 评论
+
+```yaml
+comment:
+  enable: false
+  type: "twikoo"    # gitment | valine | twikoo
+```
+
+**Gitment**（GitHub Issues）：需 `owner`、`repo`、`client_id`、`client_secret`。
+
+**Valine**（LeanCloud）：需 `appId`、`appKey`。
+
+**Twikoo**（自部署）：需 `envId`。
 
 ---
 
-## 多语言
+## 附录
 
-翻译文件在 `languages/` 目录下：
+### Commit Message 规范
 
-| 文件 | 语言 |
-|------|------|
-| `zh-Hans.yml` | 简体中文 |
-| `zh-Hant.yml` | 繁体中文 |
-| `en.yml` | English |
-
-使用 `_config.yml` 的 `language` 字段指定语言。
+详见 [贡献指南](./CONTRIBUTING.md)（中文）| [Contributing](./CONTRIBUTING_en.md)（English）。
