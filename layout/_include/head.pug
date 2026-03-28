@@ -65,3 +65,31 @@ meta(name="format-detection" content="telephone=no")
 meta(name="robots" content="index, follow")
 meta(name="revisit-after" content="7 days")
 meta(name="generator" content="Hexo")
+
+// SEO 结构化数据
+if(is_post())
+  script(type="application/ld+json").
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "#{page.title || ''}",
+      "author": {
+        "@type": "Person",
+        "name": "#{config.author}"
+      },
+      "datePublished": "#{page.date ? page.date.toISOString() : ''}",
+      "dateModified": "#{page.updated ? page.updated.toISOString() : ''}",
+      "publisher": {
+        "@type": "Organization",
+        "name": "#{config.title}"
+      },
+      "mainEntityOfPage": "#{url_for(page.permalink)}"
+    }
+else
+  script(type="application/ld+json").
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "#{config.title}",
+      "url": "#{config.url}"
+    }
