@@ -1,5 +1,25 @@
 - const page404_title = _p('page404.title')
 - const page404_content = _p('page404.content')
+- const redirect_delay = (theme.page404 && theme.page404.redirect_delay) || 5000
+
 #page404
   h1.page404-title= page404_title
   p.page404-content= page404_content
+  p.page404-countdown
+    span#countdown-text #{Math.round(redirect_delay / 1000)}
+    |  秒后自动返回首页
+  script.
+    (function() {
+      var delay = #{redirect_delay};
+      var el = document.getElementById('countdown-text');
+      var remaining = Math.round(delay / 1000);
+
+      var timer = setInterval(function() {
+        remaining--;
+        if (el) el.textContent = remaining;
+        if (remaining <= 0) {
+          clearInterval(timer);
+          window.location.href = '/';
+        }
+      }, 1000);
+    })();
