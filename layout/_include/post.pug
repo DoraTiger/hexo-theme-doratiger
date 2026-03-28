@@ -80,3 +80,33 @@ article#post
             var api = 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + 'x' + size + '&data=' + encodeURIComponent(url);
             el.innerHTML = '<img src="' + api + '" width="' + size + '" height="' + size + '" alt="QR Code" />';
           })();
+    -
+      let enableSponsor = theme.post_extend?.sponsor?.enable ?? false
+      let sponsorTip = theme.post_extend?.sponsor?.tip ?? ""
+      let sponsorAlipay = theme.post_extend?.sponsor?.alipay ?? ""
+      let sponsorWechat = theme.post_extend?.sponsor?.wechat ?? ""
+    if(enableSponsor)
+      .post-item-sponsor
+        .post-item-sponsor-btn#sponsor-btn
+          i.fas.fa-mug-hot
+          span  赞赏
+        .post-item-sponsor-panel#sponsor-panel(style="display:none")
+          .post-item-sponsor-tip= sponsorTip
+          .post-item-sponsor-codes
+            if sponsorAlipay
+              .post-item-sponsor-code
+                img(src=url_for(sponsorAlipay) alt="支付宝")
+                span 支付宝
+            if sponsorWechat
+              .post-item-sponsor-code
+                img(src=url_for(sponsorWechat) alt="微信")
+                span 微信
+        script.
+          (function(){
+            var btn = document.getElementById('sponsor-btn');
+            var panel = document.getElementById('sponsor-panel');
+            if (!btn || !panel) return;
+            btn.addEventListener('click', function(){
+              panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+            });
+          })();

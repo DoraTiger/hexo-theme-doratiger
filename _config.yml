@@ -917,3 +917,14 @@ post_extend:
     size: 120
     # 提示文案
     tip: "手机扫码阅读"
+
+  # 打赏/赞助按钮
+  # Sponsor / Tip button
+  sponsor:
+    enable: false
+    # 提示文案
+    tip: "如果觉得有帮助，可以请作者喝杯咖啡 ☕"
+    # 支付宝二维码图片路径
+    alipay: ""
+    # 微信二维码图片路径
+    wechat: ""

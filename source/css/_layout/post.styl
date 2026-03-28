@@ -302,3 +302,61 @@
     border-radius 8px
     padding 0.5rem
     background white
+
+// 打赏/赞助按钮
+.post-item-sponsor
+  display flex
+  flex-direction column
+  align-items center
+  padding 1.5rem 0
+  margin-top 1rem
+  border-top 1px solid var(--border-color)
+
+  .post-item-sponsor-btn
+    display inline-flex
+    align-items center
+    gap 0.5rem
+    padding 0.5rem 1.5rem
+    border-radius 20px
+    background var(--theme-color)
+    color white
+    font-size 0.9rem
+    cursor pointer
+    transition opacity 0.2s
+
+    &:hover
+      opacity 0.85
+
+  .post-item-sponsor-panel
+    display flex
+    flex-direction column
+    align-items center
+    margin-top 1rem
+
+    .post-item-sponsor-tip
+      font-size 0.85rem
+      color var(--text-color)
+      opacity 0.6
+      margin-bottom 1rem
+
+    .post-item-sponsor-codes
+      display flex
+      gap 1.5rem
+
+      .post-item-sponsor-code
+        display flex
+        flex-direction column
+        align-items center
+        gap 0.5rem
+
+        img
+          width 160px
+          height 160px
+          border-radius 8px
+          padding 0.5rem
+          background white
+
+        span
+          font-size 0.8rem
+          color var(--text-color)
+          opacity 0.6
