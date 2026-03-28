@@ -1,45 +1,49 @@
 # Changelog
 
-## [v1.2.0] - 2026-03-28
+## 2026-03-28
 
 ### Added
-- Theme-generated `robots.txt` with configurable disallow paths
-- Terms of Service page (`/terms`), driven by theme config
-- Privacy Policy page (`/privacy`), driven by theme config
-- External link redirect interceptor with JS click handler (preserves original `href`)
-- Self-hosted `counter` statistics as busuanzi alternative (supports API and localStorage modes)
-- Navigation menu entries for terms and privacy pages
-- i18n translations for terms/privacy in zh-Hans, zh-Hant, en
-- CSS styles for redirect page
-- Configuration documentation (`docs/CONFIG.md`)
+- `robots.txt` 主题自动生成，`disallow` 路径可配置
+- 服务条款页面（`/terms`），配置驱动，版权自动关联 `post.copyright.license`
+- 隐私政策页面（`/privacy`），配置驱动
+- 外链重定向拦截：点击时跳转确认页面，保持原始 `href` 不变
+- 自建 `counter` 统计方案（支持 API 和 localStorage 两种模式）
+- 导航栏新增服务条款、隐私政策菜单项
+- 404 页面自动倒计时跳转首页（`redirect_delay` 配置）
+- 404 页面样式
+- i18n 多语言支持（zh-Hans / zh-Hant / en）
+- 配置文档 `docs/CONFIG.md`
 
 ### Changed
-- Navigation menu now supports terms and privacy entries (commented by default)
-- Redirect filter uses `data-redirect` attribute instead of modifying `href`
+- 重定向过滤器使用 `data-redirect` 属性，不修改原始链接
 
 ### Fixed
-- Busuanzi template variable name mismatch (`cdn_js` vs `cdn`)
-- Redirect filter include logic was blocking all external links
-- `mailto:` links incorrectly intercepted by redirect filter
-- Duplicate `class` attributes on redirected links
+- busuanzi 模板变量名错误（`cdn_js` → `cdn`）
+- 重定向 `include` 逻辑错误导致外链全部不拦截
+- `mailto:` 链接被误拦截
+- 重定向链接出现重复 `class` 属性
 
-## [v1.1.0] - 2026-03-26
+### CI
+- Gitea→GitHub 自动同步工作流（SSH + Variable 代理）
+- hexo 发布工作流改用本地 actions 镜像
+
+## 2026-03-26
 
 ### Added
-- Algolia search integration with V5 API support
-- Config merge flow moved to `ready` event for proper dependency resolution
+- Algolia 搜索集成，适配 V5 API
+- 独立主题配置文件支持（`_config.<theme>.yml`）
 
 ### Changed
-- Separate theme config file support (`_config.<theme>.yml`)
+- 配置合并流程迁移至 `ready` 事件阶段
 
-## [v1.0.0] - 2025-09-20
+## 2025-09-20
 
 ### Added
-- Background canvas animation
-- i18n support (zh-Hans, zh-Hant, en)
-- About page generator
-- Code block styling with highlight.js
+- 背景 Canvas 动画
+- i18n 多语言支持（zh-Hans / zh-Hant / en）
+- 关于页面生成器
+- 代码高亮（highlight.js）
 
 ### Fixed
-- Category page link error
-- Sidebar TOC active style not applied
+- 分类页面链接错误
+- 侧边栏 TOC 激活样式不生效
