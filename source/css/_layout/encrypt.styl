@@ -1,0 +1,48 @@
+// 文章加密样式
+.hexo-encrypt
+  padding 2rem
+  border-radius 8px
+  border 1px solid var(--border-color)
+  background var(--content-background)
+
+  .hexo-encrypt-abstract
+    font-size 0.95rem
+    color var(--text-color)
+    opacity 0.7
+    margin-bottom 1.5rem
+    text-align center
+
+  .hexo-encrypt-input
+    display flex
+    gap 0.5rem
+    max-width 400px
+    margin 0 auto
+
+    .hexo-encrypt-password
+      flex 1
+      padding 0.6rem 1rem
+      border 1px solid var(--border-color)
+      border-radius 6px
+      background rgba(255, 255, 255, 0.05)
+      color var(--text-color)
+      font-size 0.9rem
+      outline none
+
+      &:focus
+        border-color var(--theme-color)
+
+    .hexo-encrypt-submit
+      padding 0.6rem 1rem
+      border none
+      border-radius 6px
+      background var(--theme-color)
+      color white
+      font-size 1rem
+      cursor pointer
+      transition opacity 0.2s
+
+      &:hover
+        opacity 0.85
+
+  .hexo-encrypt-data
+    display none

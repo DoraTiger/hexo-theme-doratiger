@@ -58,6 +58,7 @@ hexo.extend.filter.register("before_post_render", (data) => {
 hexo.extend.filter.register("after_post_render", (data) => {
     require("./lib/code")(hexo, data);
     require("./lib/redirect")(hexo, data);
+    require("./lib/encrypt")(hexo, data);
     return data;
 });
 
