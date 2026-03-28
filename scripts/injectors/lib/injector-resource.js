@@ -64,7 +64,7 @@ module.exports = (hexo, resourceType = "") => {
     }
 
     // 处理第三方资源
-    const thirdpart_resource = theme.thirdpary || {};
+    const thirdpart_resource = theme.thirdparty || theme.thirdpary || {};
     for (let key in thirdpart_resource) {
         resources.push(loadResource(thirdpart_resource[key], resourceType, globalCDN));
     }
