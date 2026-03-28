@@ -892,3 +892,28 @@ encrypt:
   tags:
     # - name: "private"
     #   password: "your-password"
+
+# --------------------------------------------------
+# 文章扩展功能
+# Post Extended Features
+# --------------------------------------------------
+
+post_extend:
+  # 预计阅读时间
+  # Estimated reading time
+  reading_time:
+    enable: true
+    # 每分钟阅读字数
+    # Words per minute
+    wpm: 300
+
+  # 文章二维码（手机扫码阅读）
+  # Article QR code
+  qrcode:
+    enable: true
+    # 二维码位置：bottom（文章底部） | sidebar（侧边栏）
+    position: "bottom"
+    # 二维码大小
+    size: 120
+    # 提示文案
+    tip: "手机扫码阅读"

@@ -28,6 +28,16 @@ article#post
             .post-item-header-meta-item
               i.fa.fa-tag.post-item-header-meta-item-icon(aria-hidden="true")
               a.post-item-header-meta-item-text(href=url_for(tag.path))= tag.name
+        -
+          let enableReadingTime = theme.post_extend?.reading_time?.enable ?? false
+          let wpm = theme.post_extend?.reading_time?.wpm ?? 300
+        if(enableReadingTime && page.content)
+          -
+            let wordCount = page.content.replace(/<[^>]+>/g, '').replace(/\s+/g, '').length
+            let readMin = Math.max(1, Math.ceil(wordCount / wpm))
+          .post-item-header-meta-item
+            i.fas.fa-book-open.post-item-header-meta-item-icon(aria-hidden="true")
+            span.post-item-header-meta-item-text= wordCount + ' 字 · 约 ' + readMin + ' 分钟'
     .post-item-content!= page.content
     .post-item-copyright
       - let enableCopyright = (theme.post.copyright?.enable ?? false)
@@ -52,3 +62,21 @@ article#post
       - let enableComment = theme.comment.enable && (page.comments !== false)
       if(enableComment)
         #comment-container
+    -
+      let enableQR = theme.post_extend?.qrcode?.enable ?? false
+      let qrPosition = theme.post_extend?.qrcode?.position ?? "bottom"
+      let qrSize = theme.post_extend?.qrcode?.size ?? 120
+      let qrTip = theme.post_extend?.qrcode?.tip ?? "手机扫码阅读"
+    if(enableQR && qrPosition === "bottom")
+      .post-item-qrcode
+        .post-item-qrcode-tip= qrTip
+        .post-item-qrcode-img#post-qrcode(data-url=url_for(page.permalink) data-size=qrSize)
+        script.
+          (function(){
+            var el = document.getElementById('post-qrcode');
+            if (!el) return;
+            var url = el.dataset.url;
+            var size = parseInt(el.dataset.size) || 120;
+            var api = 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + 'x' + size + '&data=' + encodeURIComponent(url);
+            el.innerHTML = '<img src="' + api + '" width="' + size + '" height="' + size + '" alt="QR Code" />';
+          })();
