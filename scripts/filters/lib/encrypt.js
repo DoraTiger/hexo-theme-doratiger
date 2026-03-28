@@ -42,9 +42,9 @@ module.exports = function (hexo, data) {
     const content = data.content;
     const encrypted = encryptContent(content, password);
 
-    // 生成 HTML
-    const abstract = theme.encrypt.abstract || "这是一篇加密文章，需要密码才能继续阅读。";
-    const message = theme.encrypt.message || "请输入密码：";
+    // 生成 HTML（文章 front-matter 优先，其次主题配置，最后默认值）
+    const abstract = data.abstract || theme.encrypt.abstract || "这是一篇加密文章，需要密码才能继续阅读。";
+    const message = data.message || theme.encrypt.message || "请输入密码：";
     const wrongPass = theme.encrypt.wrong_pass_message || "密码错误，请重试。";
 
     data.content = buildEncryptedHTML(encrypted, abstract, message, wrongPass);
