@@ -28,7 +28,7 @@ module.exports = function (locals) {
 
     // 文章
     locals.posts.sort("-date").forEach((post) => {
-        if (post.published !== false) {
+        if (post.published !== false && post.sitemap !== false) {
             urls.push({
                 loc: siteUrl + normalize(post.path),
                 freq: changefreq,
@@ -40,11 +40,13 @@ module.exports = function (locals) {
 
     // 页面
     locals.pages.forEach((page) => {
-        urls.push({
-            loc: siteUrl + normalize(page.path),
-            freq: "monthly",
-            priority: priority.page || 0.6,
-        });
+        if (page.sitemap !== false) {
+            urls.push({
+                loc: siteUrl + normalize(page.path),
+                freq: "monthly",
+                priority: priority.page || 0.6,
+            });
+        }
     });
 
     // 分类
