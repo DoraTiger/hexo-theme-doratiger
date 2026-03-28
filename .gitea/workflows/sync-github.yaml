@@ -1,0 +1,32 @@
+name: Sync to GitHub
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: https://gitea.truenas.tank.superheaoz.top/actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "${{ vars.ACTION_USERNAME }}"
+          git config user.email "${{ vars.ACTION_USERMAIL }}"
+
+      - name: Push to GitHub
+        env:
+          SSH_KEY: ${{ secrets.TOKEN_SSH }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git remote add github git@github.com:DoraTiger/hexo-theme-doratiger.git
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new" git push github main
