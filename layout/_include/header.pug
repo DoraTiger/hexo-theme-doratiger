@@ -28,3 +28,28 @@ mixin header-time
 
 if(theme.search.type ==="algolia")
   include ./header/algolia.pug
+else if(theme.search.type ==="local")
+  -
+    var localConfig = theme.search.local || {};
+    var localHit = localConfig.hit || {};
+    var localHits = localConfig.hits || {};
+  #search-container
+    .search-content
+      .search-content-header
+        .search-content-header-title
+        span.search-content-header-logo 本地搜索
+        .search-content-header-closebutton
+          i.fa.fa-times
+      .search-content-box
+        input.search-content-box-input(type="text" placeholder=localHit.placeholder || '搜索文章')
+      #algolia-hits.search-content-result
+    .search-mask
+  script.
+    window.searchConfig = {
+      localSearch: {
+        indexPath: "/" + "#{(localConfig.path && localConfig.path[0]) || 'search.json'}",
+        per_page: #{localHits.per_page || 10},
+        empty: "#{localHit.empty || '找不到内容'}"
+      }
+    };
+  script(src="/js/utils/localSearch.js")

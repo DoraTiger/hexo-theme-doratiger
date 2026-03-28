@@ -238,10 +238,10 @@ search:
     hits:
       per_page: 10
 
-    # 搜索索引文件位置
-    # Search index file location
+    # 索引文件路径
+    # Index file path
     path:
-      - local-search.xml
+      - search.json
 
     # 搜索范围
     # Search field
@@ -252,9 +252,11 @@ search:
     # Whether to search the content
     content: false
 
-    # 搜索索引文件模板
-    # Search index file template
-    template: /lib/local-search.xml
+    # 搜索框提示
+    # Search input placeholder
+    hit:
+      placeholder: "搜索文章"
+      empty: "找不到您查询的内容"
 
 # --------------------------------------------------
 # 统计功能配置

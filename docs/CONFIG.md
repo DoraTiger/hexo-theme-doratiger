@@ -367,14 +367,30 @@ algolia:
 
 #### 本地搜索
 
-需安装 `hexo-generator-searchdb`。
+无需安装外部插件，主题自建索引生成器。
 
 ```yaml
 local:
-  hits: { per_page: 10 }
-  path: [local-search.xml]
-  field: [post]
-  content: false
+  hits:
+    per_page: 10       # 每页显示数量
+  path:
+    - search.json      # 索引文件路径
+  field:
+    - post             # 索引范围：post | page
+  content: false       # 是否索引正文全文
+  hit:
+    placeholder: "搜索文章"
+    empty: "找不到内容"
+```
+
+**Front-matter 控制：**
+
+```markdown
+---
+search: false          # 排除此文章
+password: xxx          # 加密文章默认不索引
+search: true           # 强制索引加密文章
+---
 ```
 
 ### 统计
