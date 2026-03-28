@@ -1,3 +1,5 @@
+[简体中文](./README.md) | [English](./README_en.md)
+
 ## 快速开始
 
 #### 1. 搭建 Hexo 博客
