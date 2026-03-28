@@ -841,3 +841,38 @@ sitemap:
     category: 0.5
     tag: 0.5
     archive: 0.4
+
+# --------------------------------------------------
+# 文章加密配置（基于 hexo-blog-encrypt）
+# Article Encryption Configuration
+# --------------------------------------------------
+encrypt:
+  # 是否开启
+  # Whether to enable
+  enable: false
+
+  # 加密提示文案
+  # Encrypted article abstract
+  abstract: "这是一篇加密文章，需要密码才能继续阅读。"
+
+  # 输入框提示文案
+  # Password input message
+  message: "请输入密码："
+
+  # 主题样式：default | blink | flip | shrink | surge | up | wave | xray
+  # Theme style
+  theme: "default"
+
+  # 密码错误提示
+  # Wrong password message
+  wrong_pass_message: "密码错误，请重试。"
+
+  # 内容被篡改提示
+  # Wrong hash message
+  wrong_hash_message: "内容可能被修改，但仍可查看。"
+
+  # 按标签加密（可选）
+  # Tag-based encryption (optional)
+  tags:
+    # - name: "private"
+    #   password: "your-password"

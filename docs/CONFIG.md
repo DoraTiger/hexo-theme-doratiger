@@ -451,6 +451,57 @@ robots:
 
 ---
 
+---
+
+## 文章加密
+
+基于 [hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt) 插件，需在 Hexo 根目录安装：
+
+```bash
+npm install hexo-blog-encrypt
+```
+
+主题自动提供配置，无需手动编辑 Hexo 的 `_config.yml`。
+
+```yaml
+encrypt:
+  enable: true
+  abstract: "这是一篇加密文章，需要密码才能继续阅读。"
+  message: "请输入密码："
+  theme: "default"   # default | blink | flip | shrink | surge | up | wave | xray
+  wrong_pass_message: "密码错误，请重试。"
+  wrong_hash_message: "内容可能被修改，但仍可查看。"
+  tags:
+    # - name: "private"        # 按标签批量加密
+    #   password: "tag-password"
+```
+
+**使用方式：**
+
+1. 文章 front-matter 中添加 `password` 字段：
+
+```markdown
+---
+title: 私密文章
+password: my-secret-password
+---
+```
+
+2. 或通过 `tags` 配置按标签批量加密：
+
+```yaml
+encrypt:
+  tags:
+    - name: "private"
+      password: "shared-password"
+```
+
+**安全性：**
+- AES-256-GCM 加密，PBKDF2 密钥派生
+- 密码不在 JS 代码中，仅用于解密
+- 标题/标签/日期等元数据仍是明文
+- 建议使用强密码
+
 ## 样式配置
 
 ```yaml

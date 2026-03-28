@@ -108,7 +108,7 @@ git submodule update --remote
 -   [hexo-algolia](https://github.com/thom4parisot/hexo-algolia) hexo-algolia is an hexo plugin provided by the community.
 -   [hexo-generator-search](https://github.com/wzpan/hexo-generator-search) This plugin is used for generating a search index file, which contains all the neccessary data of your articles that you can use to write a local search engine for your blog.
 -   [hexo-generator-sitemap](https://github.com/hexojs/hexo-generator-sitemap) Generate sitemap.
--   [hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt) ~~这可能是 Hexo 生态圈中**最好的**博客加密插件~~
+-   [hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt)：Hexo 文章加密插件（已集成）。
 
 ## 许可
 
