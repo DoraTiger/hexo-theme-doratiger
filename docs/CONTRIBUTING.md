@@ -51,6 +51,42 @@
 -   每行不超过 72 个字符。
 -   除 docs 之外的变更类型必须包含 body。
 
+#### Changelog 规则
+
+Changelog 采用日期记录，不使用版本号。
+
+-   一次能完成的功能 → commit 内包含 changelog 更新。
+-   分多次完成的功能 → 子 commit body 中添加 `Changelog: <描述>` 标记，最后用 `docs: 更新 changelog` 汇总。
+-   `docs` commit 中引用涉及的 commit hash。
+
+示例：
+
+```text
+# 子 commit（标记待写入 changelog）
+feat: 重定向 JS 拦截逻辑
+
+Changelog: 外链重定向拦截功能
+
+# 子 commit（标记待写入 changelog）
+fix: mailto 链接被误拦截
+
+Changelog: 修复 mailto 被外链拦截
+
+# 汇总 commit
+docs: 更新 changelog
+
+汇总 830d88a..577736e 的变更：
+- 外链重定向拦截功能
+- 修复 mailto 误拦截
+```
+
+```text
+# 一次完成的功能（changelog 写在同一 commit）
+feat: 404 页面添加自动倒计时跳转首页
+
+Changelog: 404 页面自动倒计时跳转首页（redirect_delay 配置生效）
+```
+
 `footer` 要求如下（可选）：
 
 -   关联的 issue 或 pull request 编号。
