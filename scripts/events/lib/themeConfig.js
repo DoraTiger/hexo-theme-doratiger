@@ -44,7 +44,7 @@ const getRootThemeConfig = (hexo) => {
     let themeConfig = {};
     let filePath = path.join(
         hexo.base_dir,
-        "_config.hexo-theme-doratiger1.yml"
+        "_config.hexo-theme-doratiger.yml"
     );
     // 读取 _config.hexo-theme-doratiger.yml
     if (fs.existsSync(filePath)) {
