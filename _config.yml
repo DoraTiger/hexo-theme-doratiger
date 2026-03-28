@@ -727,6 +727,20 @@ resource:
         # - "https://unpkg.com/instantsearch.js@2.10.5/dist/instantsearch.min.js"
         - "https://cdn.jsdelivr.net/npm/algoliasearch@5.23.4/dist/lite/builds/browser.umd.js"
         - "https://cdn.jsdelivr.net/npm/instantsearch.js@4.78.1/dist/instantsearch.production.min.js"
+
+  # hexo-blog-encrypt 资源路径
+  # Resource path for hexo-blog-encrypt
+  hbe:
+    enable_cdn:
+
+    local:
+      js:
+        - "/lib/hbe/@3.1.9/hbe.js"
+
+    cdn:
+      js:
+        - "https://cdn.jsdelivr.net/npm/hexo-blog-encrypt@3.1.9/lib/hbe.js"
+
 # --------------------------------------------------
 # 第三方资源配置，全部页面生效
 # Thirdpary Resource Configuration, effective on all pages
