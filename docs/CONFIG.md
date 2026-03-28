@@ -351,6 +351,43 @@ page404:
   redirect_delay: 5000    # 自动跳转延迟（毫秒）
 ```
 
+> ⚠️ Hexo 生成的是静态文件，404 功能需要 web server 配合才能生效。
+
+**各平台配置方式：**
+
+| 平台 | 自动生效 | 说明 |
+|------|----------|------|
+| GitHub Pages | ✅ | 无需配置，自动识别根目录 `404.html` |
+| Vercel / Netlify | ✅ | 无需配置 |
+| Cloudflare Pages | ✅ | 无需配置 |
+| Nginx | ❌ | 需手动配置（见下） |
+| Apache | ❌ | 需手动配置（见下） |
+
+**Nginx 配置：**
+
+```nginx
+server {
+    # ... 其他配置 ...
+
+    # 返回 404.html 并保持 404 状态码
+    error_page 404 /404.html;
+    location = /404.html {
+        root /path/to/hexo/public;
+        internal;
+    }
+}
+```
+
+修改后重载 nginx：`nginx -s reload`
+
+**Apache 配置：**
+
+在网站根目录的 `.htaccess` 中添加：
+
+```apache
+ErrorDocument 404 /404.html
+```
+
 ### 关于页面
 
 ```yaml
