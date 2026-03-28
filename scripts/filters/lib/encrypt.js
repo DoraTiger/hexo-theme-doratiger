@@ -48,6 +48,8 @@ module.exports = function (hexo, data) {
     const wrongPass = theme.encrypt.wrong_pass_message || "密码错误，请重试。";
 
     data.content = buildEncryptedHTML(encrypted, abstract, message, wrongPass);
+    // 首页摘要也替换为加密提示
+    data.excerpt = `<div class="hexo-encrypt-summary">🔒 ${escapeHtml(abstract)}</div>`;
     data.layout = data.layout || "post";
 
     return data;
