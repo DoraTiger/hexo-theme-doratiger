@@ -405,9 +405,9 @@ about:
 redirect:
   enable: true
   source: "DoraTiger 的次元"   # 离站提示文案
-  method: "exlude"
+  method: "exclude"
   include: []
-  exlude:
+  exclude:
     - "127.0.0.1"
     - "localhost"
     - "your-domain.com"
@@ -417,7 +417,7 @@ redirect:
 |------|------|
 | `enable` | 是否开启外链拦截 |
 | `source` | 离站提示中的站点名称 |
-| `exlude` | 不拦截的域名列表（自己的域名必须加入） |
+| `exclude` | 不拦截的域名列表（自己的域名必须加入） |
 
 ### 服务条款 & 隐私政策
 
@@ -472,7 +472,7 @@ style:
   main:
     header:
       height: "3rem"
-      border_botton: "1px solid rgba(128, 128, 128, 0.8)"
+      border_bottom: "1px solid rgba(128, 128, 128, 0.8)"
     content:
       max_width: "1200px"
       padding: "1rem"
@@ -517,7 +517,7 @@ highlight.js:
 ### 第三方资源
 
 ```yaml
-thirdpary:
+thirdparty:
   font_awesome:
     enable_cdn:
     local: { css: ["/lib/font-awesome/@6.7.2/css/all.min.css"] }

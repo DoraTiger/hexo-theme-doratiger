@@ -11,7 +11,7 @@ module.exports = function (hexo, data) {
     if (!data.content) return data;
 
     const siteUrl = hexo.config.url.replace(/\/$/, "");
-    const exclude = theme.redirect.exlude || [];
+    const exclude = theme.redirect.exclude || [];
 
     // 从主题配置获取站点 URL
     const siteHostname = new URL(hexo.config.url).hostname;

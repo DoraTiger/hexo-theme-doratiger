@@ -495,7 +495,7 @@ redirect:
   # 重定向内容索引方式
   # Redirect content indexing method
   # include | exclude
-  method: "exlude"
+  method: "exclude"
 
   # 包含页面
   # Include pages
@@ -503,7 +503,7 @@ redirect:
 
   # 排除页面
   # Exclude pages
-  exlude:
+  exclude:
 
 # --------------------------------------------------
 # 主题样式配置
@@ -568,7 +568,7 @@ style:
   main:
     header:
       height: "3rem"
-      border_botton: "1px solid rgba(128, 128, 128, 0.8)"
+      border_bottom: "1px solid rgba(128, 128, 128, 0.8)"
     content:
       max_width: "1200px"
       padding: "1rem"
@@ -731,7 +731,7 @@ resource:
 # 第三方资源配置，全部页面生效
 # Thirdpary Resource Configuration, effective on all pages
 # --------------------------------------------------
-thirdpary:
+thirdparty:
   # font-awesome 资源路径
   # Resource path for font-awesome
   font_awesome:

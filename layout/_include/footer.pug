@@ -107,7 +107,7 @@ mixin copyright
 
 mixin miit
   if theme.footer.beian.miit.enable
-    if theme.footer.beian.miit.text != undefine && theme.footer.beian.miit.text != ''
+    if theme.footer.beian.miit.text != undefined && theme.footer.beian.miit.text != ''
       - miit_link = theme.footer.beian.miit.link
       - miit_text = theme.footer.beian.miit.text.replace(/\s/g, '')
       #footer-right-miit
@@ -115,7 +115,7 @@ mixin miit
 
 mixin mps
   if theme.footer.beian.mps.enable
-    if theme.footer.beian.mps.text != undefine && theme.footer.beian.mps.text != ''
+    if theme.footer.beian.mps.text != undefined && theme.footer.beian.mps.text != ''
       - mps_link = theme.footer.beian.mps.link
       - mps_text = theme.footer.beian.mps.text.replace(/\s/g, '')
       - mps_icon = theme.footer.beian.mps.icon

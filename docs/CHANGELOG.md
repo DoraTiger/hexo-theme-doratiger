@@ -2,6 +2,14 @@
 
 ## 2026-03-28
 
+### BREAKING
+- `redirect.exlude` 重命名为 `redirect.exclude`
+- `style.main.border_botton` 重命名为 `style.main.border_bottom`
+- `thirdpary` 重命名为 `thirdparty`
+
+### Fixed
+- `footer.pug` 中 `undefine` 修正为 `undefined`
+
 ### Added
 - `robots.txt` 主题自动生成，`disallow` 路径可配置
 - 服务条款页面（`/terms`），配置驱动，版权自动关联 `post.copyright.license`
