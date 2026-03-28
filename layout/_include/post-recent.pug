@@ -4,7 +4,7 @@
     .post-item
       .post-item-header
         if post.sticky
-          i.post-item-header-sticky
+          span.post-item-header-sticky 📌 置顶
         - let title_text = post.title || _p("post.untitled")
         a.post-item-header-title= title_text
         .post-item-header-meta
