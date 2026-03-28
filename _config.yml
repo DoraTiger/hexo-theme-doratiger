@@ -824,6 +824,10 @@ sitemap:
   # Whether to enable
   enable: true
 
+  # 输出格式：xml | txt | both
+  # Output format: xml | txt | both
+  format: "both"
+
   # 默认更新频率
   # Default change frequency: always | hourly | daily | weekly | monthly | yearly | never
   changefreq: "weekly"
