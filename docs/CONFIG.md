@@ -327,14 +327,38 @@ search:
 
 #### Algolia 搜索
 
-需安装 `hexo-algolia` 插件。
+需安装 `algoliasearch` SDK：
+
+```bash
+npm install algoliasearch
+```
+
+主题内置索引管理命令：
+
+```bash
+hexo algolia           # 更新索引
+hexo algolia --clean   # 清空后更新索引
+hexo algolia --dry-run # 本地预览索引内容
+```
+
+配置：
 
 ```yaml
 algolia:
   app_id: "YOUR_APP_ID"
   api_key: "YOUR_INDEX_API_KEY"
-  search_key: ""
+  search_key: ""        # 搜索专用 Key，留空用 api_key
   index_name: ""
+  fields:               # 索引字段
+    - title
+    - slug
+    - excerpt
+    - permalink
+    - date
+    - updated
+    - tags
+    - categories
+    - layout
   hit:
     per_page: 10
     empty: "找不到内容"
