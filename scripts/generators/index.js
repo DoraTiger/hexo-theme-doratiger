@@ -15,3 +15,4 @@ hexo.extend.generator.register("index", require("./lib/index"));
 hexo.extend.generator.register("doratiger_robots", require("./lib/robots"));
 hexo.extend.generator.register("doratiger_terms", require("./lib/terms"));
 hexo.extend.generator.register("doratiger_privacy", require("./lib/privacy"));
+hexo.extend.generator.register("doratiger_sitemap", require("./lib/sitemap"));
