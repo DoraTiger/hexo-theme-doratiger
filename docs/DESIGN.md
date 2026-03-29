@@ -28,7 +28,103 @@
 
 ---
 
-## 2. CSS 颜色体系
+## 2. CSS-HTML 结构对齐原则 🎯
+
+### 核心理念
+
+**Stylus CSS 类名嵌套结构与 Pug HTML 元素的类名层级保持一致，确保代码可读性和可维护性。**
+
+**重要限制**：此原则只适用于 **纯 class 体系**。包含 ID 选择器的模块需要特殊处理。
+
+### 选择器类型限制
+
+| 情况 | 处理方式 | 示例 |
+|------|--------|------|
+| **纯 class 体系** | ✅ 完全对齐（递归嵌套） | `.post-item { &-header { &-title } }` → `.post-item-header-title` |
+| **ID 选择器体系** | ⚠️ 逐个定义（不用递归） | `#header-left { }`, `#header-right { }` 分开写 |
+| **混合 ID+class** | ⚠️ 保持原状 | `#footer-right { }` 下的 `.footer-right-separator` 单独定义 |
+| **第三方生成的 HTML** | ⚠️ 不强行改变 | Hexo 插件生成的结构应保持现状 |
+
+### 对齐规则详解
+
+#### 规则 1：仅对 class 使用递归嵌套
+
+**✅ 正确**（Pug class → Stylus `&-`）：
+```stylus
+.post-item {
+  &-header { &-title { } }      // → .post-item-header-title
+  &-copyright { &-info { } }    // → .post-item-copyright-info
+}
+```
+
+**❌ 错误**（ID 递归生成错误的选择器）：
+```stylus
+#archive {
+  &-title { }                   // ❌ 编译成 #archive-title（ID），但 HTML 是 .archive-title（class）
+}
+```
+
+#### 规则 2：ID 选择器保持扁平化
+
+**✅ 正确**（分别定义）：
+```stylus
+#header-left { }
+#header-left-menu-icon { }     // 如果需要嵌套，用自定义选择器
+#header-right { }
+```
+
+**或保持嵌套但加前缀**：
+```stylus
+#header-left {
+  &#-menu-icon { }             // 这样仍然生成 #header-left-menu-icon
+  &#-menu-list { }             // 仍然生成 #header-left-menu-list
+}
+```
+
+#### 规则 3：混合体系中class需特殊处理
+
+**✅ 正确**（ID 顶层，class 子元素）：
+```stylus
+#footer-right {
+  .footer-right-separator { }  // 不用 &-，直接用类名
+  .footer-right-statistics { }
+}
+```
+
+### 对齐检查清单
+
+修改 CSS 或 HTML 时，按以下顺序检查：
+
+1. **确定选择器类型**
+   - [ ] 该组件在 Pug 中用的是 `.class-name` 还是 `#id-name`？
+   
+2. **应用对齐规则**
+   - [ ] 如果是 class，所有子元素也必须是 class，使用 `&-` 嵌套
+   - [ ] 如果是 ID，子元素要么也是 ID（扁平定义），要么是独立的 class（不用嵌套）
+   
+3. **验证编译结果**
+   - [ ] 检查 `.css` 输出，确保生成的选择器与 HTML 中的 `class=""` 或 `id=""` 相匹配
+   
+4. **测试页面**
+   - [ ] 在浏览器中验证样式是否正常应用
+
+### 现状模块分类
+
+| 模块 | 选择器类型 | 对齐状态 | 说明 |
+|------|-----------|--------|------|
+| post | class | ✅ 完全对齐 | 纯 class 体系，递归嵌套正确 |
+| header | ID | ⚠️ 部分对齐 | ID 顶层正确，子元素需验证 |
+| footer | 混合 | ⚠️ 保持原状 | ID 顶层 + class 子组件，无需改 |
+| sidebar | class | ⚠️ 部分对齐 | 存在一些手写的扁平选择器 |
+| archive | 混合 | ❌ 不一致 | Pug 用 class（`.archive-title`），Stylus 用 ID（`#archive-title`） |
+| tags | 混合 | ❌ 不一致 | Pug 用 class（`.tags-title`），Stylus 用 ID（`#tags-title`） |
+| categories | 混合 | ❌ 不一致 | Pug 用 class（`.categories-title`），Stylus 用 ID（`#categories-title`） |
+
+**重要说明**：archive、tags、categories 的不一致是由于 Hexo 插件生成的 HTML 结构使用 class，但 Stylus 中也定义了 ID 版本（可能出于兼容性）。**不应强行改变这些，应保持现状以兼容 Hexo 插件逻辑。**
+
+---
+
+## 3. CSS 颜色体系
 
 ### 核心机制：Stylus 编译时变量
 

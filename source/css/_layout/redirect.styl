@@ -1,12 +1,12 @@
 // 重定向页面样式
-#redirect
+.redirect
   display flex
   justify-content center
   align-items center
   min-height calc(100vh - 6rem)
   padding 2rem
 
-  .redirect-content
+  &-content
     max-width 600px
     width 100%
     padding 2.5rem
@@ -14,7 +14,7 @@
     border 1px solid $color-border
     background $color-content-background
 
-    .redirect-content-tips
+    &-tips
       display flex
       align-items center
       gap 0.75rem
@@ -30,7 +30,7 @@
         content "⚠"
         font-size 1.5rem
 
-    .redirect-content-url
+    &-url
       margin-bottom 2rem
       font-size 0.95rem
       line-height 1.6
@@ -47,21 +47,21 @@
         color $color-sub-theme
         font-size 0.85rem
 
-    .redirect-button
-      width 100%
-      padding 0.75rem
-      border none
-      border-radius 8px
-      background $color-theme
-      color white
-      font-size 1rem
-      font-weight 500
-      cursor pointer
-      transition all 0.2s
+  &-button
+    width 100%
+    padding 0.75rem
+    border none
+    border-radius 8px
+    background $color-theme
+    color white
+    font-size 1rem
+    font-weight 500
+    cursor pointer
+    transition all 0.2s
 
-      &:hover
-        opacity 0.85
-        transform translateY(-1px)
+    &:hover
+      opacity 0.85
+      transform translateY(-1px)
 
 // 外部链接标记
 a.external-link

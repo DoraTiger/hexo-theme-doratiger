@@ -5,13 +5,13 @@
     escape: false,
     mid_size: 1
   }
-#pagination
+#pagination.pagination-wrap
   if(!is_post())
     .pagination
       !=paginator(options)
   else
-    .post-pagination
-      .prev-post.pull-left
+    .pagination-wrap-post
+      .pagination-wrap-post-prev.pull-left
         span(class="line line-top")
         span(class="line line-right")
         span(class="line line-bottom")
@@ -21,7 +21,7 @@
           a(href=url_for(page.prev.path))
             span=page.prev.title
 
-      .next-post.pull-right
+      .pagination-wrap-post-next.pull-right
         span(class="line line-top")
         span(class="line line-right")
         span(class="line line-bottom")
