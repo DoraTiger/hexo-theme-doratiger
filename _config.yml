@@ -34,6 +34,7 @@ global:
 # --------------------------------------------------
 sidebar:
   # 侧边栏展示用户信息
+  # Sidebar user profile display
   info:
     # 是否开启用户信息
     # Whether to enable user information
@@ -90,9 +91,10 @@ sidebar:
     item:
       - { text: "DoraTiger", url: "https://www.superheaoz.top" }
 
+
 # --------------------------------------------------
-# 页头功能配置
-# Header Function Configuration
+# 导航栏功能配置
+# Navigation Function Configuration
 # --------------------------------------------------
 header:
   # 导航栏菜单，key 用来关联 languages/*.yml，显示顺序按照配置顺序
@@ -168,181 +170,6 @@ footer:
       # 公安部备案图标
       # MPS record icon
       icon: "/images/police_beian.png"
-
-# --------------------------------------------------
-# 搜索功能配置
-# Search Function Configuration
-# --------------------------------------------------
-search:
-  # 是否开启搜索
-  # Whether to enable search
-  enable: false
-
-  # 搜索系统
-  # Search system
-  type: "algolia"
-
-  # algolia 搜索配置
-  # Algolia search configuration
-  algolia:
-    # Algolia hits 配置
-    # Algolia hits config
-    hit:
-      # 搜索结果显示数量
-      # Number of search results displayed
-      per_page: 10
-
-      # 搜索结果空提示
-      # Search result empty prompt
-      empty: "找不到您查询的内容"
-
-      # 搜索提示
-      # Search prompt
-      placeholder: "搜索文章"
-
-    # Algolia 应用 ID
-    # Algolia App ID
-    app_id: ""
-
-    # Algolia 索引 API 密钥，用于索引更新
-    # Algolia index API Key, used for index update
-    api_key: ""
-
-    # Algolia 搜索 API 密钥，用于网页搜索
-    # Algolia Search API Key, used for web search
-    # empty for use api_key
-    search_key: ""
-
-    # Algolia 索引名称
-    # Algolia Index Name
-    index_name: ""
-
-    # Algolia 索引字段
-    # Algolia Index Field
-    fields:
-      - title
-      - slug
-      - excerpt
-      - permalink
-      - date
-      - updated
-      - tags
-      - categories
-      - layout
-
-  # 本地搜索配置
-  # Local search configuration
-  local:
-    # 搜索结果显示数量
-    # Number of search results displayed
-    hits:
-      per_page: 10
-
-    # 索引文件路径
-    # Index file path
-    path:
-      - search.json
-
-    # 搜索范围
-    # Search field
-    field:
-      - post
-      - page
-
-    # 搜索范围合并策略
-    # Search field merge strategy: merge | replace
-    # merge: 按 Hexo deepMerge 规则合并（可能保留默认尾项）
-    # replace: 以用户配置为准覆盖默认数组
-    field_merge_strategy: "merge"
-
-    # 是否搜索正文
-    # Whether to search the content
-    content: false
-
-    # 正文索引长度上限（仅 content=true 时生效）
-    # Max indexed content length (works only when content=true)
-    content_max_length: 5000
-
-    # 搜索框提示
-    # Search input placeholder
-    hit:
-      placeholder: "搜索文章"
-      empty: "找不到您查询的内容"
-
-# --------------------------------------------------
-# 统计功能配置
-# Statistics Function Configuration
-# --------------------------------------------------
-statistics:
-  # 是否开启 PV 统计
-  # Whether to enable PV statistics
-  enable: false
-
-  # 统计系统
-  # Statistics system: busuanzi | counter
-  # busuanzi: 第三方服务（可能不稳定）
-  # counter: 自建统计（轻量级，支持 API 或 localStorage）
-  type: "counter"
-
-  # busuanzi 配置
-  # Busuanzi configuration
-  # See: https://busuanzi.ibruce.info/
-  busuanzi:
-    # 是否开启 PV 统计
-    # Whether to enable PV statistics
-    pv: true
-
-    # 是否开启 UV 统计
-    # Whether to enable UV statistics
-    uv: true
-
-  # 自建 counter 配置
-  # Self-hosted counter configuration
-  counter:
-    # Counter API 地址（留空使用 localStorage 方案）
-    # Counter API URL (empty = use localStorage)
-    # API 接口格式: GET /count?page=<path> 返回 { site: number, page: number }
-    api: ""
-
-    # 是否开启 UV 统计
-    # Whether to enable UV statistics
-    uv: true
-
-# --------------------------------------------------
-# 评论功能配置
-# Comment Function Configuration
-# --------------------------------------------------
-comment:
-  # 是否开启评论
-  # Whether to enable comment
-  enable: false
-
-  # 评论系统
-  # Comment system
-  type: "twikoo"
-
-  # gitment 配置
-  # Gitment configuration
-  # See: https://github.com/imsun/gitment
-  gitment:
-    owner: ""
-    repo: ""
-    client_id: ""
-    client_secret: ""
-
-  # valine 配置
-  # Valine configuration
-  # See: https://github.com/xCss/Valine
-  valine:
-    appId: ""
-    appKey: ""
-    placeholder: ""
-
-  # twikoo 配置
-  # Twikoo configuration
-  # See: https://github.com/twikoojs/twikoo
-  twikoo:
-    envId: ""
 
 # --------------------------------------------------
 # 首页配置
@@ -447,6 +274,51 @@ post:
     email: ""
 
 # --------------------------------------------------
+# 文章扩展功能
+# Post Extended Features
+# --------------------------------------------------
+
+post_extend:
+  # 预计阅读时间
+  # Estimated reading time
+  reading_time:
+    # 是否开启预计阅读时间
+    # Whether to enable estimated reading time
+    enable: true
+
+    # 每分钟阅读字数
+    # Words per minute
+    wpm: 300
+
+  # 文章二维码（手机扫码阅读）
+  # Article QR code
+  qrcode:
+    enable: true
+    # 二维码大小
+    size: 120
+    # 提示文案
+    tip: "手机扫码阅读"
+
+  # 打赏/赞助按钮
+  # Sponsor / Tip button
+  sponsor:
+    # 是否开启打赏/赞助功能
+    # Whether to enable sponsor/tip function
+    enable: false
+
+    # 提示文案
+    # Prompt text
+    tip: "如果觉得有帮助，可以请作者喝杯咖啡 ☕"
+    
+    # 支付宝二维码图片路径（请替换为你自己的收款码）
+    # Alipay QR code image path (please replace with your own payment code)
+    alipay: "/images/alipay.jpg"
+    
+    # 微信二维码图片路径（请替换为你自己的收款码）
+    # WeChat QR code image path (please replace with your own payment code)
+    wechat: "/images/wechat.jpg"
+
+# --------------------------------------------------
 # 归档页配置
 # Archive Page Configuration
 # --------------------------------------------------
@@ -471,19 +343,6 @@ tag:
   enable: true
 
 # --------------------------------------------------
-# 404 页配置
-# 404 Page Configuration
-# --------------------------------------------------
-page404:
-  # 是否开启 404 页
-  # Whether to enable the 404 page
-  enable: true
-
-  # 重定向延迟时间（毫秒）
-  # Redirect delay time (milliseconds)
-  redirect_delay: 5000
-
-# --------------------------------------------------
 # 关于页配置
 # about Page Configuration
 # --------------------------------------------------
@@ -491,6 +350,44 @@ about:
   # 是否开启关于页
   # Whether to enable the about page
   enable: true
+
+# --------------------------------------------------
+# 服务条款页面
+# Terms of Service Page
+# --------------------------------------------------
+terms:
+  # 是否开启
+  # Whether to enable
+  enable: true
+
+  # 标题
+  # Title
+  title: 服务条款
+
+  # 知识产权声明（为空则自动使用 copyright 配置）
+  # License statement (empty = auto use copyright config)
+  license: ""
+
+  # 额外条款内容（支持 HTML）
+  # Additional terms content (HTML supported)
+  extra_content: ""
+
+# --------------------------------------------------
+# 隐私政策页面
+# Privacy Policy Page
+# --------------------------------------------------
+privacy:
+  # 是否开启
+  # Whether to enable
+  enable: true
+
+  # 标题
+  # Title
+  title: 隐私政策
+
+  # 额外内容（支持 HTML）
+  # Additional content (HTML supported)
+  extra_content: ""
 
 # --------------------------------------------------
 # 重定向页配置
@@ -517,6 +414,19 @@ redirect:
   # 排除页面
   # Exclude pages
   exclude:
+
+# --------------------------------------------------
+# 404 页配置
+# 404 Page Configuration
+# --------------------------------------------------
+page404:
+  # 是否开启 404 页
+  # Whether to enable the 404 page
+  enable: true
+
+  # 重定向延迟时间（毫秒）
+  # Redirect delay time (milliseconds)
+  redirect_delay: 5000
 
 # --------------------------------------------------
 # 主题样式配置
@@ -589,8 +499,6 @@ style:
       height: "3rem"
       border_top: "1px solid rgba(128, 128, 128, 0.8)"
 
-  # 动画效果配置
-  # Animation Configuration
 # --------------------------------------------------
 # 全局资源配置
 # Global Resource Configuration
@@ -792,84 +700,6 @@ thirdparty:
         - "https://www.unpkg.com/mathjax@3.2.2/es5/tex-mml-chtml.js"
 
 # --------------------------------------------------
-# 主题生成页面配置
-# Theme Generated Pages Configuration
-# --------------------------------------------------
-
-# robots.txt 配置
-# Robots.txt Configuration
-robots:
-  # 是否开启
-  # Whether to enable
-  enable: true
-
-  # 额外禁止路径（除默认的 /admin/ /api/ /tmp/ 外）
-  # Additional disallow paths
-  disallow:
-    - /admin/
-    - /api/
-    - /tmp/
-
-# 服务条款页面
-# Terms of Service Page
-terms:
-  # 是否开启
-  # Whether to enable
-  enable: true
-
-  # 标题
-  # Title
-  title: 服务条款
-
-  # 知识产权声明（为空则自动使用 copyright 配置）
-  # License statement (empty = auto use copyright config)
-  license: ""
-
-  # 额外条款内容（支持 HTML）
-  # Additional terms content (HTML supported)
-  extra_content: ""
-
-# 隐私政策页面
-# Privacy Policy Page
-privacy:
-  # 是否开启
-  # Whether to enable
-  enable: true
-
-  # 标题
-  # Title
-  title: 隐私政策
-
-  # 额外内容（支持 HTML）
-  # Additional content (HTML supported)
-  extra_content: ""
-
-# sitemap.xml 配置
-# Sitemap Configuration
-sitemap:
-  # 是否开启
-  # Whether to enable
-  enable: true
-
-  # 输出格式：xml | txt | both
-  # Output format: xml | txt | both
-  format: "both"
-
-  # 默认更新频率
-  # Default change frequency: always | hourly | daily | weekly | monthly | yearly | never
-  changefreq: "weekly"
-
-  # 各类型页面优先级（0.0 - 1.0）
-  # Priority for each page type
-  priority:
-    home: 1.0
-    post: 0.8
-    page: 0.6
-    category: 0.5
-    tag: 0.5
-    archive: 0.4
-
-# --------------------------------------------------
 # 文章加密配置（基于 hexo-blog-encrypt）
 # Article Encryption Configuration
 # --------------------------------------------------
@@ -905,35 +735,221 @@ encrypt:
     #   password: "your-password"
 
 # --------------------------------------------------
-# 文章扩展功能
-# Post Extended Features
+# 搜索功能配置
+# Search Function Configuration
 # --------------------------------------------------
+search:
+  # 是否开启搜索
+  # Whether to enable search
+  enable: false
 
-post_extend:
-  # 预计阅读时间
-  # Estimated reading time
-  reading_time:
-    enable: true
-    # 每分钟阅读字数
-    # Words per minute
-    wpm: 300
+  # 搜索系统
+  # Search system
+  type: "algolia"
 
-  # 文章二维码（手机扫码阅读）
-  # Article QR code
-  qrcode:
-    enable: true
-    # 二维码大小
-    size: 120
-    # 提示文案
-    tip: "手机扫码阅读"
+  # algolia 搜索配置
+  # Algolia search configuration
+  algolia:
+    # Algolia hits 配置
+    # Algolia hits config
+    hit:
+      # 搜索结果显示数量
+      # Number of search results displayed
+      per_page: 10
 
-  # 打赏/赞助按钮
-  # Sponsor / Tip button
-  sponsor:
-    enable: false
-    # 提示文案
-    tip: "如果觉得有帮助，可以请作者喝杯咖啡 ☕"
-    # 支付宝二维码图片路径（请替换为你自己的收款码）
-    alipay: "/images/alipay.jpg"
-    # 微信二维码图片路径（请替换为你自己的收款码）
-    wechat: "/images/wechat.jpg"
+      # 搜索结果空提示
+      # Search result empty prompt
+      empty: "找不到您查询的内容"
+
+      # 搜索提示
+      # Search prompt
+      placeholder: "搜索文章"
+
+    # Algolia 应用 ID
+    # Algolia App ID
+    app_id: ""
+
+    # Algolia 索引 API 密钥，用于索引更新
+    # Algolia index API Key, used for index update
+    api_key: ""
+
+    # Algolia 搜索 API 密钥，用于网页搜索
+    # Algolia Search API Key, used for web search
+    # empty for use api_key
+    search_key: ""
+
+    # Algolia 索引名称
+    # Algolia Index Name
+    index_name: ""
+
+    # Algolia 索引字段
+    # Algolia Index Field
+    fields:
+      - title
+      - slug
+      - excerpt
+      - permalink
+      - date
+      - updated
+      - tags
+      - categories
+      - layout
+
+  # 本地搜索配置
+  # Local search configuration
+  local:
+    # 搜索结果显示数量
+    # Number of search results displayed
+    hits:
+      per_page: 10
+
+    # 索引文件路径
+    # Index file path
+    path:
+      - search.json
+
+    # 搜索范围
+    # Search field
+    field:
+      - post
+      - page
+
+    # 搜索范围合并策略
+    # Search field merge strategy: merge | replace
+    # merge: 按 Hexo deepMerge 规则合并（可能保留默认尾项）
+    # replace: 以用户配置为准覆盖默认数组
+    field_merge_strategy: "merge"
+
+    # 是否搜索正文
+    # Whether to search the content
+    content: false
+
+    # 正文索引长度上限（仅 content=true 时生效）
+    # Max indexed content length (works only when content=true)
+    content_max_length: 5000
+
+    # 搜索框提示
+    # Search input placeholder
+    hit:
+      placeholder: "搜索文章"
+      empty: "找不到您查询的内容"
+
+# --------------------------------------------------
+# 统计功能配置
+# Statistics Function Configuration
+# --------------------------------------------------
+statistics:
+  # 是否开启 PV 统计
+  # Whether to enable PV statistics
+  enable: false
+
+  # 统计系统
+  # Statistics system: busuanzi | counter
+  # busuanzi: 第三方服务（可能不稳定）
+  # busuanzi: third-party service (may be unstable)
+  # counter: 自建统计（轻量级，支持 API 或 localStorage）
+  # counter: self-hosted statistics (lightweight, API/localStorage)
+  type: "counter"
+
+  # busuanzi 配置
+  # Busuanzi configuration
+  # See: https://busuanzi.ibruce.info/
+  busuanzi:
+    # 是否开启 PV 统计
+    # Whether to enable PV statistics
+    pv: true
+
+    # 是否开启 UV 统计
+    # Whether to enable UV statistics
+    uv: true
+
+  # 自建 counter 配置
+  # Self-hosted counter configuration
+  counter:
+    # Counter API 地址（留空使用 localStorage 方案）
+    # Counter API URL (empty = use localStorage)
+    # API 接口格式: GET /count?page=<path> 返回 { site: number, page: number }
+    api: ""
+
+    # 是否开启 UV 统计
+    # Whether to enable UV statistics
+    uv: true
+
+# --------------------------------------------------
+# 评论功能配置
+# Comment Function Configuration
+# --------------------------------------------------
+comment:
+  # 是否开启评论
+  # Whether to enable comment
+  enable: false
+
+  # 评论系统
+  # Comment system
+  type: "twikoo"
+
+  # gitment 配置
+  # Gitment configuration
+  # See: https://github.com/imsun/gitment
+  gitment:
+    owner: ""
+    repo: ""
+    client_id: ""
+    client_secret: ""
+
+  # valine 配置
+  # Valine configuration
+  # See: https://github.com/xCss/Valine
+  valine:
+    appId: ""
+    appKey: ""
+    placeholder: ""
+
+  # twikoo 配置
+  # Twikoo configuration
+  # See: https://github.com/twikoojs/twikoo
+  twikoo:
+    envId: ""
+
+# --------------------------------------------------
+# robots.txt 配置
+# Robots.txt Configuration
+# --------------------------------------------------
+robots:
+  # 是否开启
+  # Whether to enable
+  enable: true
+
+  # 额外禁止路径（除默认的 /admin/ /api/ /tmp/ 外）
+  # Additional disallow paths
+  disallow:
+    - /admin/
+    - /api/
+    - /tmp/
+
+# --------------------------------------------------
+# sitemap.xml 配置
+# Sitemap Configuration
+# --------------------------------------------------
+sitemap:
+  # 是否开启
+  # Whether to enable
+  enable: true
+
+  # 输出格式：xml | txt | both
+  # Output format: xml | txt | both
+  format: "both"
+
+  # 默认更新频率
+  # Default change frequency: always | hourly | daily | weekly | monthly | yearly | never
+  changefreq: "weekly"
+
+  # 各类型页面优先级（0.0 - 1.0）
+  # Priority for each page type
+  priority:
+    home: 1.0
+    post: 0.8
+    page: 0.6
+    category: 0.5
+    tag: 0.5
+    archive: 0.4
