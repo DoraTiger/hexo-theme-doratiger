@@ -169,9 +169,9 @@ $color-border = theme-config('style.color.border', 'rgba(128, 128, 128, 0.8)');
 6. highlight/*     — 代码高亮
 ```
 
-### 新文件的 CSS 变量使用
+### CSS 变量使用现状
 
-`redirect.styl`、`404.styl`、`encrypt.styl` 等较新的文件使用了 `var(--theme-color)` 等 CSS 变量，但这些变量**从未在任何地方定义**。这些引用会 fallback 到浏览器默认值（initial），可能导致这些页面在某些浏览器上样式异常。
+主题样式已统一为 Stylus 编译时变量（`$color-*`），当前 `source/css/` 下未使用 `var(--*)` 形式的 CSS 自定义变量，避免了运行时变量未定义带来的样式漂移问题。
 
 ---
 
@@ -180,7 +180,7 @@ $color-border = theme-config('style.color.border', 'rgba(128, 128, 128, 0.8)');
 ### 入口：main.js（ES Module）
 
 ```javascript
-import Background from "./layout/backgroud.js";
+import Background from "./layout/background.js";
 import ScrollHandler from "./utils/scroll.js";
 import { initClock, ... } from "./layout/header.js";
 import { initToggleSidebar, ... } from "./layout/sidebar.js";
@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 | 文件 | 导出类型 | 导出内容 |
 |------|---------|---------|
-| `backgroud.js` | `export default` | `Background` 类 |
+| `background.js` | `export default` | `Background` 类 |
 | `scroll.js` | `export default` | `ScrollHandler` 类 |
 | `header.js` | `export { named }` | 4 个函数 |
 | `sidebar.js` | `export { named }` | 2 个函数 |
@@ -313,12 +313,11 @@ theme.sitemap.*         → Sitemap 配置
 
 ## 7. 关键约束（修改时必须遵守）
 
-1. **不修改现有 CSS 文件** — 只新增文件
-2. **不修改 JS 模块导出** — `export default` 和 `export { named }` 不能变
-3. **不修改 `_layout.pug` 的 script 加载顺序** — main.js 必须在 body 最后
-4. **Stylus 变量不能被 CSS 变量覆盖** — 因为 Stylus 变量是编译时固定的
-5. **`main.styl` 的 `@import` 顺序不能变** — 影响 CSS 优先级
-6. **`button-hover-effect()` mixin 使用 `$color-button-background`** — 这是编译时固定的
+1. **模板与样式命名必须对齐**：Pug 的 class/id 变更需同步到 Stylus 与 JS 选择器。
+2. **JS 模块导出风格保持稳定**：默认导出与具名导出不要随意变更，避免入口调用失配。
+3. **入口初始化顺序应保持可预期**：`main.js` 中初始化函数尽量保持“布局 -> 交互 -> 功能”顺序。
+4. **样式优先使用 Stylus 编译时变量**：统一使用 `$color-*`，避免引入未定义的运行时 CSS 变量。
+5. **修改构建期过滤器后建议全量重建**：执行 `npx hexo clean && npx hexo generate`，防止 db 缓存导致产物未更新。
 
 ---
 
@@ -352,7 +351,7 @@ class Background {
 export default Background;
 
 // 使用
-import Background from "./layout/backgroud.js";
+import Background from "./layout/background.js";
 new Background();
 ```
 

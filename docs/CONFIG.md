@@ -118,6 +118,33 @@ post:
     email: ""
 ```
 
+#### 代码复制（post.highlight.copy）
+
+```yaml
+post:
+  highlight:
+    copy: true
+```
+
+- `copy: true` 时会在代码块右上角显示复制按钮。
+- 运行时优先使用 `navigator.clipboard`，在不支持或受限场景自动回退到 `document.execCommand("copy")`。
+- 复制提示文案来自主题语言包（复制 / 复制成功 / 复制错误）。
+
+#### 文章二维码（post_extend.qrcode）
+
+```yaml
+post_extend:
+  qrcode:
+    enable: true
+    size: 120
+    tip: "手机扫码阅读"
+```
+
+- `enable`：开启文章版权区二维码。
+- `size`：二维码像素尺寸。
+- `tip`：二维码下方提示文案。
+- `position` 已废弃，不再生效。
+
 ### 样式
 
 ```yaml
@@ -440,6 +467,16 @@ comment:
 ---
 
 ## 附录
+
+### 构建缓存说明
+
+当修改 `scripts/filters/*` 这类构建期逻辑（如代码块过滤器）后，建议执行：
+
+```bash
+npx hexo clean && npx hexo generate
+```
+
+避免 Hexo db 缓存导致 `public/` 目录仍保留旧 HTML。
 
 ### Commit Message 规范
 
