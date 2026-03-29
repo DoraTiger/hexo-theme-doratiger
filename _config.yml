@@ -405,14 +405,23 @@ redirect:
   # 重定向内容索引方式
   # Redirect content indexing method
   # include | exclude
+  # include: 仅对 include 列表命中的外链启用重定向
+  # include: only redirect external links matching include list
+  # exclude: 对所有外链启用重定向，但排除 exclude 列表
+  # exclude: redirect all external links except exclude list
   method: "exclude"
 
-  # 包含页面
-  # Include pages
+  # 包含域名列表（method=include 时生效）
+  # Include domain list (effective when method=include)
+  # 示例：
+  # - "github.com"
+  # - "example.org"
   include:
 
-  # 排除页面
-  # Exclude pages
+  # 排除域名列表（method=exclude 时生效）
+  # Exclude domain list (effective when method=exclude)
+  # 示例：
+  # - "your-domain.com"
   exclude:
 
 # --------------------------------------------------

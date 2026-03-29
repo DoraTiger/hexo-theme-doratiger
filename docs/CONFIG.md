@@ -455,11 +455,15 @@
     - `enable`：是否启用外链跳转确认页。
     - `source`：提示页来源文案。
     - `method`：重定向策略（`include` 或 `exclude`）。
-    - `include` / `exclude`：域名名单。
+    - `include`：仅在 `method=include` 时生效，命中列表才重定向。
+    - `exclude`：仅在 `method=exclude` 时生效，命中列表不重定向。
+    - 域名规则支持“精确匹配 + 子域名匹配”，例如配置 `example.com` 可匹配 `www.example.com`。
 
 3. 配置建议
 
-    - 若使用 `exclude`，务必将自己域名加入 `exclude`，避免站内链接被误重定向。
+    - 若使用 `exclude`，建议将常用外部白名单域名放入 `exclude`（如代码托管、文档站）。
+    - 若使用 `include`，请显式填写需要跳转确认的目标域名列表；留空时不会触发重定向。
+    - 站内链接默认不重定向，无需额外加入名单。
 
 ---
 
