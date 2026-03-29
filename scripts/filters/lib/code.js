@@ -26,7 +26,7 @@ module.exports = (hexo, data) => {
             const copyErrorText = hexo.theme.i18n.data[languages]["copy.error"];
 
             const codeTypeSpan = `<span class="code-header-type">${codeType}</span>`;
-            const codeTipsSpan = `<span class="code-header-copy-tips" data0copy="${copyText}"  data-copy-success="${copySuccessText}" data-copy-error="${copyErrorText}"></span>`;
+            const codeTipsSpan = `<span class="code-header-copy-tips" data-copy="${copyText}" data-copy-success="${copySuccessText}" data-copy-error="${copyErrorText}"></span>`;
             const copyButtonSpan = `<span class="code-header-copy-button" ><i class="fa fa-clipboard" aria-hidden="true"></i></span>`;
             const copyDiv = enableCopyCode
                 ? `<div class="code-header-copy">${codeTipsSpan}${copyButtonSpan}</div>`

@@ -1,4 +1,41 @@
-const initCodeCopy= ()=> {
+const copyText = async (text) => {
+    if (navigator.clipboard && window.isSecureContext) {
+        try {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch (error) {
+            console.debug("[codeCopy] clipboard API failed, fallback to execCommand", error);
+        }
+    }
+
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "readonly");
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    textarea.setSelectionRange(0, textarea.value.length);
+
+    let copied = false;
+    try {
+        copied = document.execCommand("copy");
+    } catch (error) {
+        console.debug("[codeCopy] execCommand copy failed", error);
+    }
+
+    document.body.removeChild(textarea);
+    return copied;
+};
+
+const showTip = (copyTips, tip) => {
+    copyTips.textContent = tip;
+    copyTips.classList.add("active");
+};
+
+const initCodeCopy = ()=> {
     const codeBlocks = document.querySelectorAll("pre");
 
     if (!codeBlocks.length) {
@@ -20,31 +57,18 @@ const initCodeCopy= ()=> {
             return;
         }
 
-        if (!navigator.clipboard) {
-            console.debug("[codeCopy] navigator.clipboard unavailable, skip binding");
-            return;
-        }
+        const defaultTip = copyTips.getAttribute("data-copy") || "";
+        const successTip = copyTips.getAttribute("data-copy-success") || defaultTip;
+        const errorTip = copyTips.getAttribute("data-copy-error") || defaultTip;
 
-        const successTip = copyTips.getAttribute("data-copy-success");
-        const errorTip = copyTips.getAttribute("data-copy-error");
+        copyButton.addEventListener("click", async () => {
+            const copied = await copyText(codeContent.textContent || "");
+            showTip(copyTips, copied ? successTip : errorTip);
 
-        copyButton.addEventListener("click", () => {
-            navigator.clipboard
-                .writeText(codeContent.textContent)
-                .then(() => {
-                    copyTips.textContent = successTip;
-                    copyTips.classList.add('active');
-                })
-                .catch(() => {
-                    copyTips.textContent = errorTip;
-                    copyTips.classList.add('active');
-                })
-                .finally(() => {
-                    setTimeout(() => {
-                        copyTips.classList.remove('active');
-                        copyTips.textContent = "";
-                    }, 1000);
-                });
+            setTimeout(() => {
+                copyTips.classList.remove("active");
+                copyTips.textContent = defaultTip;
+            }, 1000);
         });
     });
 };
