@@ -67,8 +67,10 @@ article#post
       if(enableQR)
         -
           let qrSize = theme.post_extend?.qrcode?.size ?? 80
+          let qrTip = theme.post_extend?.qrcode?.tip ?? "手机扫码阅读"
         .post-item-copyright-qrcode
           .post-item-qrcode-img#post-qrcode(data-url=url_for(page.permalink) data-size=qrSize)
+          span.post-item-copyright-qrcode-tip= qrTip
           script.
             (function(){
               var el = document.getElementById('post-qrcode');

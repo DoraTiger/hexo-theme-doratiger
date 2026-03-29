@@ -911,8 +911,6 @@ post_extend:
   # Article QR code
   qrcode:
     enable: true
-    # 二维码位置：bottom（文章底部） | sidebar（侧边栏）
-    position: "bottom"
     # 二维码大小
     size: 120
     # 提示文案
