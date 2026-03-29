@@ -247,10 +247,21 @@ search:
     # Search field
     field:
       - post
+      - page
+
+    # 搜索范围合并策略
+    # Search field merge strategy: merge | replace
+    # merge: 按 Hexo deepMerge 规则合并（可能保留默认尾项）
+    # replace: 以用户配置为准覆盖默认数组
+    field_merge_strategy: "merge"
 
     # 是否搜索正文
     # Whether to search the content
     content: false
+
+    # 正文索引长度上限（仅 content=true 时生效）
+    # Max indexed content length (works only when content=true)
+    content_max_length: 5000
 
     # 搜索框提示
     # Search input placeholder

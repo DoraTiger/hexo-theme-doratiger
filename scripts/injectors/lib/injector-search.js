@@ -10,8 +10,7 @@ module.exports = (hexo) => {
     const search_type = search.type || null;
     let searchScript = null;
 
-
-    if (!search_enable) {
+    if (!search_enable || search_type !== "algolia") {
         return "";
     }
 
@@ -29,12 +28,6 @@ module.exports = (hexo) => {
             },
         });
     }
-    if (search_type == "local") {
-        searchScript = JSON.stringify({
-            localSearch: {},
-        });
-    }
-
     return `
     <script>
         window.searchConfig = ${searchScript};

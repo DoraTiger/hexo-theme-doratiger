@@ -403,12 +403,38 @@ local:
   path:
     - search.json      # 索引文件路径
   field:
-    - post             # 索引范围：post | page
+    - post
+    - page             # 默认同时索引文章和页面
+  field_merge_strategy: "merge"  # merge | replace
   content: false       # 是否索引正文全文
+  content_max_length: 5000  # 正文索引长度上限（content=true 时生效）
   hit:
     placeholder: "搜索文章"
     empty: "找不到内容"
 ```
+
+说明：
+1. `field` 同时包含 `post` 和 `page` 不会默认导致重复；主题会按 URL 去重。
+2. 若站点中存在同 URL 的 post/page（非常规情况），后写入项会被去重逻辑忽略。
+
+#### 主题配置与用户配置合并差异（local 搜索逐项说明）
+
+Hexo 的主题配置默认采用 deepMerge，数组按索引合并，不是整数组替换。下面是 local 搜索相关字段的差异说明。
+
+| 配置项 | 主题默认配置 | 用户配置行为 | 最终合并结果 | 备注 |
+|---|---|---|---|---|
+| `search.local.hits.per_page` | `10` | 标量覆盖 | 以用户值为准 | 常规覆盖 |
+| `search.local.path` | `['search.json']` | 数组合并 | 可能保留默认尾项 | 生成器已兼容 string/array，并归一化路径 |
+| `search.local.field` + `field_merge_strategy=merge` | `['post','page']` | 数组合并 | 可能保留默认 `page` | 当前默认策略 |
+| `search.local.field` + `field_merge_strategy=replace` | `['post','page']` | 读取用户原始配置 | 以用户数组为准 | 用于“严格覆盖”数组 |
+| `search.local.content` | `false` | 标量覆盖 | 以用户值为准 | `true` 时生成 content 字段 |
+| `search.local.content_max_length` | `5000` | 标量覆盖 | 以用户值为准 | 仅 `content=true` 时生效 |
+| `search.local.hit.placeholder` | `搜索文章` | 深层对象覆盖 | 以用户值为准 | 未配置则沿用默认 |
+| `search.local.hit.empty` | `找不到您查询的内容` | 深层对象覆盖 | 以用户值为准 | 未配置则沿用默认 |
+
+推荐：
+1. 希望“用户写什么就只用什么”时，将 `field_merge_strategy` 设为 `replace`。
+2. 希望“保留主题默认项并增量补充”时，使用 `merge`。
 
 **Front-matter 控制：**
 
