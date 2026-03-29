@@ -49,8 +49,8 @@ sidebar:
     avatar:
 
     # 用户简介，覆盖默认配置中的 description
-    # User introduction, override the 'description' in the default configuration
-    intro:
+    # User description, override the 'description' in the default configuration
+    description:
 
   # 用户社交链接
   # User social links
@@ -457,6 +457,10 @@ style:
     # Text default color
     text: "rgba(255, 255, 255, 1)"
 
+    # 全局背景色
+    # Global background color
+    background: "radial-gradient(100% 100% at 70% 120%, rgba(33, 39, 80, 1) 10%, #020409 100%)"
+
     # 侧边栏背景色
     # Sidebar background color
     sidebar_background: "rgba(255, 255, 255, 0.1)"
@@ -468,6 +472,10 @@ style:
     # 按键背景色
     # Button background color
     button_background: "rgba(255, 255, 255, 0.1)"
+
+    # 代码块头部背景色
+    # Code block header background color
+    code_header_background: "rgba(255, 255, 255, 0.1)"
 
     # 代码背景色
     # Code background color
@@ -499,13 +507,30 @@ style:
   # Main Container Configuration
   main:
     header:
+      # 头部高度
+      # Header height
       height: "3rem"
+
+      # 头部底边框
+      # Header bottom border
       border_bottom: "1px solid rgba(128, 128, 128, 0.8)"
+
     content:
+      # 内容区最大宽度
+      # Content max width
       max_width: "1200px"
+
+      # 内容区内边距
+      # Content padding
       padding: "1rem"
+
     footer:
+      # 底部高度
+      # Footer height
       height: "3rem"
+
+      # 底部顶边框
+      # Footer top border
       border_top: "1px solid rgba(128, 128, 128, 0.8)"
 
 # --------------------------------------------------

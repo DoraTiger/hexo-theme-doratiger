@@ -61,7 +61,7 @@
         enable: true
         user: ""
         avatar: ""
-        intro: ""
+        description: ""
       social:
         enable: true
         item:
@@ -507,27 +507,44 @@
         theme: "rgba(230, 119, 0, 1)"
         sub_theme: "rgba(73, 177, 245, 1)"
         text: "rgba(255, 255, 255, 1)"
+                background: "radial-gradient(...)"
+                content_background: "rgba(255, 255, 255, 0.1)"
+                sidebar_background: "rgba(255, 255, 255, 0.1)"
+                button_background: "rgba(255, 255, 255, 0.1)"
+                code_header_background: "rgba(255, 255, 255, 0.1)"
+                code_background: "rgba(255, 255, 255, 0.1)"
+                border: "rgba(128, 128, 128, 0.8)"
+                border_shadow: "rgba(0, 0, 0, 0.5)"
       font:
         size: "16px"
       sidebar:
         width: "300px"
       main:
+                header:
+                    height: "3rem"
+                    border_bottom: "1px solid rgba(128, 128, 128, 0.8)"
         content:
           max_width: "1200px"
           padding: "1rem"
+                footer:
+                    height: "3rem"
+                    border_top: "1px solid rgba(128, 128, 128, 0.8)"
     ```
 
 2. 配置项说明
 
-    - `color`：主题色、辅助色、文字色。
+    - `color`：主题色、背景色、内容区/侧边栏/按钮/代码块配色、边框与阴影等。
     - `font.size`：基础字体大小。
     - `sidebar.width`：侧栏宽度。
+    - `main.header`：头部高度与底边框。
     - `main.content`：主内容区宽度与内边距。
+    - `main.footer`：底部高度与顶边框。
 
 3. 配置建议
 
     - `font.size` 常用区间 `14px-18px`。
     - `main.content.max_width` 建议 `1000px-1280px`。
+    - `border_shadow` 建议使用半透明深色，避免遮挡正文内容。
 
 ---
 
