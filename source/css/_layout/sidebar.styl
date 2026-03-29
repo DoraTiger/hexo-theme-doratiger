@@ -75,27 +75,50 @@
     .toc-item, .toc {
       line-height: 1.5rem;
 
+      .toc-item {
+        margin: 0.45rem 0;
+      }
+
       .toc-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.15rem 0.1rem;
+        letter-spacing: 0.01em;
         transition: $transition-delay;
+
+        &::before {
+          content: unquote("'" + $sidebar-toc-prefix + "'");
+          font-size: 0.72em;
+          letter-spacing: 0.08em;
+          opacity: 0.6;
+        }
 
         &:hover {
           color: $color-theme;
+          padding-left: 0.35rem;
           transition: $transition-delay;
         }
 
         &.active {
           color: $color-theme;
+          font-weight: 600;
+
+          &::before {
+            opacity: 0.95;
+          }
         }
       }
     }
 
     ol, li {
       padding: 0;
+      margin: 0;
       list-style: none; /* 禁用所有列表的标记 */
     }
 
     .toc-child {
-      padding-left: 1rem;
+      padding-left: 1.2rem;
       height: 0;
       overflow: hidden;
       transition: $transition-delay ease;

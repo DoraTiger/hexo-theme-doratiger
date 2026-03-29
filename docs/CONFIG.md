@@ -70,6 +70,7 @@
         enable: true
         number: false
         depth: 3
+                prefix: ">>"
       friendlink:
         enable: true
         item:
@@ -80,12 +81,13 @@
 
     - `info`：站点信息区，留空时回退到 Hexo 全局信息。
     - `social.item`：社交链接列表。
-    - `toc`：文章目录开关、编号与层级深度。
+    - `toc`：文章目录开关、编号、层级深度与前导符号。
     - `friendlink`：友链模块与链接列表。
 
 3. 配置建议
 
     - `toc.depth` 建议 `2-3`，过深会影响移动端阅读。
+    - `toc.prefix` 支持任意短符号，例如 `>>`、`-`、`·`。
     - 社交链接保持 `3-6` 个更利于视觉平衡。
 
 ---

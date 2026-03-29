@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-03-30
+
+### Added
+- 侧边 TOC 前导符号支持配置项 `sidebar.toc.prefix`（默认 `>>`）
+
+### Changed
+- 侧边 TOC 导航视觉优化：增加条目间距、悬停位移、激活态强调与层级缩进
+- TOC 前导符号改为通过 `source/css/_variable/variable.styl` 统一注入
+
+### Fixed
+- 修复 TOC 前导符号不生效问题：`content` 编译值缺少引号导致浏览器忽略
+- 同步补全配置与文档示例（`_config.yml` / `docs/CONFIG.md`）
+
 ## 2026-03-28
 
 ### Added

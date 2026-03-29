@@ -79,6 +79,10 @@ sidebar:
     # TOC depth
     depth: 3
 
+    # 目录前导符号
+    # TOC leading symbol
+    prefix: ">>"
+
   # 侧边栏友链
   # Friendlink in the sidebar
   friendlink:
