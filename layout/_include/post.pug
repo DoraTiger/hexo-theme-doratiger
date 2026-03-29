@@ -39,66 +39,74 @@ article#post
             i.fas.fa-book-open.post-item-header-meta-item-icon(aria-hidden="true")
             span.post-item-header-meta-item-text= wordCount + ' 字 · 约 ' + readMin + ' 分钟'
     .post-item-content!= page.content
-    .post-item-copyright
-      - let enableCopyright = (theme.post.copyright?.enable ?? false)
-      - let copyright_author = page.author ? page.author : config.author
-      - let copyright_email = "mailto:" + (page.email ? page.email : theme.post.copyright?.email ?? "")
-      - let copyright_link = url_for(page.permalink)
-      .post-item-copyright-item
-        span.post-item-copyright-item-meta= __('post.copyright.author')+ ": "
-        span.post-item-copyright-item-text
-          a(href=copyright_email)= copyright_author
-      .post-item-copyright-item
-        span.post-item-copyright-item-meta= __('post.copyright.link')+ ": "
-        span.post-item-copyright-item-text
-          a(href=copyright_link)= decodeURI(page.permalink)
-      if(enableCopyright)
-        - let copyright_license = theme.post.copyright?.license ?? ""
-        - let copyright_license_link = theme.post.copyright?.link ?? ""
-        .post-item-copyright-item
-          span.post-item-copyright-item-meta= _p("post.copyright.copyright_notice")+ ": "
-          span.post-item-copyright-item-text!= __('post.copyright.copyright_content',copyright_license_link,copyright_license,config.url, config.title)
-    .post-item-comment
-      - let enableComment = theme.comment.enable && (page.comments !== false)
-      if(enableComment)
-        #comment-container
+
+    // 版权声明
     -
+      let enableCopyright = (theme.post.copyright?.enable ?? false)
+      let copyright_author = page.author ? page.author : config.author
+      let copyright_email = "mailto:" + (page.email ? page.email : theme.post.copyright?.email ?? "")
+      let copyright_link = url_for(page.permalink)
       let enableQR = theme.post_extend?.qrcode?.enable ?? false
-      let qrPosition = theme.post_extend?.qrcode?.position ?? "bottom"
-      let qrSize = theme.post_extend?.qrcode?.size ?? 120
-      let qrTip = theme.post_extend?.qrcode?.tip ?? "手机扫码阅读"
-    if(enableQR && qrPosition === "bottom")
-      .post-item-qrcode
-        .post-item-qrcode-tip= qrTip
-        .post-item-qrcode-img#post-qrcode(data-url=url_for(page.permalink) data-size=qrSize)
-        script.
-          (function(){
-            var el = document.getElementById('post-qrcode');
-            if (!el) return;
-            var url = el.dataset.url;
-            var size = parseInt(el.dataset.size) || 120;
-            var api = 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + 'x' + size + '&data=' + encodeURIComponent(url);
-            el.innerHTML = '<img src="' + api + '" width="' + size + '" height="' + size + '" alt="QR Code" />';
-          })();
+    .post-item-copyright
+      .post-item-copyright-info
+        .post-item-copyright-item
+          span.post-item-copyright-item-meta= __('post.copyright.author')+ ": "
+          span.post-item-copyright-item-text
+            a(href=copyright_email)= copyright_author
+        .post-item-copyright-item
+          span.post-item-copyright-item-meta= __('post.copyright.link')+ ": "
+          span.post-item-copyright-item-text
+            a(href= copyright_link)= decodeURI(page.permalink)
+        if(enableCopyright)
+          -
+            let copyright_license = theme.post.copyright?.license ?? ""
+            let copyright_license_link = theme.post.copyright?.link ?? ""
+          .post-item-copyright-item
+            span.post-item-copyright-item-meta= _p("post.copyright.copyright_notice")+ ": "
+            span.post-item-copyright-item-text!= __('post.copyright.copyright_content',copyright_license_link,copyright_license,config.url, config.title)
+      if(enableQR)
+        -
+          let qrSize = theme.post_extend?.qrcode?.size ?? 80
+        .post-item-copyright-qrcode
+          .post-item-qrcode-img#post-qrcode(data-url=url_for(page.permalink) data-size=qrSize)
+          script.
+            (function(){
+              var el = document.getElementById('post-qrcode');
+              if (!el) return;
+              var url = el.dataset.url;
+              var size = parseInt(el.dataset.size) || 80;
+              var api = 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + 'x' + size + '&data=' + encodeURIComponent(url);
+              el.innerHTML = '<img src="' + api + '" width="' + size + '" height="' + size + '" alt="QR Code" />';
+            })();
+
+    // 评论
+    -
+      let enableComment = theme.comment.enable && (page.comments !== false)
+    if(enableComment)
+      .post-item-comment
+        #comment-container
+
+    // 赞赏/打赏
     -
       let enableSponsor = theme.post_extend?.sponsor?.enable ?? false
-      let sponsorTip = theme.post_extend?.sponsor?.tip ?? ""
-      let sponsorAlipay = theme.post_extend?.sponsor?.alipay ?? ""
-      let sponsorWechat = theme.post_extend?.sponsor?.wechat ?? ""
     if(enableSponsor)
+      -
+        let sponsorTip = theme.post_extend?.sponsor?.tip ?? ""
+        let sponsorAlipay = theme.post_extend?.sponsor?.alipay ?? ""
+        let sponsorWechat = theme.post_extend?.sponsor?.wechat ?? ""
       .post-item-sponsor
         .post-item-sponsor-btn#sponsor-btn
           i.fas.fa-mug-hot
           span  赞赏
         .post-item-sponsor-panel#sponsor-panel(style="display:none")
-          .post-item-sponsor-tip= sponsorTip
-          .post-item-sponsor-codes
+          .post-item-sponsor-panel-tip= sponsorTip
+          .post-item-sponsor-panel-codes
             if sponsorAlipay
-              .post-item-sponsor-code
+              .post-item-sponsor-panel-codes-code
                 img(src=url_for(sponsorAlipay) alt="支付宝")
                 span 支付宝
             if sponsorWechat
-              .post-item-sponsor-code
+              .post-item-sponsor-panel-codes-code
                 img(src=url_for(sponsorWechat) alt="微信")
                 span 微信
         script.

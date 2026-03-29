@@ -52,6 +52,18 @@
           }
         }
       }
+
+      // 文章置顶标记
+      &-sticky {
+        display: inline-block;
+        margin-right: 0.5rem;
+        padding: 0.1rem 0.5rem;
+        font-size: 0.75rem;
+        color: $color-theme;
+        border: 1px solid $color-theme;
+        border-radius: 4px;
+        opacity: 0.8;
+      }
     }
 
     &-content {
@@ -221,17 +233,23 @@
 
     &-copyright {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1rem;
       margin: 0rem 2rem 1rem 2rem;
-      padding: 1rem 0 1rem 0;
+      padding: 1rem;
       background: $color-content-background;
       border-radius: 4px;
 
+      &-info {
+        flex: 1;
+        min-width: 0;
+      }
+
       &-item {
-        display: inline-block;
-        padding: 0.25rem 0.25rem 0.25rem 0.25rem;
+        display: block;
+        padding: 0.25rem 0;
         align-content: center;
-        margin-right: 0.5rem;
 
         &-meta {
           margin-left: 0.25rem;
@@ -248,6 +266,27 @@
             &:hover {
               color: $color-theme;
             }
+          }
+        }
+      }
+
+      &-qrcode {
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0.5rem 0 0 0;
+        padding: 0.75rem;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid $color-border;
+
+        .post-item-qrcode-img {
+          img {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
           }
         }
       }
@@ -269,94 +308,73 @@
       align-items: center;
       width: 5rem;
     }
+
+    &-sponsor {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 0;
+      margin-top: 1rem;
+      border-top: 1px solid $color-border;
+
+      &-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 20px;
+        background: $color-theme;
+        color: white;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: opacity 0.2s;
+
+        &:hover {
+          opacity: 0.85;
+        }
+      }
+
+      &-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 1rem;
+
+        &-tip {
+          font-size: 0.85rem;
+          color: $color-text;
+          opacity: 0.6;
+          margin-bottom: 1rem;
+        }
+
+        &-codes {
+          display: flex;
+          gap: 1.5rem;
+
+          &-code {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+
+            img {
+              width: 160px;
+              height: 160px;
+              border-radius: 8px;
+              padding: 0.5rem;
+              background: white;
+            }
+
+            span {
+              font-size: 0.8rem;
+              color: $color-text;
+              opacity: 0.6;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
-// 文章置顶标记
-.post-item-header-sticky
-  display inline-block
-  margin-right 0.5rem
-  padding 0.1rem 0.5rem
-  font-size 0.75rem
-  color $color-theme
-  border 1px solid $color-theme
-  border-radius 4px
-  opacity 0.8
-
-// 文章二维码
-.post-item-qrcode
-  display flex
-  flex-direction column
-  align-items center
-  padding 1.5rem 0
-  margin-top 1rem
-  border-top 1px solid $color-border
-
-  .post-item-qrcode-tip
-    font-size 0.8rem
-    color $color-text
-    opacity 0.5
-    margin-bottom 0.75rem
-
-  .post-item-qrcode-img img
-    border-radius 8px
-    padding 0.5rem
-    background: white
-
-// 打赏/赞助按钮
-.post-item-sponsor
-  display flex
-  flex-direction column
-  align-items center
-  padding 1.5rem 0
-  margin-top 1rem
-  border-top 1px solid $color-border
-
-  .post-item-sponsor-btn
-    display inline-flex
-    align-items center
-    gap 0.5rem
-    padding 0.5rem 1.5rem
-    border-radius 20px
-    background $color-theme
-    color white
-    font-size 0.9rem
-    cursor pointer
-    transition opacity 0.2s
-
-    &:hover
-      opacity 0.85
-
-  .post-item-sponsor-panel
-    display flex
-    flex-direction column
-    align-items center
-    margin-top 1rem
-
-    .post-item-sponsor-tip
-      font-size 0.85rem
-      color $color-text
-      opacity 0.6
-      margin-bottom 1rem
-
-    .post-item-sponsor-codes
-      display flex
-      gap 1.5rem
-
-      .post-item-sponsor-code
-        display flex
-        flex-direction column
-        align-items center
-        gap 0.5rem
-
-        img
-          width 160px
-          height 160px
-          border-radius 8px
-          padding 0.5rem
-          background: white
-
-        span
-          font-size 0.8rem
-          color $color-text
-          opacity 0.6
+// 注记：所有样式已整合到 #post 块内使用原生嵌套方式
