@@ -228,6 +228,4 @@ theme.sitemap.*         → Sitemap 配置
 
 ## 8. 已知问题
 
-- `redirect.styl`、`404.styl`、`encrypt.styl` 使用了未定义的 CSS 变量（`var(--theme-color)` 等）
-- 搜索框 `search.styl` 有硬编码白色背景
-- 归档页有硬编码 `background: white`
+- 无

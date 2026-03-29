@@ -278,8 +278,8 @@
   margin-right 0.5rem
   padding 0.1rem 0.5rem
   font-size 0.75rem
-  color var(--theme-color)
-  border 1px solid var(--theme-color)
+  color $color-theme
+  border 1px solid $color-theme
   border-radius 4px
   opacity 0.8
 
@@ -290,18 +290,18 @@
   align-items center
   padding 1.5rem 0
   margin-top 1rem
-  border-top 1px solid var(--border-color)
+  border-top 1px solid $color-border
 
   .post-item-qrcode-tip
     font-size 0.8rem
-    color var(--text-color)
+    color $color-text
     opacity 0.5
     margin-bottom 0.75rem
 
   .post-item-qrcode-img img
     border-radius 8px
     padding 0.5rem
-    background white
+    background: white
 
 // 打赏/赞助按钮
 .post-item-sponsor
@@ -310,7 +310,7 @@
   align-items center
   padding 1.5rem 0
   margin-top 1rem
-  border-top 1px solid var(--border-color)
+  border-top 1px solid $color-border
 
   .post-item-sponsor-btn
     display inline-flex
@@ -318,7 +318,7 @@
     gap 0.5rem
     padding 0.5rem 1.5rem
     border-radius 20px
-    background var(--theme-color)
+    background $color-theme
     color white
     font-size 0.9rem
     cursor pointer
@@ -335,7 +335,7 @@
 
     .post-item-sponsor-tip
       font-size 0.85rem
-      color var(--text-color)
+      color $color-text
       opacity 0.6
       margin-bottom 1rem
 
@@ -354,9 +354,9 @@
           height 160px
           border-radius 8px
           padding 0.5rem
-          background white
+          background: white
 
         span
           font-size 0.8rem
-          color var(--text-color)
+          color $color-text
           opacity 0.6
