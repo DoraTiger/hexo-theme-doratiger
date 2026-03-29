@@ -2,6 +2,27 @@
 
 > 所有配置均在 `_config.hexo-theme-doratiger.yml` 中修改，不要直接改主题源码。
 
+## 配置初始化（themeinit）
+
+首次接入主题后，建议先执行：
+
+```bash
+hexo themeinit
+```
+
+该命令会自动生成主题配置文件到博客根目录：`_config.hexo-theme-doratiger.yml`。
+
+如果你需要兼容旧版方式（`source/_data/doratiger_config.yml`），可执行：
+
+```bash
+hexo themeinit --legacy
+```
+
+命令参数：
+
+- `--force`：目标文件已存在时强制覆盖。
+- `--legacy`：额外生成旧版兼容配置路径。
+
 ---
 
 ## 第一部分：主题基本功能

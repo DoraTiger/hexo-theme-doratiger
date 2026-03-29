@@ -42,10 +42,18 @@ theme: hexo-theme-doratiger
 language: en
 ```
 
-Copy the theme config to your Hexo root:
+Run theme initialization to generate config automatically:
 
 ```bash
-cp ./themes/hexo-theme-doratiger/_config.yml ./_config.hexo-theme-doratiger.yml
+hexo themeinit
+```
+
+By default, it generates `_config.hexo-theme-doratiger.yml` in your site root.
+
+If you also need legacy-compatible config (`source/_data/doratiger_config.yml`), run:
+
+```bash
+hexo themeinit --legacy
 ```
 
 #### 5. Create About Page

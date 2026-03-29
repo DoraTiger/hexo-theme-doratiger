@@ -44,10 +44,18 @@ theme: hexo-theme-doratiger # 指定主题
 language: zh-CN # 指定语言
 ```
 
-将主题目录的 `_config.yml` 配置文件，复制到博客根目录中，并重命名为 `_config.hexo-theme-doratiger.yml`。
+执行主题初始化命令，自动生成主题配置文件：
 
 ```bash
-cp ./themes/hexo-theme-doratiger/_config.yaml ./_config.hexo-theme-doratiger.yaml
+hexo themeinit
+```
+
+默认会生成博客根目录配置文件 `_config.hexo-theme-doratiger.yml`。
+
+如需同时生成旧版兼容配置（`source/_data/doratiger_config.yml`），可使用：
+
+```bash
+hexo themeinit --legacy
 ```
 
 #### 5. 创建「关于页」
