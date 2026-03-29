@@ -4,6 +4,11 @@ const autoResizeFooterRight = () => {
     const footerCenter = document.querySelector("#footer-center");
     const footerRight = document.querySelector("#footer-right");
 
+    if (!footerWrapper || !footerLeft || !footerCenter || !footerRight) {
+        console.debug("[footer] skip autoResizeFooterRight: required element missing");
+        return;
+    }
+
     // 配置自适应收缩对象
     const elements = [
         { selector: "#footer-right-statistics", width: 0 },

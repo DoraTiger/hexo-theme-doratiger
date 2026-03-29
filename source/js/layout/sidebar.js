@@ -5,6 +5,14 @@ const initToggleSidebar = (
     const sidebarContainer = document.querySelector(sidebar_selector);
     const toggleButton = document.querySelector(button_selector);
 
+    if (!sidebarContainer || !toggleButton) {
+        console.debug("[sidebar] skip initToggleSidebar: required element missing", {
+            sidebar_selector,
+            button_selector,
+        });
+        return;
+    }
+
     let isSidebarVisible = true;
 
     function toggleSidebar() {
@@ -38,6 +46,11 @@ const initSidebarSwitch = () => {
 
     const switchButton = document.querySelector(".sidebar-menu-item");
 
+    if (!sidebarInfo || !sidebarToc || !switchButton) {
+        console.debug("[sidebar] skip initSidebarSwitch: required element missing");
+        return;
+    }
+
     function toggleSidebarSwitch() {
         if (sidebarInfo.classList.contains("hide")) {
             sidebarToc.classList.add("hide");
@@ -49,7 +62,7 @@ const initSidebarSwitch = () => {
         }
     }
 
-    switchButton?.addEventListener("click", toggleSidebarSwitch);
+    switchButton.addEventListener("click", toggleSidebarSwitch);
 }
 
 

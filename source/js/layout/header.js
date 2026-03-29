@@ -31,6 +31,14 @@ const initToggleHeaderMenu = (
     const menuList = document.querySelector(menu_selector);
     const toggleButton = document.querySelector(button_selector);
 
+    if (!menuList || !toggleButton) {
+        console.debug("[header] skip initToggleHeaderMenu: required element missing", {
+            menu_selector,
+            button_selector,
+        });
+        return;
+    }
+
     let isVisible = true;
 
     function toggleSidebar() {
@@ -60,6 +68,11 @@ const autoResizeHeaderRight = () => {
     const headerLeft = document.querySelector("#header-left");
     const headerCenter = document.querySelector("#header-center");
     const headerRight = document.querySelector("#header-right");
+
+    if (!headerWrapper || !headerLeft || !headerCenter || !headerRight) {
+        console.debug("[header] skip autoResizeHeaderRight: required element missing");
+        return;
+    }
 
     // 配置自适应收缩对象
     const elements = [
@@ -118,12 +131,24 @@ const initSearchButton = () => {
         searchButton.addEventListener("click", () => {
             searchContainer.classList.toggle("show");
         });
-        searchMask.addEventListener("click", () => {
-            searchContainer.classList.remove("show");
-        });
-        searchCloseButton.addEventListener("click", () => {
-            searchContainer.classList.remove("show");
-        });
+
+        if (searchMask) {
+            searchMask.addEventListener("click", () => {
+                searchContainer.classList.remove("show");
+            });
+        } else {
+            console.debug("[header] search mask missing: .search-mask");
+        }
+
+        if (searchCloseButton) {
+            searchCloseButton.addEventListener("click", () => {
+                searchContainer.classList.remove("show");
+            });
+        } else {
+            console.debug("[header] search close button missing: .search-content-header-closebutton");
+        }
+    } else {
+        console.debug("[header] skip initSearchButton: required element missing");
     }
 };
 

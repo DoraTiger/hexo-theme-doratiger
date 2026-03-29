@@ -17,6 +17,11 @@ class ScrollHandler {
      * @description 初始化滚动功能
      */
     init() {
+        if (!this.contentWrapper) {
+            console.debug("[scroll] skip init: #content-wrapper missing");
+            return;
+        }
+
         this.initReturnTopButton()
         this.updateReturnTopButton();
         this.updateReadProgress();
@@ -28,6 +33,11 @@ class ScrollHandler {
      * @description 初始化滚动条和阅读进度
      */
     initScroll() {
+        if (!this.contentWrapper) {
+            console.debug("[scroll] skip initScroll: #content-wrapper missing");
+            return;
+        }
+
         // 监听内容区域的滚动事件
         this.contentWrapper.addEventListener("scroll", () => {
             this.updateReturnTopButton();
@@ -37,6 +47,14 @@ class ScrollHandler {
     }
 
     initReturnTopButton() {
+        if (!this.returnTop || !this.contentWrapper) {
+            console.debug("[scroll] skip initReturnTopButton: required element missing", {
+                hasReturnTop: !!this.returnTop,
+                hasContentWrapper: !!this.contentWrapper,
+            });
+            return;
+        }
+
         this.returnTop.addEventListener("click", () => {
             this.contentWrapper.scrollTo({
                 top: 0,
@@ -46,6 +64,8 @@ class ScrollHandler {
     }
 
     updateReturnTopButton() {
+        if (!this.contentWrapper || !this.returnTop) return;
+
         const scrollTop = this.contentWrapper.scrollTop; // 滚动高度
         if (scrollTop > 600) {
             this.returnTop.classList.add("show");
@@ -58,6 +78,8 @@ class ScrollHandler {
      * @description 更新阅读进度
      */
     updateReadProgress() {
+        if (!this.contentWrapper) return;
+
         const scrollTop = this.contentWrapper.scrollTop; // 滚动高度
         const scrollHeight = this.contentWrapper.scrollHeight; // 内容高度
         const clientHeight = this.contentWrapper.clientHeight; // 可视区域高度
@@ -80,13 +102,15 @@ class ScrollHandler {
      * @description 更新激活的 TOC 链接
      */
     updateActiveTocLink() {
+        if (!this.contentWrapper || !this.toc) return;
+
         const scrollTop = this.contentWrapper.scrollTop; // 滚动高度
         const scrollHeight = this.contentWrapper.scrollHeight; // 内容高度
         const clientHeight = this.contentWrapper.clientHeight; // 可视区域高度
         const headerHeight =
-            document.querySelector("#header-wrapper").offsetHeight; // 顶部导航栏高度
+            document.querySelector("#header-wrapper")?.offsetHeight || 0; // 顶部导航栏高度
         const footerHeight =
-            document.querySelector("#footer-wrapper").offsetHeight; // 底部导航栏高度
+            document.querySelector("#footer-wrapper")?.offsetHeight || 0; // 底部导航栏高度
         const headings = Array.from(
             this.contentWrapper.querySelectorAll("h1, h2, h3, h4, h5, h6")
         );
