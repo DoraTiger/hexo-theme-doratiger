@@ -325,3 +325,40 @@ theme.sitemap.*         → Sitemap 配置
 ## 8. 已知问题
 
 - 无
+
+---
+
+## 9. JavaScript 开发规范
+
+### ES6 标准
+
+所有 JS 文件必须使用 ES6+ 语法：
+
+- **变量声明**：使用 `const` / `let`，禁止 `var`
+- **函数**：优先使用箭头函数 `() => {}`，需要 `this` 绑定时使用类方法
+- **类**：使用 `class` 语法，`export default`
+- **模块**：ES Module（`import` / `export`）
+- **字符串**：使用模板字符串 `` ` ``
+- **解构**：使用 `const { a, b } = obj`
+- **异步**：使用 `async/await`
+
+### 现有代码风格
+
+```
+class Background {
+    constructor() { ... }
+    draw() { ... }
+}
+export default Background;
+
+// 使用
+import Background from "./layout/backgroud.js";
+new Background();
+```
+
+### 禁止事项
+
+- 禁止使用 `var`
+- 禁止使用 `function` 关键字（用箭头函数）
+- 禁止 CommonJS（`require`/`module.exports`）
+- 禁止 IIFE 封装（使用 ES Module）

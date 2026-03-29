@@ -75,8 +75,8 @@ article#post
               if (!el) return;
               var url = el.dataset.url;
               var size = parseInt(el.dataset.size) || 80;
-              var api = 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + 'x' + size + '&data=' + encodeURIComponent(url);
-              el.innerHTML = '<img src="' + api + '" width="' + size + '" height="' + size + '" alt="QR Code" />';
+              if (window.QRCode) {
+              el.innerHTML = '<img src="' + QRCode.toDataURL(url, {size: size, dark: '#1a1a2e', light: '#ffffff'}) + '" width="' + size + '" height="' + size + '" alt="QR Code" />'; }
             })();
 
     // 评论
