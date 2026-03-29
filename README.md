@@ -110,6 +110,16 @@ git submodule update --remote
 -   [hexo-generator-sitemap](https://github.com/hexojs/hexo-generator-sitemap) Generate sitemap.
 -   [hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt)：Hexo 文章加密插件（已集成）。
 
+## 欢迎赞赏
+
+如果这个主题对你有帮助，欢迎赞赏支持。
+
+| 支付宝 | 微信 |
+| --- | --- |
+| ![支付宝收款码](./source/images/alipay.jpg) | ![微信收款码](./source/images/wechat.jpg) |
+
+如果你基于本主题搭建博客，请务必在博客根目录的 `_config.hexo-theme-doratiger.yml` 中，将 `post_extend.sponsor.alipay` 和 `post_extend.sponsor.wechat` 替换为你自己的收款码路径。
+
 ## 许可
 
 本项目遵循 [MIT](./LICENSE) 开源协议。

@@ -102,6 +102,16 @@ See [Contributing Guide](./docs/CONTRIBUTING_en.md).
 -   [hexo-generator-sitemap](https://github.com/hexojs/hexo-generator-sitemap)：Sitemap generator.
 -   [hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt)：Hexo blog encryption plugin (integrated).
 
+## Buy Me a Coffee
+
+If this theme helped you, your support is appreciated.
+
+| Alipay | WeChat |
+| --- | --- |
+| ![Alipay QR](./source/images/alipay.jpg) | ![WeChat QR](./source/images/wechat.jpg) |
+
+If you use this theme for your own blog, please replace `post_extend.sponsor.alipay` and `post_extend.sponsor.wechat` in your `_config.hexo-theme-doratiger.yml` with your own QR code image paths.
+
 ## License
 
 [MIT](./LICENSE)

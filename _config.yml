@@ -933,7 +933,7 @@ post_extend:
     enable: false
     # 提示文案
     tip: "如果觉得有帮助，可以请作者喝杯咖啡 ☕"
-    # 支付宝二维码图片路径
-    alipay: ""
-    # 微信二维码图片路径
-    wechat: ""
+    # 支付宝二维码图片路径（请替换为你自己的收款码）
+    alipay: "/images/alipay.jpg"
+    # 微信二维码图片路径（请替换为你自己的收款码）
+    wechat: "/images/wechat.jpg"

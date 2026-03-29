@@ -145,6 +145,29 @@ post_extend:
 - `tip`：二维码下方提示文案。
 - `position` 已废弃，不再生效。
 
+#### 赞赏功能（post_extend.sponsor）
+
+```yaml
+post_extend:
+  sponsor:
+    enable: true
+    tip: "如果觉得有帮助，可以请作者喝杯咖啡 ☕"
+    alipay: "/images/alipay.jpg"
+    wechat: "/images/wechat.jpg"
+```
+
+- `enable`：是否显示文章底部“赞赏”按钮。
+- `tip`：点击赞赏后面板中的提示文案。
+- `alipay`：支付宝收款码图片路径。
+- `wechat`：微信收款码图片路径。
+
+配置说明：
+
+- 路径请使用站点根路径形式，例如 `/images/alipay.jpg`。
+- 图片建议放在博客根目录的 `source/images/` 下（例如 `source/images/alipay.jpg`）。
+- 如果 `alipay` 或 `wechat` 为空，对应二维码不会渲染。
+- 主题仓库中的默认二维码仅用于演示，请务必替换为你自己的收款码图片。
+
 ### 样式
 
 ```yaml
