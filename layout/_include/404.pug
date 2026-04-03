@@ -3,7 +3,8 @@
 - const redirect_delay = (theme.page404 && theme.page404.redirect_delay) || 5000
 
 #page404.page404
-  h1.page404-title= page404_title
+  .page404-canvas-wrapper
+    canvas#page404-canvas
   p.page404-content= page404_content
   p.page404-countdown
     span#countdown-text #{Math.round(redirect_delay / 1000)}

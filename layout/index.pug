@@ -2,5 +2,9 @@ extends _include/_layout.pug
 
 block content
 
+  //- Hero 区域
+  #hero-wrapper
+    canvas#hero-canvas(data-title=config.title, data-subtitle=config.description || '')
+
   include _include/post-recent.pug
   include _include/pagination.pug
