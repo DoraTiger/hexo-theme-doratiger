@@ -1,4 +1,4 @@
-import { prepare, layoutWithLines } from '../../lib/pretext/layout.js';
+import { prepareWithSegments, layoutWithLines } from '../../lib/pretext/layout.js';
 
 class Page404 {
   constructor() {
@@ -90,7 +90,7 @@ class Page404 {
 
     // "404" big text using pretext
     const fontSize = Math.min(this.width / 4, 140);
-    const prepared = prepare(
+    const prepared = prepareWithSegments(
       '404',
       `bold ${fontSize * dpr}px "Helvetica Neue", Helvetica, Arial, sans-serif`
     );

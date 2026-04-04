@@ -1,4 +1,4 @@
-import { prepare, layoutWithLines } from '../../lib/pretext/layout.js';
+import { prepareWithSegments, layoutWithLines } from '../../lib/pretext/layout.js';
 
 class Hero {
   constructor() {
@@ -46,7 +46,7 @@ class Hero {
 
     // Title
     if (this.title) {
-      const prepared = prepare(
+      const prepared = prepareWithSegments(
         this.title,
         `bold ${titleFontSize * dpr}px "Helvetica Neue", Helvetica, Arial, sans-serif`
       );
@@ -64,7 +64,7 @@ class Hero {
 
     // Subtitle
     if (this.subtitle) {
-      const prepared = prepare(
+      const prepared = prepareWithSegments(
         this.subtitle,
         `${subtitleFontSize * dpr}px "Helvetica Neue", Helvetica, Arial, sans-serif`
       );
