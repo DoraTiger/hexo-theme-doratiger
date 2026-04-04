@@ -1,4 +1,4 @@
-import { prepare, layoutWithLines } from '../lib/pretext/layout.js';
+import { prepare, layoutWithLines } from '../../lib/pretext/layout.js';
 
 class Hero {
   constructor() {
