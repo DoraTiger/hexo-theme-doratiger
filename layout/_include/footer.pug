@@ -33,6 +33,7 @@ mixin statistics
 
       else if statistics_type == "counter"
         - let counter_api = theme.statistics.counter.api || ''
+        - let enable_uv = theme.statistics.counter.uv || false
         span#site-counter
           span #{site_pv[0]}
           span#counter-value -
@@ -46,21 +47,27 @@ mixin statistics
         script.
           (function() {
             var api = '#{counter_api}';
-            var key = 'dtc_' + encodeURIComponent(location.pathname);
-            var pageKey = key;
-            var siteKey = 'dtc_site';
+
+            // Visitor ID: 从 cookie 读取或生成 UUID
+            function getVisitorId() {
+              var match = document.cookie.match(/dtc_uid=([^;]+)/);
+              if (match) return match[1];
+              var uid = crypto.randomUUID();
+              document.cookie = 'dtc_uid=' + uid + '; max-age=31536000; path=/; SameSite=Lax';
+              return uid;
+            }
+            var visitorId = getVisitorId();
 
             // 计数
             function count() {
               if (api) {
-                // 有 API 的情况
-                fetch(api + '/count?page=' + encodeURIComponent(location.pathname))
-                  .then(r => r.json())
-                  .then(d => {
+                fetch(api + '?page=' + encodeURIComponent(location.pathname) + '&uid=' + visitorId)
+                  .then(function(r) { return r.json(); })
+                  .then(function(d) {
                     var sv = document.getElementById('counter-value');
                     var pv = document.getElementById('page-counter-value');
-                    if (sv) sv.textContent = d.site || 0;
-                    if (pv) pv.textContent = d.page || 0;
+                    if (sv) sv.textContent = d.site_uv || d.site_pv || 0;
+                    if (pv) pv.textContent = d.page_uv || d.page_pv || 0;
                   })
                   .catch(function() {
                     fallbackCount();
