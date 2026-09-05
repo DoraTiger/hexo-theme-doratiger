@@ -63,7 +63,7 @@ See the [design documentation](./DESIGN.md) for the complete architectural const
 
 ## Verification
 
-The theme does not carry a standalone host dependency manifest. From a Hexo project that enables the theme, run:
+The theme does not maintain the host project's dependency manifest. From a Hexo project that enables the theme, run:
 
 ```bash
 npm run clean
@@ -71,6 +71,8 @@ npm run build
 ```
 
 Do not use an old `db.json` or generated `public/` directory as a substitute for a clean build. Use the [verification matrix](./DESIGN.md#10-验证矩阵) to select affected pages and configuration combinations.
+
+For `hexo algolia`, confirm that the host project has `algoliasearch` installed. For `hexo cdn`, cover `check`, idempotent `sync`, and the guarded `prune` flow described in the configuration guide.
 
 ## Commit Messages
 

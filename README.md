@@ -98,6 +98,26 @@ git submodule update --remote
 
 请参考 [功能配置](./docs/CONFIG.md)。
 
+## 主题已经准备好的功能
+
+主题把日常建站里常用的搜索、站点地图、文章加密和图片同步整理为 Hexo 扩展，减少插件之间的拼接成本，让维护者能把更多心思留给内容本身。
+
+| 功能 | 主题如何提供 | 默认状态 | 需要额外准备时 |
+| --- | --- | --- | --- |
+| Algolia 搜索 | `hexo algolia` 索引管理命令 + 前端搜索组件 | 关闭 | 运行索引管理命令时安装 `algoliasearch` |
+| 本地搜索 | `doratiger_local_search` 生成器 + 浏览器端搜索 | 关闭 | 无 |
+| Sitemap | `doratiger_sitemap` 生成器，可输出 XML 和 TXT | 开启 | 无 |
+| 文章加密 | 构建期 AES-256-GCM + PBKDF2 过滤器 | 关闭 | 无 |
+| 正文图片 CDN | `hexo cdn sync/check/prune` + 构建期 URL 改写 | 关闭 | 无（七牛通过 HTTP API 调用） |
+
+需要通过 `hexo algolia` 写入 Algolia 索引时，在**博客根目录**安装 SDK：
+
+```bash
+npm install algoliasearch
+```
+
+其余功能随主题即可使用。各功能的配置、命令与适用场景见[功能配置](./docs/CONFIG.md)。
+
 ## 更新日志
 
 请参考 [更新日志](./docs/CHANGELOG.md)。
@@ -106,17 +126,17 @@ git submodule update --remote
 
 请参考 [贡献指南](./docs/CONTRIBUTING.md)
 
-## 参考项目
+## 感谢这些启发过主题的项目
 
 -   [Fan](https://github.com/fan-lv/Fan/)：这是一个深色主题，如梦幻般的星空，群星闪烁。
 -   [fluid](https://github.com/fluid-dev/hexo-theme-fluid)：一款 Material Design 风格的主题。
 -   [gitment](https://github.com/imsun/gitment)：一款基于 GitHub Issues 的评论系统。
 -   [valine](https://github.com/xCss/Valine)：一款快速、简洁且高效的无后端评论系统。
 -   [twikoo](https://github.com/twikoojs/twikoo)：一个简洁、安全、免费的静态网站评论系统。
--   [hexo-algolia](https://github.com/thom4parisot/hexo-algolia) hexo-algolia is an hexo plugin provided by the community.
--   [hexo-generator-search](https://github.com/wzpan/hexo-generator-search) This plugin is used for generating a search index file, which contains all the neccessary data of your articles that you can use to write a local search engine for your blog.
--   [hexo-generator-sitemap](https://github.com/hexojs/hexo-generator-sitemap) Generate sitemap.
--   [hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt)：Hexo 文章加密插件（已集成）。
+-   [hexo-algolia](https://github.com/thom4parisot/hexo-algolia)：Algolia 索引工作流参考。
+-   [hexo-generator-search](https://github.com/wzpan/hexo-generator-search)：本地搜索索引设计参考。
+-   [hexo-generator-sitemap](https://github.com/hexojs/hexo-generator-sitemap)：站点地图生成设计参考。
+-   [hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt)：文章加密流程设计参考。
 
 ## 欢迎赞赏
 

@@ -90,6 +90,26 @@ git submodule update --remote
 
 See [Configuration Guide](./docs/CONFIG.md).
 
+## Features Ready in the Theme
+
+The theme gathers everyday blog features—search, sitemaps, post encryption, and image syncing—into Hexo extensions, reducing the work of assembling plugins so maintainers can spend more time on their content.
+
+| Feature | How the theme provides it | Default | Extra setup when needed |
+| --- | --- | --- | --- |
+| Algolia search | `hexo algolia` index-management command and browser search UI | Off | Install `algoliasearch` when running the index-management command |
+| Local search | `doratiger_local_search` generator and browser search | Off | None |
+| Sitemap | `doratiger_sitemap` generator for XML and TXT | On | None |
+| Post encryption | Build-time AES-256-GCM + PBKDF2 filter | Off | None |
+| Post image CDN | `hexo cdn sync/check/prune` and build-time URL rewrite | Off | None (Qiniu is called through its HTTP API) |
+
+Install the SDK in your **Hexo site root** only when managing an Algolia index with `hexo algolia`:
+
+```bash
+npm install algoliasearch
+```
+
+The remaining features are ready with the theme. See the [Configuration Guide](./docs/CONFIG.md) for settings, commands, and when each feature is useful.
+
 ## Changelog
 
 See [Changelog](./docs/CHANGELOG.md).
@@ -98,17 +118,17 @@ See [Changelog](./docs/CHANGELOG.md).
 
 See [Contributing Guide](./docs/CONTRIBUTING_en.md).
 
-## References
+## With Thanks to the Projects That Inspired DoraTiger
 
 -   [Fan](https://github.com/fan-lv/Fan/)：Dark theme with dreamy starry sky effect.
 -   [fluid](https://github.com/fluid-dev/hexo-theme-fluid)：Material Design style theme.
 -   [gitment](https://github.com/imsun/gitment)：GitHub Issues-based comment system.
 -   [valine](https://github.com/xCss/Valine)：Fast, simple, serverless comment system.
 -   [twikoo](https://github.com/twikoojs/twikoo)：Simple, secure, free static site comment system.
--   [hexo-algolia](https://github.com/thom4parisot/hexo-algolia)：Algolia search plugin for Hexo.
--   [hexo-generator-search](https://github.com/wzpan/hexo-generator-search)：Local search index generator.
--   [hexo-generator-sitemap](https://github.com/hexojs/hexo-generator-sitemap)：Sitemap generator.
--   [hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt)：Hexo blog encryption plugin (integrated).
+-   [hexo-algolia](https://github.com/thom4parisot/hexo-algolia)：Reference for the Algolia indexing workflow.
+-   [hexo-generator-search](https://github.com/wzpan/hexo-generator-search)：Reference for local-search index design.
+-   [hexo-generator-sitemap](https://github.com/hexojs/hexo-generator-sitemap)：Reference for sitemap generation.
+-   [hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt)：Reference for the post-encryption flow.
 
 ## Buy Me a Coffee
 

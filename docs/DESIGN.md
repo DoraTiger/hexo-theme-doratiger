@@ -9,7 +9,7 @@
 ```
 ┌─────────────────────────────────────────────────┐
 │                   _config.yml                    │
-│              (主题配置 + 用户覆盖)                │
+│     (主题默认配置 + 用户覆盖 + 站点侧 manifest)    │
 ├─────────────────────────────────────────────────┤
 │                scripts/                         │
 │  generators/ │ filters/ │ events/ │ injectors/  │
@@ -273,7 +273,8 @@ _layout.pug (根布局)
 |------|------|------|
 | `code.js` | after_post_render | 代码高亮 + 行号 |
 | `redirect.js` | after_post_render | 外链拦截标记 |
-| `encrypt.js` | after_post_render | 文章加密 |
+| `cdn-image.js` | after_post_render | 按 manifest 将正文图片改写为 CDN URL |
+| `encrypt.js` | after_post_render | 自建文章加密；在图片 URL 改写之后运行 |
 
 ### Injectors（资源注入器）
 
@@ -283,6 +284,19 @@ _layout.pug (根布局)
 | `injector-comments.js` | 评论系统脚本 |
 | `injector-search.js` | 搜索配置注入 |
 | `injector-config.js` | 主题配置注入 |
+| `injector-cdn-image-fallback.js` | 可选的 CDN 图片本地回退监听器 |
+
+### Console（命令）
+
+| 命令 | 功能 | 外部依赖 |
+|------|------|----------|
+| `hexo algolia` | 管理 Algolia 索引；支持清理与 dry-run | 宿主项目的 `algoliasearch` SDK |
+| `hexo cdn sync/check/prune` | 扫描正文图片、维护站点侧 manifest、检查或安全清理对象 | 无 SDK；七牛通过 HTTP API 调用 |
+| `hexo themeinit` | 初始化主题用户覆盖配置 | 无 |
+
+### 功能整合边界
+
+搜索、Sitemap、文章加密与正文图片 CDN 都由主题注册的 Hexo generator、filter、injector 或 console 命令实现，不依赖同名第三方 Hexo 插件。Algolia 索引管理是唯一需要宿主显式安装 SDK 的功能；主题不修改宿主的依赖、忽略规则或提交策略。
 
 ---
 
@@ -302,6 +316,12 @@ _layout.pug (根布局)
 
 在 `generateBefore` 阶段，主题会再次合并已由 Hexo 处理完的历史 `source/_data/doratiger_config.yml`，再将结果发布到 `theme.config`，并在此后注册 injector。模板、生成器和资源注入器因此消费同一份最终配置；历史配置兼容逻辑不能仅依赖 Hexo 的自动主题配置合并替代。
 
+### 正文图片 CDN 生命周期
+
+`hexo cdn sync` 仅以 Hexo 的文章与资源模型扫描正文图片，计算对象键并把同步状态写入 `<Hexo 根目录>/plugins/cdn_image/.hexo-cdn-image-manifest.json`。正常 `hexo generate` 的 `after_post_render` filter 再依据 manifest 改写已匹配的正文图片 URL；它不读取 `public/`，也不改写 Markdown 源文件。
+
+`hexo cdn check` 离线校验 manifest 与当前文章资源，`hexo cdn prune` 默认只预览当前 manifest 已不再引用的对象；删除必须同时给出 `--apply --yes`。启用 `cdn_image.fallback.enable` 时，生成 HTML 为 CDN 图片保留本地候选路径，并注入一次性浏览器端回退监听器。manifest 属于宿主站点数据，主题只约定默认路径，不控制其 Git 策略。
+
 ### 内部 URL 约定
 
 主题内的站内路径（模板、默认资源与本地资源清单）必须通过 Hexo `url_for` 解析，逻辑路径可写成 `/images/avatar.png` 或 `/archives`。这样站点 `root` 为 `/` 与子路径（如 `/blog/`）时都会生成正确地址。完整 HTTP(S)、`mailto:` 等外部地址保持原值，不应手动拼接站点根路径。
@@ -317,6 +337,7 @@ theme.search.*          → 搜索配置
 theme.statistics.*      → 统计配置
 theme.encrypt.*         → 加密配置
 theme.sitemap.*         → Sitemap 配置
+theme.cdn_image.*       → 正文图片 CDN 配置
 ```
 
 ---
@@ -403,6 +424,7 @@ npm run build
 | Generator / Filter | 全量清理构建，检查生成路径和文章渲染结果 |
 | 搜索 | 本地搜索或 Algolia 对应模式、空结果、长标题和窄屏 |
 | 加密 / 外链重定向 | 正确密码、错误密码、站内链接、外链和特殊协议 |
+| 正文图片 CDN | `hexo cdn check`、重复 `hexo cdn sync` 不重复上传、全量构建后的 CDN URL 与本地回退；涉及远端对象时再验证实际 HTTP 响应 |
 | 配置 / i18n | 默认配置、用户覆盖配置、`zh-Hans` 与 `en` 关键页面 |
 | 资源加载 | 本地资源模式；涉及 CDN 时再检查 CDN 覆盖模式 |
 | 生命周期 / 站内路径 | 使用最小站点分别验证 `root: /` 与子路径 `root: /blog/`；确认 CSS、JS、头像/SEO、导航、404 与重定向地址 |

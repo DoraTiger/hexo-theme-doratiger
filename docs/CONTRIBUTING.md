@@ -63,7 +63,7 @@
 
 ## 验证
 
-主题没有独立的宿主依赖清单，应在一个启用本主题的 Hexo 项目根目录执行：
+主题不替宿主项目维护依赖清单，应在一个启用本主题的 Hexo 项目根目录执行：
 
 ```bash
 npm run clean
@@ -71,6 +71,8 @@ npm run build
 ```
 
 不要使用旧的 `db.json` 或 `public/` 产物代替全量构建。页面验证范围参见[设计文档中的验证矩阵](./DESIGN.md#10-验证矩阵)。
+
+涉及 `hexo algolia` 时，确认宿主项目已安装 `algoliasearch`；涉及 `hexo cdn` 时，按配置文档分别覆盖 `check`、幂等 `sync` 与受保护的 `prune` 验证。
 
 ## Commit Message
 

@@ -2,40 +2,6 @@
 
 所有配置均在 `_config.hexo-theme-doratiger.yml` 中修改，不要直接改主题源码。
 
-## 正文图片 CDN（Qiniu）
-
-此功能默认关闭。它只处理已发布文章正文中引用的本地图片；不会修改 Markdown 源文件，也不会扫描 `public/`、页面 front-matter、主题资源或外部 URL。
-
-```yaml
-cdn_image:
-  enable: true
-  provider: qiniu
-  public_base_url: https://cdn.example.com
-  key_prefix: images
-  manifest_path: plugins/cdn_image/.hexo-cdn-image-manifest.json
-  qiniu:
-    bucket: your-bucket
-    region: z0
-    access_key: ""
-    secret_key: ""
-```
-
-`key_prefix` 默认为 `images`；本地逻辑路径保持不变，例如 `source/images/a.png` 会上传为 `images/images/a.png`。凭据也可通过 `QINIU_AccessKey` 与 `QINIU_SecretKey` 环境变量提供，优先级高于配置文件。不要将含凭据的主站配置提交到公开仓库。
-
-设置 `cdn_image.fallback.enable: true` 后，主题会为已改写的图片保留本地候选路径，并按需注入一个浏览器端监听器。CDN 图片加载失败时，它只回退一次到随站点发布的本地图片；未启用时不添加此脚本或任何回退属性。
-
-在 Hexo 根目录执行：
-
-```bash
-hexo cdn sync
-hexo cdn check
-hexo cdn prune
-```
-
-`sync` 仅从 Hexo 的文章与资源模型发现图片、上传新增或变更项，并将 manifest 写入 `<Hexo 根目录>/plugins/cdn_image/.hexo-cdn-image-manifest.json`。之后正常 `hexo generate` 会按 manifest 动态将正文 HTML 改写为 CDN URL。`check` 离线检查 manifest 与正文资源是否一致。`prune` 默认仅列出 manifest 中已不再引用的对象；实际删除必须明确使用 `hexo cdn prune --apply --yes`，且只会删除当前 manifest 管理的对象。主题不会更改主站的 Git 忽略或提交策略。
-
----
-
 ## 配置初始化（themeinit）
 
 1. 原始配置项
@@ -102,7 +68,7 @@ hexo cdn prune
         enable: true
         number: false
         depth: 3
-                prefix: ">>"
+        prefix: ">>"
       friendlink:
         enable: true
         item:
@@ -439,12 +405,13 @@ hexo cdn prune
 
     - `enable`：是否启用服务条款页。
     - `title`：页面标题。
-    - `license`：知识产权声明；为空时继承 `post.copyright.license`。
+    - `license`：知识产权声明；留空时当前条款页显示默认的 `CC BY-NC-SA 4.0`。
     - `extra_content`：额外条款内容，支持 HTML。
 
 3. 配置建议
 
     - 面向公开访问站点建议开启，减少合规歧义。
+    - 如需与文章版权声明保持一致，请显式填写 `terms.license`；不要依赖隐式继承。
 
 ---
 
@@ -541,28 +508,28 @@ hexo cdn prune
         theme: "rgba(230, 119, 0, 1)"
         sub_theme: "rgba(73, 177, 245, 1)"
         text: "rgba(255, 255, 255, 1)"
-                background: "radial-gradient(...)"
-                content_background: "rgba(255, 255, 255, 0.1)"
-                sidebar_background: "rgba(255, 255, 255, 0.1)"
-                button_background: "rgba(255, 255, 255, 0.1)"
-                code_header_background: "rgba(255, 255, 255, 0.1)"
-                code_background: "rgba(255, 255, 255, 0.1)"
-                border: "rgba(128, 128, 128, 0.8)"
-                border_shadow: "rgba(0, 0, 0, 0.5)"
+        background: "radial-gradient(...)"
+        content_background: "rgba(255, 255, 255, 0.1)"
+        sidebar_background: "rgba(255, 255, 255, 0.1)"
+        button_background: "rgba(255, 255, 255, 0.1)"
+        code_header_background: "rgba(255, 255, 255, 0.1)"
+        code_background: "rgba(255, 255, 255, 0.1)"
+        border: "rgba(128, 128, 128, 0.8)"
+        border_shadow: "rgba(0, 0, 0, 0.5)"
       font:
         size: "16px"
       sidebar:
         width: "300px"
       main:
-                header:
-                    height: "3rem"
-                    border_bottom: "1px solid rgba(128, 128, 128, 0.8)"
+        header:
+          height: "3rem"
+          border_bottom: "1px solid rgba(128, 128, 128, 0.8)"
         content:
           max_width: "1200px"
           padding: "1rem"
-                footer:
-                    height: "3rem"
-                    border_top: "1px solid rgba(128, 128, 128, 0.8)"
+        footer:
+          height: "3rem"
+          border_top: "1px solid rgba(128, 128, 128, 0.8)"
     ```
 
 2. 配置项说明
@@ -682,9 +649,7 @@ hexo cdn prune
       enable: true
       abstract: "这是一篇加密文章，需要密码才能继续阅读。"
       message: "请输入密码："
-      theme: "default"
       wrong_pass_message: "密码错误，请重试。"
-      wrong_hash_message: "内容可能被修改，但仍可查看。"
       tags:
         # - name: "private"
         #   password: "shared-password"
@@ -694,8 +659,7 @@ hexo cdn prune
 
     - `enable`：启用加密能力。
     - `abstract` / `message`：加密提示文案。
-    - `theme`：加密页样式主题。
-    - `wrong_pass_message` / `wrong_hash_message`：错误提示文案。
+    - `wrong_pass_message`：密码错误提示文案。
     - `tags`：按标签批量加密规则。
 
 3. 配置建议
@@ -703,6 +667,7 @@ hexo cdn prune
     - 单篇可在 front-matter 中用 `password` 覆盖。
     - 加密内容建议在 HTTPS 下使用。
     - 加密文章默认不参与本地搜索，除非 front-matter 显式 `search: true`。
+    - 旧配置中的 `encrypt.theme` 与 `encrypt.wrong_hash_message` 会被保留以兼容历史配置，但当前自建加密流程不会读取它们。
 
 ---
 
@@ -900,7 +865,7 @@ hexo cdn prune
 
 3. 配置建议
 
-    - API 返回建议：`GET /count?page=<path>` → `{ site: number, page: number }`。
+    - API 请求会携带页面路径与访客标识：`GET /count?page=<path>&uid=<visitor-id>`。推荐返回稳定的四个字段：`{ site_pv, site_uv, page_pv, page_uv }`；关闭 `counter.uv` 时页面显示 PV，开启时显示 UV。
 
 ---
 
@@ -1055,6 +1020,48 @@ hexo cdn prune
 3. 配置建议
 
     - `sitemap` 地址会自动关联站点 URL。
+
+---
+
+### 正文图片 CDN（cdn_image）
+
+此功能默认关闭。它只处理已发布文章正文中引用的本地图片；不会修改 Markdown 源文件，也不会扫描 `public/`、页面 front-matter、主题资源或外部 URL。
+
+1. 原始配置项
+
+    ```yaml
+    cdn_image:
+      enable: true
+      provider: qiniu
+      public_base_url: https://cdn.example.com
+      key_prefix: images
+      manifest_path: plugins/cdn_image/.hexo-cdn-image-manifest.json
+      fallback:
+        enable: true
+      qiniu:
+        bucket: your-bucket
+        region: z0
+        access_key: ""
+        secret_key: ""
+    ```
+
+2. 配置项说明
+
+    - `key_prefix` 默认为 `images`；本地逻辑路径保持不变，例如文章中引用的 `source/images/a.png` 会上传为 `images/images/a.png`。
+    - 凭据也可通过 `QINIU_AccessKey` 与 `QINIU_SecretKey` 环境变量提供，优先级高于配置文件。不要将含凭据的主站配置提交到公开仓库。
+    - 设置 `cdn_image.fallback.enable: true` 后，主题会为已改写的图片保留本地候选路径，并按需注入一个浏览器端监听器。CDN 图片加载失败时，它只回退一次到随站点发布的本地图片；未启用时不添加此脚本或任何回退属性。
+
+3. 使用命令
+
+    在 Hexo 根目录执行：
+
+    ```bash
+    hexo cdn sync
+    hexo cdn check
+    hexo cdn prune
+    ```
+
+    `sync` 仅从已发布文章的原始内容及其 Hexo 资源模型发现图片、上传新增或变更项，并将 manifest 写入 `<Hexo 根目录>/plugins/cdn_image/.hexo-cdn-image-manifest.json`。它需要开启功能并提供完整的七牛 bucket、region 和凭据。之后正常 `hexo generate` 会按 manifest 动态将正文 HTML 改写为 CDN URL。`check` 离线检查 manifest 与正文资源是否一致，不需要访问对象存储。`prune` 默认仅列出 manifest 中已不再引用的对象；实际删除必须明确使用 `hexo cdn prune --apply --yes`，且只会删除当前 manifest 管理的对象。主题不会更改主站的 Git 忽略或提交策略。
 
 ---
 

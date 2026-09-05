@@ -687,8 +687,8 @@ resource:
         - "https://cdn.jsdelivr.net/npm/algoliasearch@5.23.4/dist/lite/builds/browser.umd.js"
         - "https://cdn.jsdelivr.net/npm/instantsearch.js@4.78.1/dist/instantsearch.production.min.js"
 
-  # hexo-blog-encrypt 资源路径
-  # Resource path for hexo-blog-encrypt
+  # 旧版 hbe 资源路径；主题自建加密功能不会加载它
+  # Legacy hbe resource path; not loaded by the built-in encryption flow
   hbe:
     enable_cdn:
 
@@ -738,8 +738,8 @@ thirdparty:
         - "https://www.unpkg.com/mathjax@3.2.2/es5/tex-mml-chtml.js"
 
 # --------------------------------------------------
-# 文章加密配置（基于 hexo-blog-encrypt）
-# Article Encryption Configuration
+# 文章加密配置（主题自建）
+# Built-in Article Encryption Configuration
 # --------------------------------------------------
 encrypt:
   # 是否开启
@@ -754,16 +754,16 @@ encrypt:
   # Password input message
   message: "请输入密码："
 
-  # 主题样式：default | blink | flip | shrink | surge | up | wave | xray
-  # Theme style
+  # 旧版兼容字段，当前自建加密流程不读取
+  # Legacy compatibility field; not used by the built-in encryption flow
   theme: "default"
 
   # 密码错误提示
   # Wrong password message
   wrong_pass_message: "密码错误，请重试。"
 
-  # 内容被篡改提示
-  # Wrong hash message
+  # 旧版兼容字段，当前自建加密流程不读取
+  # Legacy compatibility field; not used by the built-in encryption flow
   wrong_hash_message: "内容可能被修改，但仍可查看。"
 
   # 按标签加密（可选）
