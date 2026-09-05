@@ -52,6 +52,21 @@ test("theme honors a subpath root across generated assets, routes, and metadata"
         "  enable: true",
         "  fallback:",
         "    enable: true",
+        "footer:",
+        "  community_records:",
+        "    enable: true",
+        "    items:",
+        "      - name: Moe ICP",
+        "        text: Moe ICP 20260001",
+        "        url: https://icp.gov.moe/?keyword=20260001",
+        "      - name: Felicity ICP",
+        "        text: Felicity ICP demo",
+        "        url: https://icp.felicity.land/",
+        "        icon: /images/community-records/felicity-icp.png",
+        "      - name: Remote record",
+        "        text: Remote record demo",
+        "        url: https://records.example.test/",
+        "        icon: https://assets.example.test/record.png",
     ].join("\n") + "\n");
     write(path.join(fixtureDir, "source", "_data", "doratiger_config.yml"), [
         "global:",
@@ -103,6 +118,25 @@ test("theme honors a subpath root across generated assets, routes, and metadata"
     assert.match(index, /property="og:image" content="\/blog\/images\/root-avatar\.png"/);
     assert.match(index, /class="author-info-avatar-img" src="\/blog\/images\/root-avatar\.png"/);
     assert.match(index, /class="post-item-header-title" href="\/blog\/hello\/"/);
+    assert.match(index, /class="footer-right-community-records-item"/);
+    assert.match(index, /Moe ICP 20260001/);
+    assert.match(index, /Felicity ICP demo/);
+    assert.match(
+        index,
+        /class="footer-right-record-icon footer-right-community-records-icon" src="\/blog\/images\/community-records\/felicity-icp\.png" alt="" aria-hidden="true" width="16" height="16"/,
+        "a local community record icon must preserve the Hexo subpath root and a fixed display size",
+    );
+    assert.match(
+        index,
+        /class="footer-right-record-icon footer-right-community-records-icon" src="https:\/\/assets\.example\.test\/record\.png" alt="" aria-hidden="true" width="16" height="16"/,
+        "an absolute community record icon URL must remain absolute",
+    );
+    assert.doesNotMatch(index, /community-records-dialog|footer-community-records-trigger/);
+    assert.ok(
+        index.indexOf("Moe ICP 20260001") < index.indexOf("Felicity ICP demo")
+            && index.indexOf("Felicity ICP demo") < index.indexOf("Remote record demo"),
+        "community records must preserve their configured order",
+    );
     assert.match(index, /class="external-link" data-redirect="https%3A%2F%2Fexternal\.example\.test%2Fdocs"/);
     assert.doesNotMatch(index, /external\.example\.test\/docs[^>]*target="_blank"/);
     assert.match(index, /<html[^>]*data-redirect-path="\/blog\/redirect\/"/);

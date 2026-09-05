@@ -137,6 +137,13 @@
           text: "豫公网安备 xxxxxxxxxx 号"
           link: "https://www.beian.gov.cn/..."
           icon: "/images/police_beian.png"
+      community_records:
+        enable: false
+        items:
+          - name: "萌ICP备"
+            text: "萌ICP备2026xxxx号"
+            url: "https://icp.gov.moe/?keyword=2026xxxx"
+            icon: "/images/community-records/moe-icp.png"
     ```
 
 2. 配置项说明
@@ -144,10 +151,13 @@
     - `since`：站点起始年份展示。
     - `beian.miit`：工信部备案信息。
     - `beian.mps`：公安备案信息与图标。
+    - `community_records`：可选的社区或娱乐性质记录，不替代法定备案。`items` 按配置顺序输出；每项包含 `name`、`text`、`url`，并可选 `icon`。宽度不足时，社区记录按配置顺序优先折叠，法定备案最后保留。
 
 3. 配置建议
 
-    - 备案图标建议透明 PNG，尺寸控制在 `20-24px` 显示更协调。
+    - 图标建议放入主题 `source/images/`（例如 `/images/community-records/moe-icp.png`），填写逻辑站内路径。主题会通过 Hexo `url_for` 解析，因此部署到子路径时无需改写为 `/blog/images/...`。
+    - 也可填写完整的 HTTPS 图标 URL；主题会保留绝对地址，不会错误地拼接站点 `root`。本地缓存仍是默认建议，可避免第三方图标的可用性或防盗链影响页脚。
+    - 所有备案图标共用统一组件，固定显示为 `16×16px`，并使用 `object-fit: contain` 保持图形比例。
 
 ---
 

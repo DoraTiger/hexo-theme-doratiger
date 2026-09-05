@@ -1,0 +1,16 @@
+.footer-right-community-records-item
+  flex-shrink 0
+  margin-right 1rem
+
+  &.hidden
+    display none
+
+  a
+    display inline-flex
+    align-items center
+    // 与版权及法定备案使用同一基础文字层级；仅在交互时使用主题色。
+    color $color-text
+    hover-underline(50%)
+
+    &:hover, &:focus-visible
+      color $color-theme

@@ -171,6 +171,17 @@ footer:
       # MPS record icon
       icon: "/images/police_beian.png"
 
+  # 社区/娱乐性质的站点记录，不替代法定备案信息
+  # Community records for entertainment purposes; not legal registrations
+  community_records:
+    enable: false
+
+    # - name: "萌ICP备"
+    #   text: "萌ICP备2026xxxx号"
+    #   url: "https://icp.gov.moe/?keyword=2026xxxx"
+    #   icon: "/images/community-records/moe-icp.png"
+    items: []
+
 # --------------------------------------------------
 # 首页配置
 # Home Page Configuration

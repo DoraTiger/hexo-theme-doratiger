@@ -124,8 +124,19 @@ mixin mps
       - mps_text = theme.footer.beian.mps.text.replace(/\s/g, '')
       - mps_icon = theme.footer.beian.mps.icon
       #footer-right-mps
-        img.mps-img(src=url_for(mps_icon))
+        img.footer-right-record-icon.mps-img(src=url_for(mps_icon) alt='' aria-hidden='true' width='16' height='16')
         a.mps-text(rel='noopener' href=mps_link target='_blank') #{mps_text}
+
+mixin communityRecords
+  - const communityConfig = (theme.footer && theme.footer.community_records) || {}
+  - const communityItems = Array.isArray(communityConfig.items) ? communityConfig.items.filter((item) => item && item.name && item.text && item.url) : []
+  if communityConfig.enable && communityItems.length
+    each item in communityItems
+      span.footer-right-community-records-item
+        a(href=item.url target='_blank' rel='noopener' title=item.name)
+          if item.icon
+            img.footer-right-record-icon.footer-right-community-records-icon(src=url_for(item.icon) alt='' aria-hidden='true' width='16' height='16')
+          = item.text
 
 #footer-left
   button#footer-left-sidebar-icon(type='button' aria-label=_p('sidebar.toggle') aria-controls='sidebar-container' aria-expanded='true')
@@ -134,5 +145,6 @@ mixin mps
 #footer-right
   +statistics
   +copyright
+  +communityRecords
   +miit
   +mps

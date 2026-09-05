@@ -4,6 +4,8 @@
 
 - 新增可选的七牛正文图片 CDN：`hexo cdn sync/check/prune`、主站侧 manifest 与构建期 URL 改写。
 - 可选 CDN 加载失败回退到随站点发布的本地正文图片。
+- 新增 `footer.community_records`：以扁平页脚链接接入社区/娱乐性质记录；支持按配置顺序折叠、可选图标，以及本地逻辑路径和 HTTPS 图标 URL。
+- 公安备案与社区记录图标统一为 `16×16px` 的共享呈现组件。
 
 ## 2026-09-05
 

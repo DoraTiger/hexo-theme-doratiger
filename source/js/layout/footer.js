@@ -9,8 +9,12 @@ const autoResizeFooterRight = () => {
         return;
     }
 
-    // 配置自适应收缩对象
+    // 由低到高的展示优先级。空间不足时先隐藏社区记录和可省略的信息，
+    // 法定备案最后保留。
     const elements = [
+        ...Array.from(
+            footerRight.querySelectorAll(".footer-right-community-records-item"),
+        ).map((el) => ({ element: el, width: 0 })),
         { selector: "#footer-right-statistics", width: 0 },
         { selector: "#footer-right-copyright", width: 0 },
         { selector: "#footer-right-miit", width: 0 },
@@ -19,7 +23,7 @@ const autoResizeFooterRight = () => {
 
     // 初始化对象及宽度信息
     elements.forEach((element) => {
-        const el = footerRight.querySelector(element.selector);
+        const el = element.element || footerRight.querySelector(element.selector);
         if (el) {
             el.classList.remove("hidden");
             element.width = el.offsetWidth;
@@ -30,20 +34,22 @@ const autoResizeFooterRight = () => {
     const footerLeftWidth = footerLeft.offsetWidth;
     const footerCenterWidth = footerCenter.offsetWidth;
 
-    // 循环计算剩余宽度，隐藏多余元素
-    let footerRightWidth =
+    const availableWidth =
         footerWidth - footerLeftWidth - footerCenterWidth - 128;
+    let occupiedWidth = elements.reduce((total, element) => {
+        return total + (element.width ? element.width + 16 : 0);
+    }, 0);
 
-    for (let i = elements.length - 1; i >= 0; i--) {
-        if (footerRightWidth > elements[i].width) {
-            footerRightWidth -= elements[i].width + 16;
-        } else {
-            for (let j = 0; j <= i; j++) {
-                const element = footerRight.querySelector(elements[j].selector);
-                if (element) element.classList.add("hidden");
-            }
-            break;
-        }
+    // 依次移除低优先级元素，避免“最后一个元素放不下就全部隐藏”的
+    // 连带效应，也让新增项只需声明自身优先级。
+    for (const element of elements) {
+        if (occupiedWidth <= availableWidth) break;
+
+        const el = element.element || footerRight.querySelector(element.selector);
+        if (!el || !element.width) continue;
+
+        el.classList.add("hidden");
+        occupiedWidth -= element.width + 16;
     }
 };
 
