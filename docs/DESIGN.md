@@ -124,58 +124,97 @@
 
 ---
 
-## 3. CSS 颜色体系
+## 3. 视觉系统
 
-### 核心机制：Stylus 编译时变量
+### 目标与边界
 
-主题使用 **Stylus 变量**（`$color-*`），在编译时从 `_config.yml` 读取并写入 CSS。不使用 CSS 自定义属性（`var(--*)`）。
+主题以“星空”为核心识别，不把它降格为单纯背景图。视觉系统升级为同一片天空的两种状态：默认 **夜航（night）** 保留深色星幕、月光金与冷蓝星光；可选 **日照（day）** 使用天空白、日晕、暖金与蓝灰，而不是纯白页面上放一个太阳图标。`system` 模式按系统偏好选择两者。
 
-**定义位置：** `source/css/_variable/variable.styl`
+本轮允许破坏性调整主题样式配置与 DOM/CSS 选择器，但不改变文章内容、Hexo 路由、构建期扩展命令或 CDN 图片生命周期。主题不引入运行时第三方依赖。
 
-```stylus
-$color-theme = theme-config('style.color.theme', 'rgba(230, 119, 0, 1)');
-$color-sub-theme = theme-config('style.color.sub_theme', 'rgba(73, 177, 245, 1)');
-$color-text = theme-config('style.color.text', 'rgba(255, 255, 255, 1)');
-$color-background = theme-config('style.color.background', 'radial-gradient(...)');
-$color-content-background = theme-config('style.color.content_background', 'rgba(255, 255, 255, 0.1)');
-$color-sidebar-background = theme-config('style.color.sidebar_background', $color-content-background);
-$color-button-background = theme-config('style.color.button_background', $color-content-background);
-$color-code-background = theme-config('style.color.code_background', $color-content-background);
-$color-border = theme-config('style.color.border', 'rgba(128, 128, 128, 0.8)');
+### 设计令牌与配置边界
+
+日常配置只暴露外观选择、两枚强调色、基础字号和两项布局尺度：
+
+```yaml
+style:
+  appearance: night # night | day | system
+  accent: "#E7A63A"
+  accent_secondary: "#73C4F5"
+  typography:
+    font_size: 16px
+  layout:
+    content_width: 46rem
+    sidebar_width: 18rem
 ```
 
-### 变量使用统计
+`appearance` 确定生成页面的初始外观策略：`night` 和 `day` 固定使用对应状态；`system` 跟随 `prefers-color-scheme`。页头的月/日按钮可在浏览器本地覆盖初始策略，并在后续访问中保留该选择；这项偏好不回写主题配置，也不进入静态产物。
 
-| 变量 | 使用次数 | 用途 |
-|------|---------|------|
-| `$color-theme` | 32 | 主题色（标题、按钮、高亮） |
-| `$color-text` | 21 | 文字颜色 |
-| `$color-content-background` | 15 | 内容区背景 |
-| `$color-button-background` | 8 | 按钮背景 |
-| `$color-sub-theme` | 10 | 次主题色（链接、图标） |
-| `$color-border` | 4 | 边框颜色 |
-| `$color-background` | 2 | 全局背景 |
-| `$color-sidebar-background` | 2 | 侧边栏背景 |
-| `$color-code-background` | 3 | 代码块背景 |
+昼夜的画布、表面、正文、弱文字、边框、遮罩和代码区颜色属于主题内部令牌，不按“侧栏、按钮、代码块”等组件逐项暴露。这样常用配置保持短小，组件仍共享稳定的语义接口。
+
+根模板在 `<html>` 写入外观策略；CSS 以 `data-appearance` 和 `prefers-color-scheme` 选择内部令牌。组件只使用 `--dt-canvas`、`--dt-surface`、`--dt-surface-raised`、`--dt-chrome`、`--dt-control`、`--dt-text`、`--dt-text-muted`、`--dt-border`、`--dt-code`、`--dt-accent` 和 `--dt-accent-secondary`。其中 `--dt-chrome` 专用于顶栏、侧栏和页脚，`--dt-control` 用于卡片中的次级操作，保持低对比度，让文章表面承担主视觉。内容区与侧栏滚动条也由昼夜令牌控制。现有 `style.color.*`、`style.font.*`、`style.sidebar.*` 和 `style.main.*` 均为已移除的破坏性旧接口。
+
+### 昼夜配色
+
+| 令牌层 | 夜航（默认） | 日照（可选） |
+|------|------|------|
+| 天幕 | 深靛蓝渐变与低密度星幕 | 偏蓝天空白、暖日晕与低对比度光尘 |
+| 表面 | 有层级的半透明深色表面 | 略暖白表面与灰蓝边界 |
+| 强调色 | 月光金，用于主操作与当前状态 | 更沉稳的日光金，保持同一语义 |
+| 次强调色 | 冷蓝，用于链接与辅助定位 | 清晰但不刺眼的天蓝 |
+| 文字 | 接近白的正文与蓝灰弱文字 | 深蓝灰正文与中性灰蓝弱文字 |
+
+星空画布升级为可配置的天体背景模块：夜航绘制星光与彗星；日照绘制稀疏光尘和太阳方向的柔和光束。它必须遵守 `prefers-reduced-motion`，在标签页不可见时暂停，并在窄屏降低粒子密度。
+
+### 版式与信息层级
+
+- 页面使用固定视口 shell：顶栏、侧栏和页脚保持在视口中，文章内容区独立滚动。阅读进度、目录定位和回顶均以该内容区为滚动事件源。
+- 顶栏是固定导航；桌面侧栏是可收起的信息/目录轨，窄屏变为可关闭抽屉，不能通过 `display: none` 直接丢失内容和焦点路径。
+- 文章正文宽度约为 `46rem`，首页列表可略宽；标题、元信息、摘要、标签和正文使用固定的字号、间距与弱文字层级。
+- 标题使用本地中文衬线优先字体栈，正文使用系统中文无衬线优先字体栈；代码、路径和技术性元信息使用 `JetBrainsMono Nerd Font`、`CaskaydiaCove Nerd Font` 到 `ui-monospace` 的等宽回退栈。Nerd Font 不用于中文正文或标题，也不作为主题内置或在线加载资源。
+- 卡片统一为中等圆角、细边框和有限的阴影。页面级表面承载内容，小交互元素使用 chip 或按钮，不再让每一个区块都叠加相同玻璃效果。
+- 正文字号保持用户可配，行高提升到阅读优先的约 `1.75`；图片自适应，表格和代码块在窄宽度下可横向滚动且保留可见边界。
+- 首页、文章、归档、分类、标签、搜索、加密、404、重定向与静态页面共享标题区、表面、空状态和分页规则；代码高亮另有昼夜对比度令牌，不能由外部高亮主题单独决定整体风格。
+
+### 宽度、视口高度与输入能力
+
+响应式判断不能把“页面窄”与“浏览器高度短”混为一谈。
+
+| 维度 | 规则 | 目的 |
+|------|------|------|
+| 宽度 >= 1280px | 完整侧栏、双栏留白与桌面导航 | 利用足够横向空间，不挤压正文 |
+| 768px–1279px | 收窄侧栏/间距，导航保留 | 适配笔记本与横向平板 |
+| 宽度 < 768px | 侧栏抽屉、简化顶栏、单列正文 | 解决手机横向空间不足 |
+| 高度 < 700px | 仅压缩顶栏、页脚和非核心辅助信息 | 适配低高度窗口，不误切换手机布局 |
+| `pointer: coarse` | 增大点击目标、禁用 hover 依赖 | 适配触摸设备，而非仅依据宽度猜测 |
+
+主布局 shell、抽屉和搜索对话框等需要满屏的交互容器使用 `100dvh`；文章内容区以 `flex: 1` 与 `min-height: 0` 承接连续滚动，不以固定内容高度截断文章。安全区使用 `env(safe-area-inset-*)`，避免刘海屏和底部手势区遮挡操作。
+
+### 可访问性与动效
+
+- 所有触发行为使用 `button`；导航使用链接。菜单、侧栏和搜索提供准确的 `aria-expanded`、`aria-controls`、焦点转移与 Escape 关闭行为。
+- 统一 `:focus-visible` 焦点环，颜色对比度满足正文、弱文字、链接、边框和当前状态的可辨识性；不能只依赖颜色或 hover 表示状态。
+- 交互目标最小尺寸为 `44px`；键盘顺序与视觉顺序一致。
+- 动效限定为短时反馈。`prefers-reduced-motion` 下移除平移、旋转、闪烁和持续 Canvas 动画，不影响功能可用性。
+
+### 验收范围
+
+使用 Hexo CLI 全量构建后，至少在 1440×900、1024×700、768×1024、390×844 四个视口检查首页、长文、含目录文章、归档、标签/分类、搜索、404、加密与重定向页面。分别验证 `night`、`day`、`system`，以及键盘导航、触摸抽屉、短高度窗口、减少动效、长代码、宽表格与长标题。
 
 ### CSS 导入顺序（main.styl）
 
 ```
 1. _function/*     — 功能函数
-2. _variable/*     — 变量定义（$color-*）
+2. _variable/*     — 令牌和布局变量
 3. _animation/*    — 动画关键帧
-4. _mixins/*       — 复用样式（hover-underline, border-animation, button-hover-effect）
-5. _layout/*       — 布局样式（按字母顺序导入）
-6. highlight/*     — 代码高亮
+4. _mixins/*       — 复用样式
+5. _layout/*       — 页面与组件样式
+6. highlight/*     — 代码高亮覆盖
 ```
-
-### CSS 变量使用现状
-
-主题样式已统一为 Stylus 编译时变量（`$color-*`），当前 `source/css/` 下未使用 `var(--*)` 形式的 CSS 自定义变量，避免了运行时变量未定义带来的样式漂移问题。
 
 ---
 
-## 3. JavaScript 模块系统
+## 4. JavaScript 模块系统
 
 ### 入口：main.js（ES Module）
 
@@ -213,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 ---
 
-## 4. Pug 模板结构
+## 5. Pug 模板结构
 
 ### 布局继承
 
@@ -249,7 +288,7 @@ _layout.pug (根布局)
 
 ---
 
-## 5. Scripts 架构（构建时逻辑）
+## 6. Scripts 架构（构建时逻辑）
 
 ### Generators（页面生成器）
 
@@ -300,7 +339,7 @@ _layout.pug (根布局)
 
 ---
 
-## 6. 配置体系
+## 7. 配置体系
 
 ### 配置优先级
 
@@ -329,7 +368,7 @@ _layout.pug (根布局)
 ### 关键配置路径
 
 ```
-theme.style.color.*     → CSS 编译时变量
+theme.style.*           → 外观选择、设计令牌覆盖和布局尺度
 theme.sidebar.*         → 侧边栏配置
 theme.header.*          → 导航栏配置
 theme.post.*            → 文章页配置
@@ -342,26 +381,26 @@ theme.cdn_image.*       → 正文图片 CDN 配置
 
 ---
 
-## 7. 关键约束（修改时必须遵守）
+## 8. 关键约束（修改时必须遵守）
 
 1. **模板与样式命名必须对齐**：Pug 的 class/id 变更需同步到 Stylus 与 JS 选择器。
 2. **JS 模块导出风格保持稳定**：默认导出与具名导出不要随意变更，避免入口调用失配。
 3. **入口初始化顺序应保持可预期**：`main.js` 中初始化函数尽量保持“布局 -> 交互 -> 功能”顺序。
-4. **样式优先使用 Stylus 编译时变量**：统一使用 `$color-*`，避免引入未定义的运行时 CSS 变量。
+4. **组件只消费语义设计令牌**：Stylus 负责生成令牌；组件不得直接写入页面颜色、阴影或组件专属调色板。
 5. **修改构建期过滤器后建议全量重建**：执行 `npx hexo clean && npx hexo generate`，防止 db 缓存导致产物未更新。
 
 ---
 
-## 8. 已知问题
+## 9. 已知问题
 
-- `Canvas` 星空会根据视口调整粒子数量，但低性能移动设备仍可能出现掉帧；目前没有统一的性能降级开关。
-- Hero 文字在侧边栏切换等动态布局变化后依赖 `layoutchange` 重新计算，部分窄屏组合仍可能出现居中偏差。
+- 视觉系统重构前，`Canvas` 星空没有统一的性能降级、可见性暂停或减少动效处理。
+- 视觉系统重构前，页面依赖固定视口高度和内部滚动；窄屏与短高度窗口的处理未区分。
 - 主题保留了部分第三方生成结构和历史 ID/class 选择器以维持兼容，不能只根据命名一致性做机械重构。
 - 主题缺少覆盖全部配置组合的自动化浏览器测试；涉及响应式、搜索、加密、评论或本地/CDN 资源切换时仍需人工页面验证。
 
 ---
 
-## 9. JavaScript 开发规范
+## 10. JavaScript 开发规范
 
 ### 运行环境边界
 
@@ -406,7 +445,7 @@ new Background();
 
 ---
 
-## 10. 验证矩阵
+## 11. 验证矩阵
 
 主题依赖宿主 Hexo 项目完成构建。在博客根目录执行：
 

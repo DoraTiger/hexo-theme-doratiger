@@ -68,7 +68,6 @@
         enable: true
         number: false
         depth: 3
-        prefix: ">>"
       friendlink:
         enable: true
         item:
@@ -85,7 +84,6 @@
 3. 配置建议
 
     - `toc.depth` 建议 `2-3`，过深会影响移动端阅读。
-    - `toc.prefix` 支持任意短符号，例如 `>>`、`-`、`·`。
     - 社交链接保持 `3-6` 个更利于视觉平衡。
 
 ---
@@ -269,14 +267,14 @@
       qrcode:
         enable: true
         size: 120
-        tip: "手机扫码阅读"
+        tip: "" # 留空使用当前语言的内置文案
     ```
 
 2. 配置项说明
 
     - `enable`：开启文章二维码。
     - `size`：二维码尺寸（像素）。
-    - `tip`：二维码下方提示文案。
+    - `tip`：二维码下方提示文案；留空时使用当前语言的内置文案。
 
 3. 配置建议
 
@@ -293,7 +291,7 @@
     post_extend:
       sponsor:
         enable: true
-        tip: "如果觉得有帮助，可以请作者喝杯咖啡 ☕"
+        tip: "" # 留空使用当前语言的内置文案
         alipay: "/images/alipay.jpg"
         wechat: "/images/wechat.jpg"
     ```
@@ -301,7 +299,7 @@
 2. 配置项说明
 
     - `enable`：是否显示赞赏按钮。
-    - `tip`：赞赏面板提示文案。
+    - `tip`：赞赏面板提示文案；留空时使用当前语言的内置文案。
     - `alipay`：支付宝收款码路径。
     - `wechat`：微信收款码路径。
 
@@ -396,7 +394,7 @@
     ```yaml
     terms:
       enable: true
-      title: "服务条款"
+      title: "" # 留空使用当前语言的页面标题
       license: ""
       extra_content: ""
     ```
@@ -404,7 +402,7 @@
 2. 配置项说明
 
     - `enable`：是否启用服务条款页。
-    - `title`：页面标题。
+    - `title`：页面标题；留空时使用当前语言的内置标题与正文。
     - `license`：知识产权声明；留空时当前条款页显示默认的 `CC BY-NC-SA 4.0`。
     - `extra_content`：额外条款内容，支持 HTML。
 
@@ -422,14 +420,14 @@
     ```yaml
     privacy:
       enable: true
-      title: "隐私政策"
+      title: "" # 留空使用当前语言的页面标题
       extra_content: ""
     ```
 
 2. 配置项说明
 
     - `enable`：是否启用隐私政策页。
-    - `title`：页面标题。
+    - `title`：页面标题；留空时使用当前语言的内置标题与正文。
     - `extra_content`：额外内容，支持 HTML。
 
 3. 配置建议
@@ -445,7 +443,7 @@
     ```yaml
     redirect:
       enable: true
-      source: "DoraTiger 的次元"
+      source: "" # 留空使用 Hexo 的 config.title
       method: "exclude"   # include | exclude
       include:
       exclude:
@@ -454,7 +452,7 @@
 2. 配置项说明
 
     - `enable`：是否启用外链跳转确认页。
-    - `source`：提示页来源文案。
+    - `source`：提示页来源文案；留空时使用 Hexo 的 `config.title`。
     - `method`：重定向策略（`include` 或 `exclude`）。
     - `include`：仅在 `method=include` 时生效，命中列表才重定向。
     - `exclude`：仅在 `method=exclude` 时生效，命中列表不重定向。
@@ -504,48 +502,29 @@
 
     ```yaml
     style:
-      color:
-        theme: "rgba(230, 119, 0, 1)"
-        sub_theme: "rgba(73, 177, 245, 1)"
-        text: "rgba(255, 255, 255, 1)"
-        background: "radial-gradient(...)"
-        content_background: "rgba(255, 255, 255, 0.1)"
-        sidebar_background: "rgba(255, 255, 255, 0.1)"
-        button_background: "rgba(255, 255, 255, 0.1)"
-        code_header_background: "rgba(255, 255, 255, 0.1)"
-        code_background: "rgba(255, 255, 255, 0.1)"
-        border: "rgba(128, 128, 128, 0.8)"
-        border_shadow: "rgba(0, 0, 0, 0.5)"
-      font:
-        size: "16px"
-      sidebar:
-        width: "300px"
-      main:
-        header:
-          height: "3rem"
-          border_bottom: "1px solid rgba(128, 128, 128, 0.8)"
-        content:
-          max_width: "1200px"
-          padding: "1rem"
-        footer:
-          height: "3rem"
-          border_top: "1px solid rgba(128, 128, 128, 0.8)"
+      appearance: "night"
+      accent: "#E7A63A"
+      accent_secondary: "#73C4F5"
+      typography:
+        font_size: "16px"
+      layout:
+        content_width: "46rem"
+        sidebar_width: "18rem"
     ```
 
 2. 配置项说明
 
-    - `color`：主题色、背景色、内容区/侧边栏/按钮/代码块配色、边框与阴影等。
-    - `font.size`：基础字体大小。
-    - `sidebar.width`：侧栏宽度。
-    - `main.header`：头部高度与底边框。
-    - `main.content`：主内容区宽度与内边距。
-    - `main.footer`：底部高度与顶边框。
+    - `appearance`：初始外观策略。`night` 为默认星空，`day` 为日照配色，`system` 跟随浏览器的系统配色偏好；页头月/日按钮可在浏览器本地覆盖此初始选择，不会改写主题配置。
+    - `accent`、`accent_secondary`：主强调色与次强调色，分别用于主操作/当前状态和链接/辅助定位。
+    - `typography.font_size`：基础字号。
+    - `layout.content_width`：正文最大阅读宽度。
+    - `layout.sidebar_width`：桌面侧栏宽度；低于 1280px 时侧栏会转为抽屉。
 
 3. 配置建议
 
-    - `font.size` 常用区间 `14px-18px`。
-    - `main.content.max_width` 建议 `1000px-1280px`。
-    - `border_shadow` 建议使用半透明深色，避免遮挡正文内容。
+    - `font_size` 常用区间为 `14px-18px`。
+    - 长文站点建议保持 `content_width` 在 `42rem-50rem`，优先保证可读性而非单行塞入更多文字。
+    - 不再提供按按钮、卡片、代码块逐项拆分的颜色配置；这些组件使用主题内部语义令牌，以保持昼夜两套外观的一致性。
 
 ---
 
@@ -647,9 +626,9 @@
     ```yaml
     encrypt:
       enable: true
-      abstract: "这是一篇加密文章，需要密码才能继续阅读。"
-      message: "请输入密码："
-      wrong_pass_message: "密码错误，请重试。"
+      abstract: "" # 留空使用当前语言的内置文案
+      message: ""
+      wrong_pass_message: ""
       tags:
         # - name: "private"
         #   password: "shared-password"
@@ -658,8 +637,8 @@
 2. 配置项说明
 
     - `enable`：启用加密能力。
-    - `abstract` / `message`：加密提示文案。
-    - `wrong_pass_message`：密码错误提示文案。
+    - `abstract` / `message`：加密提示文案；留空时使用当前语言的内置文案。
+    - `wrong_pass_message`：密码错误提示文案；留空时使用当前语言的内置文案。
     - `tags`：按标签批量加密规则。
 
 3. 配置建议
@@ -716,15 +695,15 @@
           - layout
         hit:
           per_page: 10
-          empty: "找不到内容"
-          placeholder: "搜索文章"
+          empty: "" # 留空使用当前语言的内置文案
+          placeholder: ""
     ```
 
 2. 配置项说明
 
     - `app_id` / `api_key` / `search_key` / `index_name`：Algolia 基础凭据与索引名。
     - `fields`：索引字段白名单。
-    - `hit`：前端搜索 UI 文案与分页。
+    - `hit`：前端搜索 UI 文案与分页；`empty`、`placeholder` 留空时使用当前语言的内置文案。
 
 3. 配置建议
 
@@ -751,8 +730,8 @@
         content: false
         content_max_length: 5000
         hit:
-          placeholder: "搜索文章"
-          empty: "找不到内容"
+          placeholder: "" # 留空使用当前语言的内置文案
+          empty: ""
     ```
 
 2. 配置项说明

@@ -2,7 +2,7 @@
 
 # Hexo Theme DoraTiger
 
-A dark theme for Hexo with custom features and simple configuration.
+A Hexo theme for technical blogs: a starry night by default, with daylight and system-following appearances designed for comfortable long-form reading.
 
 ## Quick Start
 
