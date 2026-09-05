@@ -1,7 +1,8 @@
 "use strict";
+const { getThemeConfig } = require("../../utils/theme.js");
+
 module.exports = (hexo) => {
-    const config = hexo.config;
-    const theme = config.theme_config || {};
+    const theme = getThemeConfig(hexo);
 
     // 评论配置
     const comment = theme.comment || {};

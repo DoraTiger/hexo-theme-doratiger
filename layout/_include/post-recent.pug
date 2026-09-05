@@ -6,7 +6,7 @@
         if post.sticky
           span.post-item-header-sticky 📌 置顶
         - let title_text = post.title || _p("post.untitled")
-        a.post-item-header-title= title_text
+        a.post-item-header-title(href=url_for(link))= title_text
         .post-item-header-meta
           - let enableDate = (theme.home.post_meta?.date ?? false)
           - let enableUpdate = (theme.home.post_meta?.update ?? false)

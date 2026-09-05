@@ -13,7 +13,7 @@
 #sidebar-info(class= showToc ? 'hide' : '')
   .author-info
     .author-info-avatar
-      img.author-info-avatar-img(src=author_avatar)
+      img.author-info-avatar-img(src=url_for(author_avatar))
     .author-info-name= author_name
     .author-info-description= author_description
     if social_links

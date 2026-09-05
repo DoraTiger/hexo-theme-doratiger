@@ -47,7 +47,7 @@
 
 3. 配置建议
 
-    - `favicon`、`avatar` 建议放在 `source/images/` 下并使用站点根路径引用。
+    - `favicon`、`avatar` 建议放在 `source/images/` 下，填写逻辑站内路径（如 `/images/avatar.png`）。主题会通过 Hexo `url_for` 解析，站点部署到子路径时无需改写为 `/blog/images/...`。
 
 ---
 
@@ -309,7 +309,7 @@
 
 3. 配置建议
 
-    - 路径建议使用站点根路径（如 `/images/alipay.jpg`）。
+    - 路径填写逻辑站内路径（如 `/images/alipay.jpg`）；主题会通过 Hexo `url_for` 适配站点根路径或子路径部署。
     - 图片建议放在博客 `source/images/` 目录。
     - 任一字段留空时，对应二维码不渲染。
     - 默认二维码仅用于演示，请替换为自己的收款码。

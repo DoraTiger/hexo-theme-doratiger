@@ -16,7 +16,7 @@ mixin header-time
   #header-left-menu-list
     each item in (theme.header.menu || [])
       - let i18n = item.key + ".menu"
-      a.header-left-menu-list-item(href=item.url)= _p(i18n)
+      a.header-left-menu-list-item(href=url_for(item.url))= _p(i18n)
 
 #header-center
 

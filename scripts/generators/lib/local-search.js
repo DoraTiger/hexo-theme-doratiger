@@ -3,13 +3,14 @@
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
+const { getThemeConfig } = require("../../utils/theme.js");
 
 /**
  * 本地搜索索引生成器
  * 生成 JSON 格式的搜索索引，前端 JS 直接搜索
  */
 module.exports = function (locals) {
-    const theme = this.config.theme_config || {};
+    const theme = getThemeConfig(this);
 
     if (!theme.search || !theme.search.enable || theme.search.type !== "local") return;
 
@@ -31,7 +32,7 @@ module.exports = function (locals) {
 
     const getUserLocalConfig = () => {
         const themeName = this.config.theme;
-        const rootDir = this.config.root || process.cwd();
+        const rootDir = this.base_dir || process.cwd();
         const userConfigPath = path.join(rootDir, `_config.${themeName}.yml`);
 
         try {

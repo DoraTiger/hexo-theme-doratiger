@@ -10,6 +10,7 @@ const { getPostsWithFields } = require("../../utils/posts.js");
 function preCheck(hexo) {
     const doratigerConfig = hexo.doratiger.config;
     const searchConfig = doratigerConfig.search;
+    const siteAlgolia = hexo.config.algolia || {};
     const env = process.env;
 
     // 检查是否启用 algoliasearch 搜索功能
@@ -51,22 +52,22 @@ function preCheck(hexo) {
     const app_id =
         env.ALGOLIA_APP_ID ||
         algoliaConfig.app_id ||
-        hexoConfig.algolia.applicationID ||
+        siteAlgolia.applicationID ||
         "";
     const api_key =
         env.ALGOLIA_API_KEY ||
         algoliaConfig.api_key ||
-        hexoConfig.algolia.apiKey ||
+        siteAlgolia.apiKey ||
         "";
     const search_key =
         env.ALGOLIA_SEARCH_KEY ||
         algoliaConfig.search_key ||
-        hexoConfig.algolia.apiKey ||
+        siteAlgolia.apiKey ||
         "";
     const index_name =
         env.ALGOLIA_INDEX_NAME ||
         algoliaConfig.index_name ||
-        hexoConfig.algolia.indexName ||
+        siteAlgolia.indexName ||
         "";
     const fields = algoliaConfig.fields || [];
     const chunk_size = algoliaConfig.chunk_size || 1000;
@@ -98,7 +99,7 @@ function preCheck(hexo) {
     };
 }
 
-module.exports = async (hexo, options, callback) => {
+module.exports = async (hexo, options, callback = () => {}) => {
     let option_clean = getBoolOption(options, ["clean", "c"], true);
     let option_dry_run = getBoolOption(options, ["dry-run", "d"], false);
     let algoliaConfig = preCheck(hexo);

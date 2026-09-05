@@ -35,6 +35,6 @@ html(lang=config.language)
           if (!link) return;
           e.preventDefault();
           var url = link.getAttribute('data-redirect');
-          window.location.href = '/redirect/?url=' + url;
+          window.location.href = '#{url_for('/redirect/')}?url=' + url;
         });
       })();

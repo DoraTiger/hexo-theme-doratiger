@@ -6,6 +6,7 @@
  * 监听 Hexo 的 "ready" 事件，该事件在初始化完成后触发。
  * 可用于扩展 Hexo 的功能或加载额外的插件。
  */
+module.exports = (hexo) => {
 hexo.on("ready", () => {
     require("./lib/themeConfig.js")(hexo);
 });
@@ -43,7 +44,9 @@ hexo.on("deployAfter", () => {});
  * 可用于准备生成器所需的环境或执行预处理操作。
  */
 hexo.on("generateBefore", () => {
+    require("./lib/themeConfig.js")(hexo);
     require("./lib/mergeConfig.js")(hexo);
+    require("../injectors")(hexo);
 });
 
 /**
@@ -68,3 +71,4 @@ hexo.on("exit", () => {});
  *   - content: 文章的初始内容（字符串）。
  */
 hexo.on("new", (post) => {});
+};

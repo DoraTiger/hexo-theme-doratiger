@@ -3,7 +3,7 @@
 const { isEmptyObject } = require("./object.js");
 
 module.exports = {
-    loadResource(resource, type, globalCDN) {
+    loadResource(resource, type, globalCDN, urlFor = (resourcePath) => resourcePath) {
         if (isEmptyObject(resource)) {
             return "";
         }
@@ -22,9 +22,9 @@ module.exports = {
         return paths
             .map((path) => {
                 if (type === "css") {
-                    return `<link rel="stylesheet" href="${path}">`;
+                    return `<link rel="stylesheet" href="${enableCDN ? path : urlFor(path)}">`;
                 } else if (type === "js") {
-                    return `<script src="${path}"></script>`;
+                    return `<script src="${enableCDN ? path : urlFor(path)}"></script>`;
                 }
                 return "";
             })

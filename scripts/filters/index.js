@@ -5,6 +5,7 @@
 /**
  * 在初始化完成后触发。
  */
+module.exports = (hexo) => {
 hexo.extend.filter.register("after_init", () => {});
 
 /**
@@ -120,3 +121,4 @@ hexo.extend.filter.register("after_render:js", (data) => {
 hexo.extend.filter.register("after_render:html", (data) => {
     return data;
 });
+};

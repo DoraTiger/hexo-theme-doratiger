@@ -1,7 +1,5 @@
 "use strict";
 
-const { theme } = require("hexo/dist/hexo/default_config");
-const log = require("../../utils/log");
 const { merge } = require("../../utils/object");
 
 module.exports = (hexo) => {

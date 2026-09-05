@@ -1,3 +1,4 @@
+module.exports = (hexo) => {
 hexo.extend.console.register(
     "algolia",
     "Algolia Index Manager",
@@ -41,3 +42,4 @@ hexo.extend.console.register(
         require("./lib/themeinit.js")(hexo, options, callback);
     }
 );
+};

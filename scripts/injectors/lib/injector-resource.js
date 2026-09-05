@@ -1,16 +1,19 @@
 "use strict";
 
 const { loadResource } = require("../../utils/loadResource.js");
+const { getThemeConfig } = require("../../utils/theme.js");
+const { getUrlFor } = require("../../utils/url.js");
 
 module.exports = (hexo, resourceType = "") => {
     let resources = [];
+    const urlFor = getUrlFor(hexo);
 
     switch (resourceType) {
         case "css":
-            resources.push(`<link rel="stylesheet" href="/css/main.css">`);
+            resources.push(`<link rel="stylesheet" href="${urlFor("/css/main.css")}">`);
             break;
         case "js":
-            resources.push(`<script type="module" src="/js/main.js"></script>`);
+            resources.push(`<script type="module" src="${urlFor("/js/main.js")}"></script>`);
             break;
         case "script":
             break;
@@ -18,10 +21,9 @@ module.exports = (hexo, resourceType = "") => {
             return "";
     }
 
-    const config = hexo.config;
-    const theme = config.theme_config || {};
+    const theme = getThemeConfig(hexo);
     const resource = theme.resource || {};
-    const globalCDN = theme.resource.enable_cdn || false;
+    const globalCDN = resource.enable_cdn || false;
 
     // 单独处理搜索资源
     const search = theme.search || {};
@@ -29,7 +31,7 @@ module.exports = (hexo, resourceType = "") => {
     const search_type = search.type || null;
     if (search_enable && search_type) {
         resources.push(
-            loadResource(resource[search_type], resourceType, globalCDN)
+            loadResource(resource[search_type], resourceType, globalCDN, urlFor)
         );
     }
 
@@ -39,7 +41,7 @@ module.exports = (hexo, resourceType = "") => {
     const statistics_type = statistics.type || null;
     if (statistics_enable && statistics_type) {
         resources.push(
-            loadResource(resource[statistics_type], resourceType, globalCDN)
+            loadResource(resource[statistics_type], resourceType, globalCDN, urlFor)
         );
     }
 
@@ -49,7 +51,7 @@ module.exports = (hexo, resourceType = "") => {
     const comment_type = comment.type || null;
     if (comment_enable && comment_type) {
         resources.push(
-            loadResource(resource[comment_type], resourceType, globalCDN)
+            loadResource(resource[comment_type], resourceType, globalCDN, urlFor)
         );
     }
 
@@ -59,14 +61,14 @@ module.exports = (hexo, resourceType = "") => {
     const highlight_type = highlight.type || null;
     if (highlight_enable && highlight_type) {
         resources.push(
-            loadResource(resource[highlight_type], resourceType, globalCDN)
+            loadResource(resource[highlight_type], resourceType, globalCDN, urlFor)
         );
     }
 
     // 处理第三方资源
     const thirdpart_resource = theme.thirdparty || theme.thirdpary || {};
     for (let key in thirdpart_resource) {
-        resources.push(loadResource(thirdpart_resource[key], resourceType, globalCDN));
+        resources.push(loadResource(thirdpart_resource[key], resourceType, globalCDN, urlFor));
     }
 
     return resources

@@ -20,7 +20,7 @@
         if (el) el.textContent = remaining;
         if (remaining <= 0) {
           clearInterval(timer);
-          window.location.href = '/';
+          window.location.href = '#{url_for('/')}';
         }
       }, 1000);
     })();

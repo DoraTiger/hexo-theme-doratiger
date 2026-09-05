@@ -12,12 +12,15 @@ const yaml = require("js-yaml");
  * @description 从 /_data/doratiger_config.yml 获取主题配置
  */
 const getDataThemeConfig = (hexo) => {
+    const filePath = path.join(
+        hexo.base_dir,
+        "source",
+        "_data",
+        "doratiger_config.yml"
+    );
     let themeConfig = {};
-    if (hexo.locals.get instanceof Function) {
-        const data = hexo.locals.get("data");
-        if (data && isNotEmptyObject(data.doratiger_config)) {
-            themeConfig = yaml.load(data.doratiger_config);
-        }
+    if (fs.existsSync(filePath)) {
+        themeConfig = yaml.load(fs.readFileSync(filePath, "utf8")) || {};
     }
     if (
         (isNotEmptyObject(themeConfig) && hexo.version.split(".")[0] >= 5) ||
@@ -59,8 +62,11 @@ const getRootThemeConfig = (hexo) => {
  * @description - 从/themes/hexo-theme-doratiger/_config.yml 中获取主题配置
  */
 const getDefaultThemeConfig = (hexo) => {
-    let themeConfig = hexo.config.theme_config;
-    return themeConfig;
+    const filePath = path.join(hexo.theme_dir, "_config.yml");
+    if (!fs.existsSync(filePath)) {
+        return {};
+    }
+    return yaml.load(fs.readFileSync(filePath, "utf8")) || {};
 };
 /**
  *

@@ -1,6 +1,6 @@
 # Hexo Theme DoraTiger 设计文档
 
-> 最后更新: 2026-09-03
+> 最后更新: 2026-09-05
 
 ---
 
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 ### 加载方式
 
-- **main.js**：通过 injector 注入为 `<script type="module">`（head 区域）
+- **main.js**：通过 injector 注入为 `<script type="module">`（body 结束前）
 - **localSearch.js**：通过 header.pug 的 `<script>` 标签直接加载
 - **algolia 相关**：通过 CDN `<script>` 标签加载
 
@@ -295,6 +295,16 @@ _layout.pug (根布局)
 2. _config.hexo-theme-doratiger.yml (用户覆盖)
 3. 文章 front-matter (单篇覆盖)
 ```
+
+### 生命周期与配置可见性
+
+`scripts/index.js` 是 Hexo 构建期脚本的唯一入口；各目录仍按职责拆分。主题在 `ready` 阶段先读取主题默认配置与根目录 `_config.hexo-theme-doratiger.yml`，将合并结果保存到 `hexo.doratiger.config`。这样，依赖主题变量的构建期逻辑不必等待模板渲染。
+
+在 `generateBefore` 阶段，主题会再次合并已由 Hexo 处理完的历史 `source/_data/doratiger_config.yml`，再将结果发布到 `theme.config`，并在此后注册 injector。模板、生成器和资源注入器因此消费同一份最终配置；历史配置兼容逻辑不能仅依赖 Hexo 的自动主题配置合并替代。
+
+### 内部 URL 约定
+
+主题内的站内路径（模板、默认资源与本地资源清单）必须通过 Hexo `url_for` 解析，逻辑路径可写成 `/images/avatar.png` 或 `/archives`。这样站点 `root` 为 `/` 与子路径（如 `/blog/`）时都会生成正确地址。完整 HTTP(S)、`mailto:` 等外部地址保持原值，不应手动拼接站点根路径。
 
 ### 关键配置路径
 
@@ -395,3 +405,4 @@ npm run build
 | 加密 / 外链重定向 | 正确密码、错误密码、站内链接、外链和特殊协议 |
 | 配置 / i18n | 默认配置、用户覆盖配置、`zh-Hans` 与 `en` 关键页面 |
 | 资源加载 | 本地资源模式；涉及 CDN 时再检查 CDN 覆盖模式 |
+| 生命周期 / 站内路径 | 使用最小站点分别验证 `root: /` 与子路径 `root: /blog/`；确认 CSS、JS、头像/SEO、导航、404 与重定向地址 |

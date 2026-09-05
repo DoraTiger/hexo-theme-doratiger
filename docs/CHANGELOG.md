@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-09-05
+
+### Changed
+- 新增 `scripts/index.js` 作为 Hexo 构建期脚本入口；各功能目录保持独立注册。
+- 配置合并改为在 `ready` 形成统一快照、在 `generateBefore` 发布并注册资源注入器，确保注入脚本可读取最终主题配置。
+
+### Fixed
+- 修复 CSS/JS injector 未被 Hexo 加载，以及子路径部署时本地资源、导航、头像、404、隐私页和外链重定向地址丢失 `root` 前缀的问题。
+- 修复默认 Open Graph 图片、首页文章标题链接、Algolia 配置回退与 Stylus 未定义颜色变量。
+
 ## 2026-03-30
 
 ### Added
