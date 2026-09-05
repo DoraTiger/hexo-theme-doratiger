@@ -1,6 +1,7 @@
 ### macOS ###
 # General
 .DS_Store
+.env
 .AppleDouble
 .LSOverride
 # Thumbnails
@@ -13,3 +14,7 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/*.code-snippets
+
+# Agent-authored working specifications and implementation plans.
+# User-facing theme documentation remains versioned under docs/.
+docs/superpowers/

@@ -8,7 +8,7 @@ const test = require("node:test");
 const Hexo = require("hexo");
 
 const themeDir = path.resolve(__dirname, "..");
-const hostDir = path.resolve(themeDir, "../..");
+const hostDir = process.env.HEXO_HOST_DIR || path.resolve(themeDir, "../..");
 
 const write = (target, content) => {
     fs.mkdirSync(path.dirname(target), { recursive: true });
@@ -48,6 +48,10 @@ test("theme honors a subpath root across generated assets, routes, and metadata"
         "    api_key: ''",
         "    search_key: ''",
         "    index_name: ''",
+        "cdn_image:",
+        "  enable: true",
+        "  fallback:",
+        "    enable: true",
     ].join("\n") + "\n");
     write(path.join(fixtureDir, "source", "_data", "doratiger_config.yml"), [
         "global:",
@@ -88,6 +92,12 @@ test("theme honors a subpath root across generated assets, routes, and metadata"
 
     assert.match(index, /href="\/blog\/css\/main\.css"/);
     assert.match(index, /src="\/blog\/js\/main\.js"/);
+    const fallbackScriptIndex = index.indexOf('<script src="/blog/js/utils/cdnImageFallback.js"></script>');
+    assert.ok(fallbackScriptIndex >= 0, "the fallback listener must be injected when enabled");
+    assert.ok(
+        fallbackScriptIndex < index.indexOf("<body"),
+        "the fallback listener must register before document images begin loading"
+    );
     assert.match(index, /href="\/blog\/images\/legacy-favicon\.png"/);
     assert.match(index, /property="og:image" content="\/blog\/images\/root-avatar\.png"/);
     assert.match(index, /class="author-info-avatar-img" src="\/blog\/images\/root-avatar\.png"/);

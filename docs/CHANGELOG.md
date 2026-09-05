@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- 新增可选的七牛正文图片 CDN：`hexo cdn sync/check/prune`、主站侧 manifest 与构建期 URL 改写。
+- 可选 CDN 加载失败回退到随站点发布的本地正文图片。
+
 ## 2026-09-05
 
 ### Changed

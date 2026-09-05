@@ -42,4 +42,26 @@ hexo.extend.console.register(
         require("./lib/themeinit.js")(hexo, options, callback);
     }
 );
+
+hexo.extend.console.register(
+    "cdn",
+    "DoraTiger CDN image manager",
+    {
+        options: [
+            {
+                name: "--apply",
+                description: "perform a destructive prune",
+                default: false,
+            },
+            {
+                name: "--yes",
+                description: "confirm destructive prune",
+                default: false,
+            },
+        ],
+    },
+    (options, callback) => {
+        require("./lib/cdn-image.js")(hexo, options, callback);
+    }
+);
 };

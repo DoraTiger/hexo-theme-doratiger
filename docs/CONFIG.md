@@ -2,6 +2,38 @@
 
 所有配置均在 `_config.hexo-theme-doratiger.yml` 中修改，不要直接改主题源码。
 
+## 正文图片 CDN（Qiniu）
+
+此功能默认关闭。它只处理已发布文章正文中引用的本地图片；不会修改 Markdown 源文件，也不会扫描 `public/`、页面 front-matter、主题资源或外部 URL。
+
+```yaml
+cdn_image:
+  enable: true
+  provider: qiniu
+  public_base_url: https://cdn.example.com
+  key_prefix: images
+  manifest_path: plugins/cdn_image/.hexo-cdn-image-manifest.json
+  qiniu:
+    bucket: your-bucket
+    region: z0
+    access_key: ""
+    secret_key: ""
+```
+
+`key_prefix` 默认为 `images`；本地逻辑路径保持不变，例如 `source/images/a.png` 会上传为 `images/images/a.png`。凭据也可通过 `QINIU_AccessKey` 与 `QINIU_SecretKey` 环境变量提供，优先级高于配置文件。不要将含凭据的主站配置提交到公开仓库。
+
+设置 `cdn_image.fallback.enable: true` 后，主题会为已改写的图片保留本地候选路径，并按需注入一个浏览器端监听器。CDN 图片加载失败时，它只回退一次到随站点发布的本地图片；未启用时不添加此脚本或任何回退属性。
+
+在 Hexo 根目录执行：
+
+```bash
+hexo cdn sync
+hexo cdn check
+hexo cdn prune
+```
+
+`sync` 仅从 Hexo 的文章与资源模型发现图片、上传新增或变更项，并将 manifest 写入 `<Hexo 根目录>/plugins/cdn_image/.hexo-cdn-image-manifest.json`。之后正常 `hexo generate` 会按 manifest 动态将正文 HTML 改写为 CDN URL。`check` 离线检查 manifest 与正文资源是否一致。`prune` 默认仅列出 manifest 中已不再引用的对象；实际删除必须明确使用 `hexo cdn prune --apply --yes`，且只会删除当前 manifest 管理的对象。主题不会更改主站的 Git 忽略或提交策略。
+
 ---
 
 ## 配置初始化（themeinit）

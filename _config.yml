@@ -873,6 +873,42 @@ search:
       empty: "找不到您查询的内容"
 
 # --------------------------------------------------
+# 正文图片 CDN 配置
+# Post Body Image CDN Configuration
+# --------------------------------------------------
+cdn_image:
+  # 是否将已同步的正文图片 URL 替换为 CDN URL
+  # Whether to rewrite synced post-body image URLs to CDN URLs
+  enable: false
+
+  # 当前唯一实现为 qiniu；关闭时不会访问远端
+  # The only implemented provider is qiniu; disabled mode never accesses remote services
+  provider: "qiniu"
+
+  # 公开 CDN 域名，不以斜杠结尾
+  # Public CDN origin, without a trailing slash
+  public_base_url: ""
+
+  # 七牛对象 key 的统一前缀
+  # Common prefix for Qiniu object keys
+  key_prefix: "images"
+
+  # 相对于 Hexo 根目录；主题不会修改宿主仓库的忽略或提交规则
+  # Relative to Hexo base directory; the theme never changes host Git policy
+  manifest_path: "plugins/cdn_image/.hexo-cdn-image-manifest.json"
+
+  # CDN 图片加载失败时回退到随站点发布的本地图片
+  # Fall back to the locally published image when CDN loading fails
+  fallback:
+    enable: false
+
+  qiniu:
+    bucket: ""
+    region: ""
+    access_key: ""
+    secret_key: ""
+
+# --------------------------------------------------
 # 统计功能配置
 # Statistics Function Configuration
 # --------------------------------------------------

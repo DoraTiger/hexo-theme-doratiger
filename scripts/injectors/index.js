@@ -14,6 +14,7 @@ module.exports = (hexo) => {
         function () {
             let inject_content = [];
             inject_content.push(require("./lib/injector-config.js")(hexo));
+            inject_content.push(require("./lib/injector-cdn-image-fallback.js")(hexo));
             inject_content.push(require("./lib/injector-search.js")(hexo));
             inject_content.push(require("./lib/injector-resource.js")(hexo, "css"));
             return inject_content.join("\n");

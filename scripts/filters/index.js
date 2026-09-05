@@ -59,6 +59,9 @@ hexo.extend.filter.register("before_post_render", (data) => {
 hexo.extend.filter.register("after_post_render", (data) => {
     require("./lib/code")(hexo, data);
     require("./lib/redirect")(hexo, data);
+    data.content = require("./lib/cdn-image")(hexo, data.content, {
+        pagePath: data.path || "",
+    });
     require("./lib/encrypt")(hexo, data);
     return data;
 });
@@ -119,6 +122,6 @@ hexo.extend.filter.register("after_render:js", (data) => {
  * @returns {string} 修改后的文件内容。
  */
 hexo.extend.filter.register("after_render:html", (data) => {
-    return data;
+    return require("./lib/cdn-image")(hexo, data);
 });
 };
