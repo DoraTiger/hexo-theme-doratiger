@@ -178,6 +178,8 @@ test("theme emits selectable celestial appearance tokens", async (t) => {
     assert.match(css, /--dt-celestial-safe-space:/);
     assert.match(css, /@media \(min-width: 1280px\)[\s\S]*--dt-celestial-safe-space/);
     assert.match(css, /@media \(max-width: 1279px\)[\s\S]*--dt-celestial-safe-space:\s*0/);
+    assert.match(css, /width:\s*min\(var\(--dt-stage-width\), calc\(100% - \(var\(--dt-celestial-safe-space\) \* 2\) - 2rem\)\)/);
+    assert.doesNotMatch(css, /celestial-stage-offset|translateX\(var\(--dt-celestial/);
     assert.match(css, /prefers-color-scheme:\s*light/);
     assert.match(css, /scrollbar-color:/);
     assert.match(css, /\.post-item-more::after/);

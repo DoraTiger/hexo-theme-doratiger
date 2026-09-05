@@ -239,12 +239,10 @@ html[data-appearance='day'] #celestial-sky
 @media (min-width: 1280px)
   :root
     --dt-celestial-safe-space: clamp(10rem, 14vw, 18rem)
-    --dt-celestial-stage-offset: clamp(-9rem, -7vw, -5rem)
 
   #content-wrapper #content
-    width unquote('min(var(--dt-stage-width), calc(100% - var(--dt-celestial-safe-space) - 2rem))')
+    width unquote('min(var(--dt-stage-width), calc(100% - (var(--dt-celestial-safe-space) * 2) - 2rem))')
     max-width none
-    transform translateX(var(--dt-celestial-stage-offset))
 
 @media (min-width: 1600px)
   :root
@@ -258,7 +256,6 @@ html[data-appearance='day'] #celestial-sky
     // Keep the 4K stage generous without turning a long article into a wall of text.
     --dt-stage-width: unquote('min(104rem, calc(100vw - 32rem))')
     --dt-celestial-safe-space: 10rem
-    --dt-celestial-stage-offset: -4rem
 
 #footer-wrapper
   display flex
@@ -302,7 +299,6 @@ html[data-appearance='day'] #celestial-sky
 @media (max-width: 1279px)
   :root
     --dt-celestial-safe-space: 0
-    --dt-celestial-stage-offset: 0
 
   #sidebar-container
     transform translateX(-100%)
