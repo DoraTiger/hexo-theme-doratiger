@@ -8,9 +8,6 @@ mixin statistics
       if statistics_type == "busuanzi"
         - let enable_pv = theme.statistics.busuanzi.pv || false
         - let enable_uv = theme.statistics.busuanzi.uv || false
-        - let cdn_js = theme.resource.busuanzi.cdn.js || 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'
-
-        script(src=url_for(cdn_js) async='')
         if(!is_post())
           if enable_uv
             span#busuanzi_container_site_uv
@@ -131,7 +128,7 @@ mixin mps
         a.mps-text(rel='noopener' href=mps_link target='_blank') #{mps_text}
 
 #footer-left
-  #footer-left-sidebar-icon
+  button#footer-left-sidebar-icon(type='button' aria-label=_p('sidebar.toggle') aria-controls='sidebar-container' aria-expanded='true')
     i.fas.fa-arrow-left
 #footer-center
 #footer-right

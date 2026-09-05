@@ -62,6 +62,7 @@ test("theme honors a subpath root across generated assets, routes, and metadata"
         "---",
         "title: Hello",
         "date: 2026-09-05 00:00:00",
+        "excerpt: '<a href=\"https://external.example.test/docs\">external</a>'",
         "---",
         "Hello world.",
     ].join("\n") + "\n");
@@ -102,11 +103,253 @@ test("theme honors a subpath root across generated assets, routes, and metadata"
     assert.match(index, /property="og:image" content="\/blog\/images\/root-avatar\.png"/);
     assert.match(index, /class="author-info-avatar-img" src="\/blog\/images\/root-avatar\.png"/);
     assert.match(index, /class="post-item-header-title" href="\/blog\/hello\/"/);
-    assert.match(index, /window\.location\.href = '\/blog\/redirect\/\?url=' \+ url/);
+    assert.match(index, /class="external-link" data-redirect="https%3A%2F%2Fexternal\.example\.test%2Fdocs"/);
+    assert.doesNotMatch(index, /external\.example\.test\/docs[^>]*target="_blank"/);
+    assert.match(index, /<html[^>]*data-redirect-path="\/blog\/redirect\/"/);
+    const redirectScriptIndex = index.indexOf('<script type="module" src="/blog/js/utils/externalRedirect.js"></script>');
+    assert.ok(redirectScriptIndex >= 0, "the global redirect listener must be injected when enabled");
+    assert.ok(redirectScriptIndex < index.indexOf("<body"), "the redirect listener must register before page content");
+    const redirectModule = fs.readFileSync(path.join(themeDir, "source", "js", "utils", "externalRedirect.js"), "utf8");
+    assert.match(redirectModule, /a\.external-link\[data-redirect\]/);
+    assert.match(redirectModule, /decodeURIComponent\(target\)/);
+    assert.match(redirectModule, /encodeURIComponent\(target\)/);
+    assert.match(redirectModule, /capture:\s*true/);
     assert.match(page404, /window\.location\.href = '\/blog\/'/);
+    assert.match(page404, / seconds until returning home/);
     assert.match(terms, /href="\/blog\/privacy\/"/);
+    assert.match(terms, /Terms of Service/);
+    assert.match(index, /"placeholder":"Search articles"/);
     assert.doesNotMatch(css, /\$color-(?:font|theme-font)/);
 
     await assert.doesNotReject(hexo.call("algolia", { "dry-run": true }));
     await hexo.exit();
+});
+
+test("theme emits selectable celestial appearance tokens", async (t) => {
+    const fixtureDir = fs.mkdtempSync(path.join(os.tmpdir(), "doratiger-appearance-test-"));
+    t.after(() => fs.rmSync(fixtureDir, { recursive: true, force: true }));
+    fs.mkdirSync(path.join(fixtureDir, "themes"), { recursive: true });
+    fs.symlinkSync(path.join(hostDir, "package.json"), path.join(fixtureDir, "package.json"));
+    fs.symlinkSync(path.join(hostDir, "node_modules"), path.join(fixtureDir, "node_modules"), "dir");
+    fs.symlinkSync(themeDir, path.join(fixtureDir, "themes", "hexo-theme-doratiger"), "dir");
+    write(path.join(fixtureDir, "_config.yml"), [
+        "title: Appearance fixture", "language: en", "url: https://example.test", "root: /",
+        "theme: hexo-theme-doratiger", "permalink: :title/",
+    ].join("\n") + "\n");
+    write(path.join(fixtureDir, "_config.hexo-theme-doratiger.yml"), [
+        "style:", "  appearance: system",
+        "sidebar:", "  toc:", "    enable: true",
+    ].join("\n") + "\n");
+    write(path.join(fixtureDir, "source", "_posts", "hello.md"), "---\ntitle: Hello\ndate: 2026-09-05\n---\n## Section\n\nHello.\n");
+    const hexo = new Hexo(fixtureDir, { silent: true });
+    await hexo.init();
+    await hexo.load();
+    await hexo.call("generate", { force: true });
+    const index = fs.readFileSync(path.join(fixtureDir, "public", "index.html"), "utf8");
+    const post = fs.readFileSync(path.join(fixtureDir, "public", "hello", "index.html"), "utf8");
+    const css = fs.readFileSync(path.join(fixtureDir, "public", "css", "main.css"), "utf8");
+    assert.match(index, /data-appearance="system"/);
+    assert.match(index, /id="header-right-appearance"/);
+    assert.match(index, /class="header-right-appearance-symbol"[^>]*aria-hidden="true">🌙<\/span>/);
+    assert.doesNotMatch(index, /header-right-appearance-(?:track|thumb|icon)/);
+    assert.match(index, /id="search-container"[^>]*role="dialog"[^>]*aria-modal="true"/);
+    assert.match(index, /id="celestial-orbit"/);
+    assert.ok(
+        index.indexOf('id="search-container"') > index.indexOf('</footer>'),
+        "the search dialog must be outside the filtered header shell"
+    );
+    assert.match(post, /id="sidebar-menu-switch"/);
+    assert.match(post, /data-toc-label="Table of Contents"[^>]*><span>Table of Contents<\/span>/);
+    assert.match(post, /data-info-label="Site Overview"/);
+    assert.doesNotMatch(post, /class="sidebar-toc-title"/);
+    assert.match(css, /--dt-canvas:/);
+    assert.match(css, /--dt-control:/);
+    assert.match(css, /--dt-stage-width:/);
+    assert.doesNotMatch(css, /--dt-reading-width:/);
+    assert.match(css, /#search-container\.show/);
+    assert.match(css, /#celestial-orbit/);
+    assert.match(css, /rotate\(180deg\)/);
+    assert.match(css, /--dt-control-hover:/);
+    assert.doesNotMatch(css, /html\[data-appearance='day'\] #header-right-appearance/);
+    assert.match(css, /backdrop-filter:\s*blur\(/);
+    assert.match(css, /@media \(min-width: 1600px\)/);
+    assert.match(css, /@media \(min-width: 2560px\)/);
+    assert.match(css, /--dt-stage-width:\s*min\(104rem, calc\(100vw - 32rem\)\)/);
+    assert.match(css, /--dt-celestial-safe-space:/);
+    assert.match(css, /@media \(min-width: 1280px\)[\s\S]*--dt-celestial-safe-space/);
+    assert.match(css, /@media \(max-width: 1279px\)[\s\S]*--dt-celestial-safe-space:\s*0/);
+    assert.match(css, /prefers-color-scheme:\s*light/);
+    assert.match(css, /scrollbar-color:/);
+    assert.match(css, /\.post-item-more::after/);
+    assert.match(css, /content:\s*'\\f105';/);
+    assert.doesNotMatch(css, /content:\s*'\\\\f105';/);
+    assert.match(css, /#content-wrapper\s*\{[^}]*overflow-y:\s*auto/);
+    assert.match(css, /#sidebar-container\.closed ~ #main-container/);
+    assert.match(css, /@media \(max-width: 1279px\)[\s\S]*#footer-wrapper #footer-left\s*\{[^}]*display:\s*none/);
+    assert.match(css, /#post \.post-item-content[\s\S]*margin-left:\s*auto/);
+    const headerTemplate = fs.readFileSync(path.join(themeDir, "layout", "_include", "header.pug"), "utf8");
+    const layoutTemplate = fs.readFileSync(path.join(themeDir, "layout", "_include", "_layout.pug"), "utf8");
+    assert.doesNotMatch(headerTemplate, /onclick=|onchange=|addEventListener/);
+    assert.doesNotMatch(layoutTemplate, /onclick=|onchange=|addEventListener/);
+    await hexo.exit();
+});
+
+test("appearance tokens drive shared text, overlay, and hero rendering", () => {
+    const variableStyles = fs.readFileSync(path.join(themeDir, "source/css/_variable/variable.styl"), "utf8");
+    const archiveStyles = fs.readFileSync(path.join(themeDir, "source/css/_layout/archive.styl"), "utf8");
+    const postStyles = fs.readFileSync(path.join(themeDir, "source/css/_layout/post.styl"), "utf8");
+    const searchStyles = fs.readFileSync(path.join(themeDir, "source/css/_layout/search.styl"), "utf8");
+    const commentStyles = fs.readFileSync(path.join(themeDir, "source/css/_layout/comments.styl"), "utf8");
+    const sidebarStyles = fs.readFileSync(path.join(themeDir, "source/css/_layout/sidebar.styl"), "utf8");
+    const heroModule = fs.readFileSync(path.join(themeDir, "source/js/layout/hero.js"), "utf8");
+
+    assert.match(variableStyles, /--dt-overlay:/);
+    assert.match(variableStyles, /--dt-accent-glow:/);
+    assert.match(archiveStyles, /color:\s*\$color-text-muted/);
+    assert.match(postStyles, /color:\s*\$color-text-muted/);
+    assert.match(searchStyles, /background:\s*var\(--dt-overlay\)/);
+    assert.match(heroModule, /this\.updatePalette\(\);\s*this\.resize\(\);/);
+    assert.doesNotMatch(heroModule, /rgba\(255,\s*255,\s*255/);
+    assert.match(commentStyles, /\.gitment-container, \.vwrap, #twikoo/);
+    assert.match(commentStyles, /var\(--dt-surface-raised\)/);
+    assert.match(commentStyles, /\.tk-send/);
+    assert.match(sidebarStyles, /\.sidebar-toc-content\s*\{[\s\S]*&::before/);
+    assert.match(sidebarStyles, /\.toc-link\s*\{[\s\S]*&::before\s*\{[\s\S]*border-radius:\s*50%/);
+    assert.doesNotMatch(sidebarStyles, /sidebar-toc-prefix/);
+    assert.match(sidebarStyles, /var\(--dt-accent-glow\)/);
+});
+
+test("interactive behavior stays in modules and dialogs isolate the background", () => {
+    const postTemplate = fs.readFileSync(path.join(themeDir, "layout", "_include", "post.pug"), "utf8");
+    const headerModule = fs.readFileSync(path.join(themeDir, "source", "js", "layout", "header.js"), "utf8");
+    const dialogModule = fs.readFileSync(path.join(themeDir, "source", "js", "utils", "dialog.js"), "utf8");
+    const encryptFilter = fs.readFileSync(path.join(themeDir, "scripts", "filters", "lib", "encrypt.js"), "utf8");
+
+    assert.doesNotMatch(postTemplate, /window\.QRCode|QRCode\.toDataURL/);
+    assert.match(headerModule, /createModalDialog/);
+    assert.match(dialogModule, /setBackgroundInteractivity/);
+    assert.match(dialogModule, /event\.key !== "Tab"/);
+    assert.match(dialogModule, /\.inert = isOpen/);
+    assert.match(encryptFilter, /hexo-encrypt-error/);
+    assert.match(encryptFilter, /role="alert"/);
+    assert.doesNotMatch(encryptFilter, /\balert\s*\(/);
+});
+
+test("global redirect handling uses the head injector rather than a page controller", () => {
+    const mainModule = fs.readFileSync(path.join(themeDir, "source/js/main.js"), "utf8");
+    const injector = fs.readFileSync(path.join(themeDir, "scripts", "injectors", "index.js"), "utf8");
+    assert.doesNotMatch(mainModule, /initExternalRedirect/);
+    assert.match(injector, /injector-external-redirect/);
+});
+
+test("documented page and search switches generate only their enabled surfaces", async (t) => {
+    const fixtureDir = fs.mkdtempSync(path.join(os.tmpdir(), "doratiger-switches-test-"));
+    t.after(() => fs.rmSync(fixtureDir, { recursive: true, force: true }));
+    fs.mkdirSync(path.join(fixtureDir, "themes"), { recursive: true });
+    fs.symlinkSync(path.join(hostDir, "package.json"), path.join(fixtureDir, "package.json"));
+    fs.symlinkSync(path.join(hostDir, "node_modules"), path.join(fixtureDir, "node_modules"), "dir");
+    fs.symlinkSync(themeDir, path.join(fixtureDir, "themes", "hexo-theme-doratiger"), "dir");
+    write(path.join(fixtureDir, "_config.yml"), "title: Switch fixture\nlanguage: en\nurl: https://example.test\nroot: /\ntheme: hexo-theme-doratiger\npermalink: :title/\n");
+    write(path.join(fixtureDir, "_config.hexo-theme-doratiger.yml"), [
+        "category: { enable: false }", "tag: { enable: false }", "about: { enable: false }",
+        "terms: { enable: false }", "privacy: { enable: false }", "page404: { enable: false }",
+        "redirect: { enable: false }", "statistics: { enable: true, type: counter, counter: { api: '', uv: true } }",
+        "search:", "  enable: true", "  type: local", "  local:", "    path: switch-search.json", "    field: [post]", "    field_merge_strategy: replace", "    content: true", "    content_max_length: 64",
+    ].join("\n") + "\n");
+    write(path.join(fixtureDir, "source", "_posts", "switch.md"), "---\ntitle: Switch\ndate: 2026-09-05\n---\nSwitch body content.");
+    const hexo = new Hexo(fixtureDir, { silent: true });
+    await hexo.init(); await hexo.load(); await hexo.call("generate", { force: true });
+    const publicDir = path.join(fixtureDir, "public");
+    for (const disabled of ["categories/index.html", "tags/index.html", "about/index.html", "terms/index.html", "privacy/index.html", "404.html", "redirect/index.html"]) {
+        assert.equal(fs.existsSync(path.join(publicDir, disabled)), false, `${disabled} must stay disabled`);
+    }
+    assert.equal(fs.existsSync(path.join(publicDir, "switch-search.json")), true);
+    const index = fs.readFileSync(path.join(publicDir, "index.html"), "utf8");
+    assert.match(index, /id="header-right-search"/);
+    assert.match(index, /id="site-counter"/);
+    assert.doesNotMatch(index, /externalRedirect\.js/);
+    await hexo.exit();
+});
+
+test("provider, resource, encryption, sitemap, and robots switches generate their documented outputs", async (t) => {
+    const fixtureDir = fs.mkdtempSync(path.join(os.tmpdir(), "doratiger-provider-test-"));
+    t.after(() => fs.rmSync(fixtureDir, { recursive: true, force: true }));
+    fs.mkdirSync(path.join(fixtureDir, "themes"), { recursive: true });
+    fs.symlinkSync(path.join(hostDir, "package.json"), path.join(fixtureDir, "package.json"));
+    fs.symlinkSync(path.join(hostDir, "node_modules"), path.join(fixtureDir, "node_modules"), "dir");
+    fs.symlinkSync(themeDir, path.join(fixtureDir, "themes", "hexo-theme-doratiger"), "dir");
+    write(path.join(fixtureDir, "_config.yml"), "title: Provider fixture\nlanguage: en\nurl: https://example.test\nroot: /\ntheme: hexo-theme-doratiger\npermalink: :title/\n");
+    write(path.join(fixtureDir, "_config.hexo-theme-doratiger.yml"), [
+        "resource: { enable_cdn: true }",
+        "search: { enable: true, type: algolia, algolia: { app_id: fixture-app, search_key: fixture-search, index_name: fixture-index } }",
+        "post: { highlight: { enable: true, type: highlight.js } }",
+        "statistics: { enable: true, type: busuanzi, busuanzi: { pv: true, uv: true } }",
+        "comment: { enable: true, type: valine, valine: { appId: fixture-id, appKey: fixture-key, placeholder: Fixture comment } }",
+        "encrypt: { enable: true, abstract: Protected fixture }",
+        "sitemap: { enable: true, format: txt }",
+        "robots: { enable: true, disallow: [/private/] }",
+    ].join("\n") + "\n");
+    write(path.join(fixtureDir, "source", "_posts", "secret.md"), "---\ntitle: Secret\ndate: 2026-09-05\npassword: fixture-pass\n---\nThis plaintext must not be published.");
+    const hexo = new Hexo(fixtureDir, { silent: true });
+    await hexo.init(); await hexo.load(); await hexo.call("generate", { force: true });
+    const publicDir = path.join(fixtureDir, "public");
+    const index = fs.readFileSync(path.join(publicDir, "index.html"), "utf8");
+    const post = fs.readFileSync(path.join(publicDir, "secret", "index.html"), "utf8");
+    assert.match(index, /https:\/\/cdn\.jsdelivr\.net\/npm\/instantsearch\.css/);
+    assert.match(index, /https:\/\/cdn\.jsdelivr\.net\/gh\/highlightjs/);
+    assert.match(index, /busuanzi_value_site_uv/);
+    assert.doesNotMatch(index, /src="\[&quot;/);
+    assert.match(post, /new Valine\(/);
+    assert.match(post, /hexo-encrypt/);
+    assert.doesNotMatch(post, /This plaintext must not be published/);
+    assert.equal(fs.existsSync(path.join(publicDir, "sitemap.xml")), false);
+    assert.match(fs.readFileSync(path.join(publicDir, "sitemap.txt"), "utf8"), /https:\/\/example\.test\/secret\//);
+    assert.match(fs.readFileSync(path.join(publicDir, "robots.txt"), "utf8"), /Disallow: \/private\//);
+    await hexo.exit();
+});
+
+test("themeinit console command creates both documented configuration targets", async (t) => {
+    const fixtureDir = fs.mkdtempSync(path.join(os.tmpdir(), "doratiger-themeinit-test-"));
+    t.after(() => fs.rmSync(fixtureDir, { recursive: true, force: true }));
+    fs.mkdirSync(path.join(fixtureDir, "themes"), { recursive: true });
+    fs.symlinkSync(path.join(hostDir, "package.json"), path.join(fixtureDir, "package.json"));
+    fs.symlinkSync(path.join(hostDir, "node_modules"), path.join(fixtureDir, "node_modules"), "dir");
+    fs.symlinkSync(themeDir, path.join(fixtureDir, "themes", "hexo-theme-doratiger"), "dir");
+    write(path.join(fixtureDir, "_config.yml"), "title: Themeinit fixture\nurl: https://example.test\ntheme: hexo-theme-doratiger\n");
+    const hexo = new Hexo(fixtureDir, { silent: true });
+    await hexo.init(); await hexo.load(); await hexo.call("themeinit", { legacy: true });
+    assert.equal(fs.existsSync(path.join(fixtureDir, "_config.hexo-theme-doratiger.yml")), true);
+    assert.equal(fs.existsSync(path.join(fixtureDir, "source", "_data", "doratiger_config.yml")), true);
+    await hexo.exit();
+});
+
+test("local-search and privacy UI follow the active language", async (t) => {
+    const cases = [
+        { language: "en", localTitle: "Local Search", privacyTitle: "Privacy Policy", termsTitle: "Terms of Service", countdown: "seconds until returning home" },
+        { language: "zh-Hans", localTitle: "本地搜索", privacyTitle: "隐私政策", termsTitle: "服务条款", countdown: "秒后自动返回首页" },
+        { language: "zh-Hant", localTitle: "本地搜索", privacyTitle: "隱私政策", termsTitle: "服務條款", countdown: "秒後自動返回首頁" },
+    ];
+    for (const entry of cases) {
+        const fixtureDir = fs.mkdtempSync(path.join(os.tmpdir(), "doratiger-i18n-test-"));
+        t.after(() => fs.rmSync(fixtureDir, { recursive: true, force: true }));
+        fs.mkdirSync(path.join(fixtureDir, "themes"), { recursive: true });
+        fs.symlinkSync(path.join(hostDir, "package.json"), path.join(fixtureDir, "package.json"));
+        fs.symlinkSync(path.join(hostDir, "node_modules"), path.join(fixtureDir, "node_modules"), "dir");
+        fs.symlinkSync(themeDir, path.join(fixtureDir, "themes", "hexo-theme-doratiger"), "dir");
+        write(path.join(fixtureDir, "_config.yml"), `title: i18n fixture\nlanguage: ${entry.language}\nurl: https://example.test\nroot: /\ntheme: hexo-theme-doratiger\n`);
+        write(path.join(fixtureDir, "_config.hexo-theme-doratiger.yml"), "search: { enable: true, type: local }\n");
+        write(path.join(fixtureDir, "source", "_posts", "hello.md"), "---\ntitle: Hello\ndate: 2026-09-06\n---\nHello.");
+        const hexo = new Hexo(fixtureDir, { silent: true });
+        await hexo.init(); await hexo.load(); await hexo.call("generate", { force: true });
+        const index = fs.readFileSync(path.join(fixtureDir, "public", "index.html"), "utf8");
+        const privacy = fs.readFileSync(path.join(fixtureDir, "public", "privacy", "index.html"), "utf8");
+        const terms = fs.readFileSync(path.join(fixtureDir, "public", "terms", "index.html"), "utf8");
+        const page404 = fs.readFileSync(path.join(fixtureDir, "public", "404.html"), "utf8");
+        assert.match(index, new RegExp(entry.localTitle));
+        assert.match(privacy, new RegExp(entry.privacyTitle));
+        assert.match(terms, new RegExp(entry.termsTitle));
+        assert.match(page404, new RegExp(entry.countdown));
+        if (entry.language === "en") assert.doesNotMatch(index, /本地搜索/);
+        await hexo.exit();
+    }
 });

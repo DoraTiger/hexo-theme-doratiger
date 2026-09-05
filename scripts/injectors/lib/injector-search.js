@@ -18,6 +18,9 @@ module.exports = (hexo) => {
     if (search_type == "algolia") {
         const algolia = search.algolia || {};
         const hit = algolia.hit || {};
+        const language = hexo.theme.i18n.languages[0] || "en";
+        const translations = hexo.theme.i18n.data[language] || {};
+        const translate = (key) => translations[key] || "";
         searchScript = JSON.stringify({
             algolia: {
                 appId: env.ALGOLIA_APP_ID || algolia.app_id || "",
@@ -26,8 +29,9 @@ module.exports = (hexo) => {
                 indexName:
                     env.ALGOLIA_INDEX_NAME || algolia.index_name || "",
                 per_page: hit.per_page || 10,
-                empty: hit.empty || "",
-                placeholder: hit.placeholder || "",
+                empty: hit.empty || translate("search.algolia.empty"),
+                placeholder:
+                    hit.placeholder || translate("search.algolia.placeholder"),
             },
         });
     }

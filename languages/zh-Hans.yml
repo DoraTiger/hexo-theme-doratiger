@@ -1,5 +1,9 @@
 name: "简体中文"
 
+page_visibility:
+  visible: "欢迎回来！d(`･∀･)b 👏"
+  hidden: "藏起来了 d(`x_x)b"
+
 home:
   menu: "首页"
   title: "首页"
@@ -42,8 +46,10 @@ page404:
   menu: "404"
   title: "404"
   content: "Ops！你来到了没有人烟的荒漠~~"
+  countdown: " 秒后自动返回首页"
 
 sidebar:
+  toggle: "切换侧边栏"
   toc:
     menu: "文章目录"
     title: "文章目录"
@@ -55,10 +61,16 @@ sidebar:
     title: "站点概览"
 
 header:
+  navigation:
+    toggle: "切换导航栏"
+  appearance:
+    switch_to_day: "切换为日间主题"
+    switch_to_night: "切换为夜间主题"
   search:
     menu: "搜索"
     title: "搜索"
     keywords: "请输入关键字"
+    close: "关闭搜索"
 
 
 footer:
@@ -74,6 +86,15 @@ post:
   modified: "更新于"
   posted: "发表于"
   untitled: "未命名文章"
+  reading_time: "%d 字 · 约 %d 分钟"
+  qrcode:
+    tip: "手机扫码阅读"
+    alt: "文章二维码"
+  sponsor:
+    button: "赞赏"
+    tip: "如果觉得有帮助，可以请作者喝杯咖啡 ☕"
+    alipay: "支付宝"
+    wechat: "微信"
   copyright:
     author: "本文作者"
     link: "本文链接"
@@ -97,17 +118,75 @@ comment:
 search:
   algolia:
     placeholder: "搜索文章"
+    empty: "找不到您查询的内容"
     hit_empty: "找不到您查询的内容"
     hit_stats: "找到 ${hits} 条结果，用时 ${time} 毫秒"
   local:
+    title: "本地搜索"
     placeholder: "搜索文章"
+    empty: "找不到您查询的内容"
+    loading: "搜索索引加载中..."
+    error: "搜索索引加载失败"
+    untitled: "（无标题）"
     hit_empty: "找不到您查询的内容"
     hit_stats: "找到 ${hits} 条结果，用时 ${time} 毫秒"
 
 terms:
   menu: "服务条款"
   title: "服务条款"
+  last_updated: "最后更新日期：%s"
+  intro: "感谢您访问本站。使用本站即表示您同意以下条款。"
+  service:
+    title: "1. 服务内容"
+    description: "本站提供个人博客内容和相关技术服务。本站保留随时修改、暂停或终止服务的权利。"
+  conduct:
+    title: "2. 用户行为"
+    description: "用户在使用本站时应遵守适用法律法规，不得利用本站从事违法活动。"
+  intellectual_property:
+    title: "3. 知识产权"
+    before_license: "本站原创内容采用"
+    after_license: "进行许可。您可以自由地共享和演绎本作品，但须遵守署名、非商业性使用和相同方式共享的条件。"
+  disclaimer:
+    title: "4. 免责声明"
+    description: "本站内容仅供参考，不构成任何形式的保证。使用本站内容产生的任何后果由用户自行承担。"
+  privacy:
+    title: "5. 隐私保护"
+    before_link: "本站重视用户隐私，详细信息请参阅"
+    after_link: "。"
+  contact:
+    title: "6. 联系方式"
+    with_email: "如有疑问，请联系："
+    without_email: "如有疑问，请通过页面底部联系方式联系作者。"
+
+encrypt:
+  abstract: "这是一篇加密文章，需要密码才能继续阅读。"
+  message: "请输入密码："
+  submit: "解锁文章"
+  wrong_pass_message: "密码错误，请重试。"
 
 privacy:
   menu: "隐私政策"
   title: "隐私政策"
+  last_updated: "最后更新日期：%s"
+  intro: "本站重视您的隐私。本政策说明我们如何收集、使用和保护您的信息。"
+  collection:
+    title: "1. 信息收集"
+    description: "我们可能收集以下信息："
+    access_log: "访问日志（IP 地址、浏览器类型、访问时间）"
+    cookie: "Cookie 信息"
+    contact: "通过联系表单提交的信息"
+  use:
+    title: "2. 信息使用"
+    description: "收集的信息仅用于："
+    service: "提升网站服务质量"
+    analytics: "分析网站访问情况"
+    response: "回复您的留言或询问"
+  protection:
+    title: "3. 信息保护"
+    description: "我们采取合理的技术措施保护您的个人信息，但无法保证绝对安全。"
+  third_party:
+    title: "4. 第三方服务"
+    description: "本站可能使用第三方服务（如统计分析工具），这些服务有自己的隐私政策。"
+  updates:
+    title: "5. 政策更新"
+    description: "本政策可能不时更新，更新后将在本页面发布。继续使用本站即表示接受更新后的政策。"

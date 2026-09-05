@@ -13,6 +13,7 @@ module.exports = (hexo) => {
         "head_end",
         function () {
             let inject_content = [];
+            inject_content.push(require("./lib/injector-external-redirect.js")(hexo));
             inject_content.push(require("./lib/injector-config.js")(hexo));
             inject_content.push(require("./lib/injector-cdn-image-fallback.js")(hexo));
             inject_content.push(require("./lib/injector-search.js")(hexo));

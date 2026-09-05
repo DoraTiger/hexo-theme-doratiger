@@ -34,3 +34,21 @@
     transform rotateZ(-30deg)
   }
 }
+
+@keyframes daylight-breathe {
+  from {
+    filter saturate(1) brightness(1)
+  }
+  to {
+    filter saturate(1.05) brightness(1.025)
+  }
+}
+@keyframes cloud-drift {
+  from { transform: translate3d(-2%, -1%, 0); }
+  to { transform: translate3d(3%, 2%, 0); }
+}
+
+@keyframes sun-haze {
+  from { opacity: .55; transform: scale(.94); }
+  to { opacity: .9; transform: scale(1.06); }
+}

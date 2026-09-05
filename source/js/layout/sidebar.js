@@ -13,56 +13,71 @@ const initToggleSidebar = (
         return;
     }
 
-    let isSidebarVisible = true;
+    let isSidebarVisible = window.matchMedia("(min-width: 1280px)").matches;
+
+    function renderSidebar() {
+        sidebarContainer.classList.toggle("closed", !isSidebarVisible);
+        sidebarContainer.classList.toggle("open", isSidebarVisible);
+        toggleButton.classList.toggle("closed", !isSidebarVisible);
+        toggleButton.setAttribute("aria-expanded", String(isSidebarVisible));
+    }
 
     function toggleSidebar() {
         isSidebarVisible = !isSidebarVisible; // 切换状态
-        if (isSidebarVisible) {
-            sidebarContainer.classList.remove("closed");
-            toggleButton.classList.remove("closed");
-        } else {
-            sidebarContainer.classList.add("closed");
-            toggleButton.classList.add("closed");
+        renderSidebar();
+        if (isSidebarVisible && window.innerWidth < 1280) {
+            sidebarContainer.querySelector("a, button")?.focus();
         }
     }
 
     toggleButton.addEventListener("click", toggleSidebar);
 
-    window.addEventListener("resize", () => {
-        if (window.innerWidth > 1199 && isSidebarVisible) {
-            sidebarContainer.classList.remove("closed");
-            isSidebarVisible = true;
-        } else if (window.innerWidth <= 1199 && !isSidebarVisible) {
-            sidebarContainer.classList.add("closed");
-            toggleButton.classList.add("closed");
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && window.innerWidth < 1280 && isSidebarVisible) {
             isSidebarVisible = false;
+            renderSidebar();
+            toggleButton.focus();
         }
     });
+
+    window.addEventListener("resize", () => {
+        isSidebarVisible = window.matchMedia("(min-width: 1280px)").matches;
+        renderSidebar();
+    });
+
+    renderSidebar();
 };
 
 const initSidebarSwitch = () => {
     const sidebarInfo = document.querySelector("#sidebar-info");
     const sidebarToc = document.querySelector("#sidebar-toc");
 
-    const switchButton = document.querySelector(".sidebar-menu-item");
+    const switchButton = document.querySelector("#sidebar-menu-switch");
 
     if (!sidebarInfo || !sidebarToc || !switchButton) {
         console.debug("[sidebar] skip initSidebarSwitch: required element missing");
         return;
     }
 
-    function toggleSidebarSwitch() {
-        if (sidebarInfo.classList.contains("hide")) {
-            sidebarToc.classList.add("hide");
-            sidebarInfo.classList.remove("hide");
+    const label = switchButton.querySelector("span");
+    let isTocVisible = !sidebarToc.classList.contains("hide");
 
-        } else {
-            sidebarInfo.classList.add("hide");
-            sidebarToc.classList.remove("hide");
-        }
+    function renderSidebarSwitch() {
+        sidebarToc.classList.toggle("hide", !isTocVisible);
+        sidebarInfo.classList.toggle("hide", isTocVisible);
+        switchButton.setAttribute("aria-pressed", String(isTocVisible));
+        label.textContent = isTocVisible
+            ? switchButton.dataset.tocLabel
+            : switchButton.dataset.infoLabel;
+    }
+
+    function toggleSidebarSwitch() {
+        isTocVisible = !isTocVisible;
+        renderSidebarSwitch();
     }
 
     switchButton.addEventListener("click", toggleSidebarSwitch);
+    renderSidebarSwitch();
 }
 
 

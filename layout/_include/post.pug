@@ -37,7 +37,7 @@ article#post
             let readMin = Math.max(1, Math.ceil(wordCount / wpm))
           .post-item-header-meta-item
             i.fas.fa-book-open.post-item-header-meta-item-icon(aria-hidden="true")
-            span.post-item-header-meta-item-text= wordCount + ' 字 · 约 ' + readMin + ' 分钟'
+            span.post-item-header-meta-item-text= __('post.reading_time', wordCount, readMin)
     .post-item-content!= page.content
 
     // 版权声明
@@ -67,19 +67,10 @@ article#post
       if(enableQR)
         -
           let qrSize = theme.post_extend?.qrcode?.size ?? 80
-          let qrTip = theme.post_extend?.qrcode?.tip ?? "手机扫码阅读"
+          let qrTip = theme.post_extend?.qrcode?.tip || _p('post.qrcode.tip')
         .post-item-copyright-qrcode
-          .post-item-qrcode-img#post-qrcode(data-url=url_for(page.permalink) data-size=qrSize)
+          .post-item-qrcode-img#post-qrcode(data-url=url_for(page.permalink) data-size=qrSize data-alt=_p('post.qrcode.alt'))
           span.post-item-copyright-qrcode-tip= qrTip
-          script.
-            (function(){
-              var el = document.getElementById('post-qrcode');
-              if (!el) return;
-              var url = el.dataset.url;
-              var size = parseInt(el.dataset.size) || 80;
-              if (window.QRCode) {
-              el.innerHTML = '<img src="' + QRCode.toDataURL(url, {size: size, dark: '#1a1a2e', light: '#ffffff'}) + '" width="' + size + '" height="' + size + '" alt="QR Code" />'; }
-            })();
 
     // 评论
     -
@@ -93,24 +84,24 @@ article#post
       let enableSponsor = theme.post_extend?.sponsor?.enable ?? false
     if(enableSponsor)
       -
-        let sponsorTip = theme.post_extend?.sponsor?.tip ?? ""
+        let sponsorTip = theme.post_extend?.sponsor?.tip || _p('post.sponsor.tip')
         let sponsorAlipay = theme.post_extend?.sponsor?.alipay ?? ""
         let sponsorWechat = theme.post_extend?.sponsor?.wechat ?? ""
       .post-item-sponsor
         .post-item-sponsor-btn#sponsor-btn
           i.fas.fa-mug-hot
-          span  赞赏
+          span= _p('post.sponsor.button')
         .post-item-sponsor-panel#sponsor-panel(style="display:none")
           .post-item-sponsor-panel-tip= sponsorTip
           .post-item-sponsor-panel-codes
             if sponsorAlipay
               .post-item-sponsor-panel-codes-code
-                img(src=url_for(sponsorAlipay) alt="支付宝")
-                span 支付宝
+                img(src=url_for(sponsorAlipay) alt=_p('post.sponsor.alipay'))
+                span= _p('post.sponsor.alipay')
             if sponsorWechat
               .post-item-sponsor-panel-codes-code
-                img(src=url_for(sponsorWechat) alt="微信")
-                span 微信
+                img(src=url_for(sponsorWechat) alt=_p('post.sponsor.wechat'))
+                span= _p('post.sponsor.wechat')
         script.
           (function(){
             var btn = document.getElementById('sponsor-btn');

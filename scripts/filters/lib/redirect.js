@@ -8,7 +8,7 @@ module.exports = function (hexo, data) {
     const theme = hexo.theme.config;
 
     if (!theme.redirect || theme.redirect.enable === false) return data;
-    if (!data.content) return data;
+    if (!data.content && !data.excerpt) return data;
 
     const siteUrl = hexo.config.url.replace(/\/$/, "");
     const normalizeList = (value) => {
@@ -65,19 +65,26 @@ module.exports = function (hexo, data) {
         }
     };
 
-    // 匹配 <a href="..."> 标签，添加 data-redirect 标记
-    data.content = data.content.replace(
+    // 匹配 <a href="..."> 标签，添加 data-redirect 标记。
+    // Hexo 的首页摘要在 after_post_render 前生成，必须与正文走同一转换。
+    const markExternalLinks = (html) => String(html || "").replace(
         /<a\s+([^>]*?)href=["']([^"']+)["']([^>]*)>/gi,
         (match, pre, url, post) => {
             if (!/^https?:\/\//i.test(url)) return match;
             if (!shouldRedirect(url)) return match;
 
             // 移除重复的 class
-            let cleanPost = post.replace(/\s+class=["'][^"']*["']/gi, "");
+            let cleanPost = post
+                .replace(/\s+class=["'][^"']*["']/gi, "")
+                .replace(/\s+target=["'][^"']*["']/gi, "")
+                .replace(/\s+rel=["'][^"']*["']/gi, "");
 
-            return `<a ${pre}href="${url}"${cleanPost} class="external-link" data-redirect="${encodeURIComponent(url)}" target="_blank" rel="noopener noreferrer">`;
+            return `<a ${pre}href="${url}"${cleanPost} class="external-link" data-redirect="${encodeURIComponent(url)}">`;
         }
     );
+
+    data.content = markExternalLinks(data.content);
+    if (data.excerpt) data.excerpt = markExternalLinks(data.excerpt);
 
     return data;
 };

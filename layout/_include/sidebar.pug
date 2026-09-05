@@ -3,8 +3,10 @@
 - let showToc =  enableToc && is_post()
 
 if showToc
+  - const tocMenu = _p('sidebar.toc.menu')
+  - const infoMenu = _p('sidebar.info.menu')
   #sidebar-menu
-    .sidebar-menu-item
-      span(data-toggle= _p('sidebar.toc.menu'))= _p('sidebar.info.menu')
+    button#sidebar-menu-switch.sidebar-menu-item(type='button' aria-controls='sidebar-info sidebar-toc' aria-pressed='true' data-toc-label=tocMenu data-info-label=infoMenu)
+      span= tocMenu
   include ./sidebar/toc.pug
 include ./sidebar/info.pug

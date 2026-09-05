@@ -17,7 +17,7 @@
             .archive-list-item-year
               .archive-list-item-year-text= year
       - }
-      - let post_title = post.title || 'No Title'
+      - let post_title = post.title || _p('post.untitled')
       - let post_link = post.link || post.path
       .archive-list-item
         .archive-list-item-post

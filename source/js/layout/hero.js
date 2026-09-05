@@ -12,14 +12,27 @@ class Hero {
     this.animProgress = 0;
     this.startTime = null;
     this.duration = 1800; // ms
+    this.textColor = '';
+    this.mutedColor = '';
 
     this.init();
   }
 
   init() {
+    this.updatePalette();
     this.resize();
     window.addEventListener('resize', () => this.resize());
+    document.addEventListener('doratiger:appearancechange', () => {
+      this.updatePalette();
+      this.draw(1);
+    });
     this.animate();
+  }
+
+  updatePalette() {
+    const tokens = getComputedStyle(document.documentElement);
+    this.textColor = tokens.getPropertyValue('--dt-text').trim();
+    this.mutedColor = tokens.getPropertyValue('--dt-text-muted').trim();
   }
 
   resize() {
@@ -129,12 +142,13 @@ class Hero {
 
       if (line.type === 'title') {
         ctx.font = `bold ${line.fontSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+        ctx.fillStyle = this.textColor;
         ctx.textBaseline = 'top';
         ctx.fillText(line.text, line.x, line.y);
       } else {
         ctx.font = `${line.fontSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.globalAlpha = eased * 0.72;
+        ctx.fillStyle = this.mutedColor;
         ctx.textBaseline = 'top';
         ctx.fillText(line.text, line.x, line.y);
       }
@@ -151,8 +165,8 @@ class Hero {
         const lineY = lastTitle.y + lastTitle.lineHeight + 8;
         const lineWidth = 60 * eased;
         ctx.save();
-        ctx.globalAlpha = eased * 0.5;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.globalAlpha = eased * 0.64;
+        ctx.strokeStyle = this.mutedColor;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo((this.width - lineWidth) / 2, lineY);

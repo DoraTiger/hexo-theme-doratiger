@@ -1,5 +1,9 @@
 name: "English"
 
+page_visibility:
+  visible: "Welcome back! d(`･∀･)b 👏"
+  hidden: "Away for now d(`x_x)b"
+
 home:
   menu: "Home"
   title: "Home"
@@ -42,8 +46,10 @@ page404:
   menu: "404"
   title: "404"
   content: "Oops! You've reached a deserted land~~"
+  countdown: " seconds until returning home"
 
 sidebar:
+  toggle: "Toggle sidebar"
   toc:
     menu: "Table of Contents"
     title: "Table of Contents"
@@ -55,10 +61,16 @@ sidebar:
     title: "Site Overview"
 
 header:
+  navigation:
+    toggle: "Toggle navigation"
+  appearance:
+    switch_to_day: "Switch to day appearance"
+    switch_to_night: "Switch to night appearance"
   search:
     menu: "Search"
     title: "Search"
     keywords: "Please enter keywords"
+    close: "Close search"
 
 footer:
   statistics:
@@ -73,6 +85,15 @@ post:
   modified: "Updated on"
   posted: "Posted on"
   untitled: "Untitled"
+  reading_time: "%d words · about %d min"
+  qrcode:
+    tip: "Scan to read on mobile"
+    alt: "Article QR code"
+  sponsor:
+    button: "Sponsor"
+    tip: "If this was helpful, you can buy the author a coffee ☕"
+    alipay: "Alipay"
+    wechat: "WeChat"
   copyright:
     author: "Author"
     link: "Link"
@@ -96,18 +117,75 @@ comment:
 search:
   algolia:
     placeholder: "Search articles"
+    empty: "No results found"
     hits_empty: "No results found for: ${query}"
     hits_stats: "Found ${hits} results in ${time} ms"
   local:
+    title: "Local Search"
     placeholder: "Search articles"
+    empty: "No results found"
+    loading: "Loading search index..."
+    error: "Search index failed to load"
+    untitled: "(Untitled)"
     hits_empty: "No results found for: ${query}"
     hits_stats: "Found ${hits} results in ${time} ms"
 
 terms:
   menu: "Terms"
   title: "Terms of Service"
+  last_updated: "Last updated: %s"
+  intro: "Thank you for visiting this site. By using it, you agree to the following terms."
+  service:
+    title: "1. Service"
+    description: "This site provides personal blog content and related technical services. The site may modify, suspend, or discontinue services at any time."
+  conduct:
+    title: "2. User Conduct"
+    description: "When using this site, you must comply with applicable laws and must not use it for unlawful activities."
+  intellectual_property:
+    title: "3. Intellectual Property"
+    before_license: "Original content on this site is licensed under"
+    after_license: ". You may share and adapt the work, subject to attribution, non-commercial use, and share-alike terms."
+  disclaimer:
+    title: "4. Disclaimer"
+    description: "Content on this site is for reference only and carries no warranty. You are responsible for any consequences of using it."
+  privacy:
+    title: "5. Privacy"
+    before_link: "This site values your privacy. For details, please see the "
+    after_link: "."
+  contact:
+    title: "6. Contact"
+    with_email: "If you have questions, please contact:"
+    without_email: "If you have questions, please use the contact details in the page footer."
+
+encrypt:
+  abstract: "This is an encrypted post. A password is required to continue reading."
+  message: "Please enter the password:"
+  submit: "Unlock post"
+  wrong_pass_message: "Incorrect password. Please try again."
 
 privacy:
   menu: "Privacy"
   title: "Privacy Policy"
-
+  last_updated: "Last updated: %s"
+  intro: "This site values your privacy. This policy explains how we collect, use, and protect your information."
+  collection:
+    title: "1. Information Collection"
+    description: "We may collect the following information:"
+    access_log: "Access logs (IP address, browser type, and visit time)"
+    cookie: "Cookie information"
+    contact: "Information submitted through contact forms"
+  use:
+    title: "2. Information Use"
+    description: "Collected information is used only to:"
+    service: "Improve site service quality"
+    analytics: "Analyze site visits"
+    response: "Respond to your messages or enquiries"
+  protection:
+    title: "3. Information Protection"
+    description: "We take reasonable technical measures to protect your personal information, but cannot guarantee absolute security."
+  third_party:
+    title: "4. Third-party Services"
+    description: "This site may use third-party services such as analytics tools; those services have their own privacy policies."
+  updates:
+    title: "5. Policy Updates"
+    description: "This policy may be updated from time to time. Continued use of this site means you accept the updated policy."

@@ -1,9 +1,14 @@
 doctype html
-html(lang=config.language)
+html(lang=config.language data-appearance=(theme.style && theme.style.appearance) || 'night' data-redirect-path=url_for('/redirect/') data-page-visible-title=_p('page_visibility.visible') data-page-hidden-title=_p('page_visibility.hidden'))
   head
     include head.pug
   body
     //- 全局背景元素
+    #celestial-sky(aria-hidden="true")
+      #celestial-orbit
+        span.celestial-body.celestial-body-moon 🌙
+        span.celestial-body.celestial-body-sun ☀️
+      #celestial-atmosphere
     canvas(id="universe")
 
     //- 侧边栏容器
@@ -27,14 +32,4 @@ html(lang=config.language)
       footer#footer-wrapper
         include footer.pug
 
-    //- 外链重定向拦截
-    script.
-      (function() {
-        document.addEventListener('click', function(e) {
-          var link = e.target.closest('a.external-link[data-redirect]');
-          if (!link) return;
-          e.preventDefault();
-          var url = link.getAttribute('data-redirect');
-          window.location.href = '#{url_for('/redirect/')}?url=' + url;
-        });
-      })();
+    include search.pug

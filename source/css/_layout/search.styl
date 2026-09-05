@@ -1,19 +1,28 @@
 #search-container {
+  position fixed
+  z-index 100
+  inset 0
   display: none;
+  align-items center
+  justify-content center
+  padding unquote('max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left))')
 
   .search-content {
-    position: fixed;
-    top: 40%;
-    left: 50%;
-    z-index: 1001;
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    transform: translate(-50%, -50%);
-    padding: 1rem;
-    width: 40rem;
-    background: rgba(0, 0, 0, 0.9);
-    box-shadow: 0 0 2rem $color-border-shadow;
-    border-radius: 4px;
+    padding: 1.25rem;
+    width: min(42rem, 100%);
+    max-height: 100%;
+    overflow-y: auto;
+    background: var(--dt-surface-raised);
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .32);
+    border: 1px solid $color-control-border;
+    border-radius: 18px;
+    transform: translateY(.9rem) scale(.985)
+    opacity: 0
+    transition: transform .24s ease, opacity .24s ease, background .35s ease
 
     &-header {
       display: flex;
@@ -29,6 +38,20 @@
       }
 
       &-closebutton {
+        display: grid;
+        width: 2rem;
+        height: 2rem;
+        place-items: center;
+        color: $color-text-muted;
+        border: 1px solid $color-control-border;
+        border-radius: 50%;
+        cursor: pointer;
+
+        &:hover, &:focus-visible {
+          color: $color-theme;
+          border-color: $color-theme;
+          background: $color-control;
+        }
       }
     }
 
@@ -36,7 +59,7 @@
       margin-top: 1rem;
       border: 2px solid $color-theme;
       border-radius: 4px;
-      background: white;
+      background: var(--dt-surface);
       height: 2.5rem;
       display: flex;
       align-items: center;
@@ -70,26 +93,29 @@
   }
 
   .search-mask {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.5);
-    z-index: 1000;
+    position: absolute;
+    inset: 0;
+    background: var(--dt-overlay);
+    backdrop-filter: blur(14px) saturate(.78);
+    -webkit-backdrop-filter: blur(14px) saturate(.78);
   }
 
   &.show {
-    display: block;
+    display: flex;
+
+    .search-content {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
   }
 }
 
 // 本地搜索标签
 .search-content-header-logo
   font-size 0.9rem
-  color rgba(255, 255, 255, 0.6)
+  color var(--dt-text-muted)
   padding 0.2rem 0.6rem
-  border 1px solid rgba(255, 255, 255, 0.2)
+  border 1px solid var(--dt-border)
   border-radius 4px
 
 // 本地搜索结果高亮

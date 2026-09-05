@@ -83,9 +83,10 @@ const initLocalSearch = () => {
     let index = [];
     let loadState = "loading";
     const perPage = parseInt(cfg.per_page, 10) || 10;
-    const emptyText = normalizeText(cfg.empty) || "找不到内容";
-    const loadingText = "搜索索引加载中...";
-    const errorText = "搜索索引加载失败";
+    const emptyText = normalizeText(cfg.empty) || "No results found";
+    const loadingText = normalizeText(cfg.loading) || "Loading search index...";
+    const errorText = normalizeText(cfg.error) || "Search index failed to load";
+    const untitledText = normalizeText(cfg.untitled) || "(Untitled)";
     const indexPath = normalizePath(cfg.indexPath);
 
     // 加载索引
@@ -154,7 +155,7 @@ const initLocalSearch = () => {
             }
 
             results.forEach((item) => {
-                const title = normalizeText(item.title) || "(无标题)";
+                const title = normalizeText(item.title) || untitledText;
                 const url = normalizeText(item.url) || "#";
 
                 const resultItem = document.createElement("div");

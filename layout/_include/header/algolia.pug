@@ -1,9 +1,9 @@
-#search-container
+#search-container(role='dialog' aria-modal='true' aria-hidden='true' aria-label=_p('header.search.menu'))
   .search-content
     .search-content-header
       .search-content-header-title
       img.search-content-header-logo(src=url_for('/images/Algolia-logo-blue.svg'))
-      .search-content-header-closebutton
+      button.search-content-header-closebutton(type='button' aria-label=_p('header.search.close'))
         i.fa.fa-times
     #algolia-box.search-content-box
     #algolia-hits.search-content-result

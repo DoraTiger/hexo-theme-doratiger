@@ -79,10 +79,6 @@ sidebar:
     # TOC depth
     depth: 3
 
-    # 目录前导符号
-    # TOC leading symbol
-    prefix: ">>"
-
   # 侧边栏友链
   # Friendlink in the sidebar
   friendlink:
@@ -301,7 +297,7 @@ post_extend:
     # 二维码大小
     size: 120
     # 提示文案
-    tip: "手机扫码阅读"
+    tip: ""
 
   # 打赏/赞助按钮
   # Sponsor / Tip button
@@ -312,7 +308,7 @@ post_extend:
 
     # 提示文案
     # Prompt text
-    tip: "如果觉得有帮助，可以请作者喝杯咖啡 ☕"
+    tip: ""
     
     # 支付宝二维码图片路径（请替换为你自己的收款码）
     # Alipay QR code image path (please replace with your own payment code)
@@ -366,7 +362,7 @@ terms:
 
   # 标题
   # Title
-  title: 服务条款
+  title: ""
 
   # 知识产权声明（为空则自动使用 copyright 配置）
   # License statement (empty = auto use copyright config)
@@ -387,7 +383,7 @@ privacy:
 
   # 标题
   # Title
-  title: 隐私政策
+  title: ""
 
   # 额外内容（支持 HTML）
   # Additional content (HTML supported)
@@ -404,7 +400,7 @@ redirect:
 
   # 重定源站点提示，覆盖默认配置中的 'config.title'
   # Redirect site prompt, override the 'config.title' in the default configuration
-  source: "DoraTiger 的次元"
+  source: ""
 
   # 重定向内容索引方式
   # Redirect content indexing method
@@ -446,96 +442,19 @@ page404:
 # Theme Style Configuration
 # --------------------------------------------------
 style:
-  # 主题颜色配置
-  # Theme color configuration
-  color:
-    # 主题颜色，用于动效、标题等
-    # Theme color, used for animation, titles, etc.
-    theme: "rgba(230, 119, 0, 1)"
+  # Appearance strategy: night | day | system
+  appearance: "night"
 
-    # 次主题颜色，用于链接、小图标等
-    # Sub-theme color, used for links, small icons, etc.
-    sub_theme: "rgba(73, 177, 245, 1)"
+  # Shared accent colors
+  accent: "#E7A63A"
+  accent_secondary: "#73C4F5"
 
-    # 文本默认颜色
-    # Text default color
-    text: "rgba(255, 255, 255, 1)"
+  typography:
+    font_size: "16px"
 
-    # 全局背景色
-    # Global background color
-    background: "radial-gradient(100% 100% at 70% 120%, rgba(33, 39, 80, 1) 10%, #020409 100%)"
-
-    # 侧边栏背景色
-    # Sidebar background color
-    sidebar_background: "rgba(255, 255, 255, 0.1)"
-
-    # 正文背景色
-    # Content background color
-    content_background: "rgba(255, 255, 255, 0.1)"
-
-    # 按键背景色
-    # Button background color
-    button_background: "rgba(255, 255, 255, 0.1)"
-
-    # 代码块头部背景色
-    # Code block header background color
-    code_header_background: "rgba(255, 255, 255, 0.1)"
-
-    # 代码背景色
-    # Code background color
-    code_background: "rgba(255, 255, 255, 0.1)"
-
-    # 边框颜色
-    # Border color
-    border: "rgba(128, 128, 128, 0.8)"
-
-    # 边框阴影颜色
-    # Border shadow color
-    border_shadow: "rgba(0, 0, 0, 0.5)"
-
-  # 主题字体配置
-  # Theme Font Configuration
-  font:
-    # 字体大小
-    # Font size
-    size: "16px"
-
-  # 侧边栏容器配置
-  # Sidebar Container Configuration
-  sidebar:
-    # 侧边栏宽度
-    # Sidebar width
-    width: "300px"
-
-  # 主容器配置
-  # Main Container Configuration
-  main:
-    header:
-      # 头部高度
-      # Header height
-      height: "3rem"
-
-      # 头部底边框
-      # Header bottom border
-      border_bottom: "1px solid rgba(128, 128, 128, 0.8)"
-
-    content:
-      # 内容区最大宽度
-      # Content max width
-      max_width: "1200px"
-
-      # 内容区内边距
-      # Content padding
-      padding: "1rem"
-
-    footer:
-      # 底部高度
-      # Footer height
-      height: "3rem"
-
-      # 底部顶边框
-      # Footer top border
-      border_top: "1px solid rgba(128, 128, 128, 0.8)"
+  layout:
+    content_width: "46rem"
+    sidebar_width: "18rem"
 
 # --------------------------------------------------
 # 全局资源配置
@@ -748,11 +667,11 @@ encrypt:
 
   # 加密提示文案
   # Encrypted article abstract
-  abstract: "这是一篇加密文章，需要密码才能继续阅读。"
+  abstract: ""
 
   # 输入框提示文案
   # Password input message
-  message: "请输入密码："
+  message: ""
 
   # 旧版兼容字段，当前自建加密流程不读取
   # Legacy compatibility field; not used by the built-in encryption flow
@@ -760,11 +679,11 @@ encrypt:
 
   # 密码错误提示
   # Wrong password message
-  wrong_pass_message: "密码错误，请重试。"
+  wrong_pass_message: ""
 
   # 旧版兼容字段，当前自建加密流程不读取
   # Legacy compatibility field; not used by the built-in encryption flow
-  wrong_hash_message: "内容可能被修改，但仍可查看。"
+  wrong_hash_message: ""
 
   # 按标签加密（可选）
   # Tag-based encryption (optional)
@@ -797,11 +716,11 @@ search:
 
       # 搜索结果空提示
       # Search result empty prompt
-      empty: "找不到您查询的内容"
+      empty: ""
 
       # 搜索提示
       # Search prompt
-      placeholder: "搜索文章"
+      placeholder: ""
 
     # Algolia 应用 ID
     # Algolia App ID
@@ -869,8 +788,8 @@ search:
     # 搜索框提示
     # Search input placeholder
     hit:
-      placeholder: "搜索文章"
-      empty: "找不到您查询的内容"
+      placeholder: ""
+      empty: ""
 
 # --------------------------------------------------
 # 正文图片 CDN 配置

@@ -63,10 +63,23 @@
   }
 
   .sidebar-toc-content {
+    position: relative;
     margin-top: 2rem;
+    padding-left: 1rem;
     font-size: 1rem;
     height: auto;
     color: $color-text;
+
+    &::before {
+      position: absolute;
+      top: 0.35rem;
+      bottom: 0.35rem;
+      left: 0.3rem;
+      width: 1px;
+      content: '';
+      background: linear-gradient(to bottom, transparent, $color-border 8%, $color-border 92%, transparent);
+      opacity: 0.85;
+    }
 
     .top {
       display: none;
@@ -80,24 +93,41 @@
       }
 
       .toc-link {
-        display: inline-flex;
+        position: relative;
+        display: flex;
         align-items: center;
-        gap: 0.4rem;
-        padding: 0.15rem 0.1rem;
+        width: 100%;
+        padding: 0.2rem 0.15rem 0.2rem 0.85rem;
+        color: $color-text-muted;
         letter-spacing: 0.01em;
-        transition: $transition-delay;
+        transition: color $transition-delay, transform $transition-delay;
 
         &::before {
-          content: unquote("'" + $sidebar-toc-prefix + "'");
-          font-size: 0.72em;
-          letter-spacing: 0.08em;
-          opacity: 0.6;
+          position: absolute;
+          top: 50%;
+          left: -0.93rem;
+          z-index: 1;
+          width: 0.52rem;
+          height: 0.52rem;
+          content: '';
+          border: 1px solid $color-border;
+          border-radius: 50%;
+          background: var(--dt-chrome);
+          box-shadow: 0 0 0 0 transparent;
+          transform: translateY(-50%) scale(0.72);
+          transition: background $transition-delay, border-color $transition-delay, box-shadow $transition-delay, transform $transition-delay;
         }
 
         &:hover {
           color: $color-theme;
-          padding-left: 0.35rem;
-          transition: $transition-delay;
+          transform: translateX(0.18rem);
+
+          &::before {
+            border-color: $color-theme;
+            background: $color-theme;
+            box-shadow: 0 0 0.5rem var(--dt-accent-glow);
+            transform: translateY(-50%) scale(0.94);
+          }
         }
 
         &.active {
@@ -105,7 +135,10 @@
           font-weight: 600;
 
           &::before {
-            opacity: 0.95;
+            border-color: $color-theme;
+            background: $color-theme;
+            box-shadow: 0 0 0.58rem var(--dt-accent-glow);
+            transform: translateY(-50%) scale(1);
           }
         }
       }
@@ -118,7 +151,7 @@
     }
 
     .toc-child {
-      padding-left: 1.2rem;
+      padding-left: 1.1rem;
       height: 0;
       overflow: hidden;
       transition: $transition-delay ease;

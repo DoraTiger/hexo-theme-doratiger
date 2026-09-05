@@ -296,7 +296,7 @@
           margin-top: 0.5rem;
           font-size: 0.75rem;
           line-height: 1rem;
-          color: #666;
+          color: $color-text-muted;
           text-align: center;
           white-space: nowrap;
         }
@@ -310,14 +310,28 @@
     }
 
     &-more {
-      button-hover-effect();
+      // 阅读入口是文章卡片的次级操作；不沿用主题色按钮和扫光特效。
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
       font-size: 0.8rem;
       margin: 1rem 2rem 1rem 2rem;
-      padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+      padding: 0.35rem 0.75rem;
       display: inline-block;
       text-align: center;
       align-items: center;
-      width: 5rem;
+      width: auto;
+      min-width: 5rem;
+      color: $color-text-muted;
+      background: transparent;
+      border: 1px solid $color-border;
+      border-radius: 0.45rem;
+      transition: color 0.16s ease, border-color 0.16s ease;
+
+      &:hover, &:focus-visible {
+        color: $color-theme;
+        border-color: $color-theme;
+      }
     }
 
     &-sponsor {
@@ -335,7 +349,7 @@
         padding: 0.5rem 1.5rem;
         border-radius: 20px;
         background: $color-theme;
-        color: white;
+        color: $color-on-accent;
         font-size: 0.9rem;
         cursor: pointer;
         transition: opacity 0.2s;
@@ -389,3 +403,74 @@
 }
 
 // 注记：所有样式已整合到 #post 块内使用原生嵌套方式
+
+#post, #post-recent
+  .post-item
+    margin 1.5rem 0
+    overflow hidden
+    background $color-content-background
+    border 1px solid $color-border
+    border-radius 16px
+    box-shadow 0 16px 42px rgba(0, 0, 0, .12)
+    transition background .68s ease, border-color .68s ease, box-shadow .68s ease, color .68s ease
+
+    &-header-title
+      font-family "Noto Serif CJK SC", "Source Han Serif SC", STSong, serif
+      font-size clamp(1.35rem, 2vw, 1.8rem)
+      line-height 1.45
+
+    &-content
+      line-height 1.8
+      color $color-text
+
+      table, pre
+        display block
+        max-width 100%
+        overflow-x auto
+
+      img
+        border-radius 10px
+        box-shadow 0 10px 30px rgba(0, 0, 0, .16)
+
+    &-more
+      control-surface()
+      width auto
+      min-height 44px
+      margin 0 2rem 1.5rem
+      padding .55rem .9rem
+      border-radius 10px
+
+      &::after
+        content '\f105'
+        display inline-block
+        margin-left .45rem
+        color $color-theme
+        font-family "Font Awesome 6 Free"
+        font-size .8em
+        font-weight 900
+        opacity 0
+        transform translateX(-.3rem)
+        transition opacity .18s ease, transform .18s ease
+
+      &:hover::after, &:focus-visible::after
+          opacity 1
+          transform translateX(0)
+
+@media (max-width: 767px)
+  #post, #post-recent
+    .post-item
+      &-header-title, &-header-meta, &-content, &-copyright, &-comment
+        margin-left 1rem
+        margin-right 1rem
+      &-more
+        margin-left 1rem
+        margin-right 1rem
+
+@media (min-width: 1600px)
+  #post .post-item
+    padding 1rem 0
+
+    &-header-title, &-header-meta, &-content, &-copyright, &-comment, &-sponsor
+      width calc(100% - 4rem)
+      margin-left auto
+      margin-right auto

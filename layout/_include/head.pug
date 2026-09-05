@@ -25,7 +25,7 @@
   const pageCopyright = config.copyright || config.author
   const pageImage = page.image || theme.global.avatar
   const themeFavicon = theme.global.favicon
-  const themeColor = theme.style.color.theme || "rgba(230, 119, 0, 1)"
+  const themeColor = (theme.style && theme.style.accent) || "#E7A63A"
 
 //- 基础标签
 meta(charset='UTF-8')
@@ -60,6 +60,16 @@ meta(
   content="black-translucent"
 )
 meta(name="format-detection" content="telephone=no")
+
+script.
+  (function () {
+    try {
+      var appearance = window.localStorage.getItem('doratiger-appearance');
+      if (appearance === 'day' || appearance === 'night') {
+        document.documentElement.dataset.appearance = appearance;
+      }
+    } catch (_) {}
+  })();
 
 //- 其他标签
 meta(name="robots" content="index, follow")

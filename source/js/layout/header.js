@@ -1,3 +1,5 @@
+import { createModalDialog } from "../utils/dialog.js";
+
 /**
  * @description 初始化实时时间显示
  * @param {string} selector - 显示时间的元素选择器
@@ -39,28 +41,34 @@ const initToggleHeaderMenu = (
         return;
     }
 
-    let isVisible = true;
+    let isVisible = window.matchMedia("(min-width: 1280px)").matches;
+
+    function renderMenu() {
+        menuList.classList.toggle("hidden", !isVisible);
+        toggleButton.setAttribute("aria-expanded", String(isVisible));
+    }
 
     function toggleSidebar() {
         isVisible = !isVisible; // 切换状态
-        if (isVisible) {
-            menuList.classList.remove("hidden");
-        } else {
-            menuList.classList.add("hidden");
-        }
+        renderMenu();
     }
 
     toggleButton.addEventListener("click", toggleSidebar);
 
-    window.addEventListener("resize", () => {
-        if (window.innerWidth > 1199 && !isVisible) {
-            menuList.classList.remove("hidden");
-            isVisible = true;
-        } else if (window.innerWidth <= 1199 && isVisible) {
-            menuList.classList.add("hidden");
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && window.innerWidth < 1280 && isVisible) {
             isVisible = false;
+            renderMenu();
+            toggleButton.focus();
         }
     });
+
+    window.addEventListener("resize", () => {
+        isVisible = window.matchMedia("(min-width: 1280px)").matches;
+        renderMenu();
+    });
+
+    renderMenu();
 };
 
 const autoResizeHeaderRight = () => {
@@ -76,9 +84,8 @@ const autoResizeHeaderRight = () => {
 
     // 配置自适应收缩对象
     const elements = [
-        { selector: "#header-right-search", width: 0 },
-        { selector: "#header-right-title", width: 0 },
         { selector: "#header-right-time", width: 0 },
+        { selector: "#header-right-title", width: 0 },
     ];
 
     // 初始化对象及宽度信息
@@ -128,28 +135,15 @@ const initSearchButton = () => {
         const searchCloseButton = searchContainer.querySelector(
             ".search-content-header-closebutton"
         );
-        searchButton.addEventListener("click", () => {
-            searchContainer.classList.toggle("show");
+        createModalDialog({
+            dialog: searchContainer,
+            trigger: searchButton,
+            initialFocus: () => searchContainer.querySelector("input"),
+            closeButtons: [searchMask, searchCloseButton],
         });
-
-        if (searchMask) {
-            searchMask.addEventListener("click", () => {
-                searchContainer.classList.remove("show");
-            });
-        } else {
-            console.debug("[header] search mask missing: .search-mask");
-        }
-
-        if (searchCloseButton) {
-            searchCloseButton.addEventListener("click", () => {
-                searchContainer.classList.remove("show");
-            });
-        } else {
-            console.debug("[header] search close button missing: .search-content-header-closebutton");
-        }
     } else {
         console.debug("[header] skip initSearchButton: required element missing");
     }
 };
 
-export { initClock, initAutoResizeHeaderRight, initToggleHeaderMenu,initSearchButton };
+export { initClock, initAutoResizeHeaderRight, initToggleHeaderMenu, initSearchButton };

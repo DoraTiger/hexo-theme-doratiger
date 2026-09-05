@@ -99,28 +99,39 @@ border-animation() {
 }
 
 // 定义按钮动效
-button-hover-effect() {
+control-surface() {
   position: relative; // 设置按钮为相对定位，以便其伪元素（::before）可以相对于按钮定位。
   overflow: hidden; // 隐藏超出按钮范围的内容，确保光影效果不会溢出按钮。
-  background: $color-button-background;
-  border-radius: 4px;
+  background: $color-control;
+  border: 1px solid $color-control-border;
+  border-radius: .5rem;
   cursor: pointer;
+  transition: background .22s ease, border-color .22s ease, color .22s ease, box-shadow .22s ease;
 
   &::before {
     content: ''; // 伪元素必须设置 content，即使为空。
     position: absolute; // 将伪元素设置为绝对定位，相对于按钮（position: relative）定位。
-    left: -100%; // 将伪元素移动到按钮左侧，使其光影效果完全隐藏。
+    left: 0;
     top: 0;
     width: 100%; // 设置伪元素宽度为按钮宽度，使其光影效果完全覆盖按钮。
     height: 100%; // 设置伪元素高度为按钮高度，使其光影效果完全覆盖按钮。
-    background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); // 线性渐变光效
+    background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, .2) 42%, transparent 62%);
+    transform: translateX(-135%);
+    transition: transform .35s ease;
   }
 
   // 鼠标悬停效果
   &:hover {
+    color: $color-theme;
+    background: $color-control-hover;
+    border-color: $color-theme;
+    box-shadow: 0 .35rem .9rem rgba(0, 43, 54, .18);
     &::before {
-      left: 100%; // 将伪元素移动到按钮右侧，使其光影效果完全显示。
-      transition: left 0.5s ease; // 添加过渡效果，使光影效果平滑过渡。
+      transform: translateX(135%);
     }
   }
+}
+
+button-hover-effect() {
+  control-surface()
 }

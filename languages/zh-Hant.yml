@@ -1,5 +1,9 @@
 name: "繁體中文"
 
+page_visibility:
+  visible: "歡迎回來！d(`･∀･)b 👏"
+  hidden: "藏起來了 d(`x_x)b"
+
 home:
   menu: "首頁"
   title: "首頁"
@@ -42,8 +46,10 @@ page404:
   menu: "404"
   title: "404"
   content: "Ops！你來到了沒有人煙的荒漠~~"
+  countdown: " 秒後自動返回首頁"
 
 sidebar:
+  toggle: "切換側邊欄"
   toc:
     menu: "文章目錄"
     title: "文章目錄"
@@ -55,10 +61,16 @@ sidebar:
     title: "站點概覽"
 
 header:
+  navigation:
+    toggle: "切換導覽列"
+  appearance:
+    switch_to_day: "切換為日間主題"
+    switch_to_night: "切換為夜間主題"
   search:
     menu: "搜索"
     title: "搜索"
     keywords: "請輸入關鍵字"
+    close: "關閉搜索"
 
 footer:
   statistics:
@@ -73,6 +85,15 @@ post:
   modified: "更新於"
   posted: "發表於"
   untitled: "未命名文章"
+  reading_time: "%d 字 · 約 %d 分鐘"
+  qrcode:
+    tip: "手機掃碼閱讀"
+    alt: "文章二維碼"
+  sponsor:
+    button: "贊賞"
+    tip: "如果覺得有幫助，可以請作者喝杯咖啡 ☕"
+    alipay: "支付寶"
+    wechat: "微信"
   copyright:
     author: "本文作者"
     link: "本文鏈接"
@@ -96,18 +117,75 @@ comment:
 search:
   algolia:
     placeholder: "搜索文章"
+    empty: "找不到您查詢的內容"
     hits_empty: "找不到您查詢的內容:${query}"
     hits_stats: "找到 ${hits} 條結果，用時 ${time} 毫秒"
   local:
+    title: "本地搜索"
     placeholder: "搜索文章"
+    empty: "找不到您查詢的內容"
+    loading: "搜索索引載入中..."
+    error: "搜索索引載入失敗"
+    untitled: "（無標題）"
     hits_empty: "找不到您查詢的內容:${query}"
     hits_stats: "找到 ${hits} 條結果，用時 ${time} 毫秒"
 
 terms:
   menu: "服務條款"
   title: "服務條款"
+  last_updated: "最後更新日期：%s"
+  intro: "感謝您造訪本站。使用本站即表示您同意以下條款。"
+  service:
+    title: "1. 服務內容"
+    description: "本站提供個人部落格內容和相關技術服務。本站保留隨時修改、暫停或終止服務的權利。"
+  conduct:
+    title: "2. 使用者行為"
+    description: "使用者在使用本站時應遵守適用法律法規，不得利用本站從事違法活動。"
+  intellectual_property:
+    title: "3. 智慧財產權"
+    before_license: "本站原創內容採用"
+    after_license: "進行授權。您可以自由分享及演繹本作品，但須遵守姓名標示、非商業性及相同方式分享的條件。"
+  disclaimer:
+    title: "4. 免責聲明"
+    description: "本站內容僅供參考，不構成任何形式的保證。使用本站內容產生的任何後果由使用者自行承擔。"
+  privacy:
+    title: "5. 隱私保護"
+    before_link: "本站重視使用者隱私，詳細資訊請參閱"
+    after_link: "。"
+  contact:
+    title: "6. 聯絡方式"
+    with_email: "如有疑問，請聯絡："
+    without_email: "如有疑問，請透過頁面底部的聯絡方式聯絡作者。"
+
+encrypt:
+  abstract: "這是一篇加密文章，需要密碼才能繼續閱讀。"
+  message: "請輸入密碼："
+  submit: "解鎖文章"
+  wrong_pass_message: "密碼錯誤，請重試。"
 
 privacy:
   menu: "隱私政策"
   title: "隱私政策"
-
+  last_updated: "最後更新日期：%s"
+  intro: "本站重視您的隱私。本政策說明我們如何收集、使用和保護您的資訊。"
+  collection:
+    title: "1. 資訊收集"
+    description: "我們可能收集以下資訊："
+    access_log: "存取日誌（IP 位址、瀏覽器類型、存取時間）"
+    cookie: "Cookie 資訊"
+    contact: "透過聯絡表單提交的資訊"
+  use:
+    title: "2. 資訊使用"
+    description: "收集的資訊僅用於："
+    service: "提升網站服務品質"
+    analytics: "分析網站存取情況"
+    response: "回覆您的留言或詢問"
+  protection:
+    title: "3. 資訊保護"
+    description: "我們採取合理的技術措施保護您的個人資訊，但無法保證絕對安全。"
+  third_party:
+    title: "4. 第三方服務"
+    description: "本站可能使用第三方服務（如統計分析工具），這些服務有自己的隱私政策。"
+  updates:
+    title: "5. 政策更新"
+    description: "本政策可能不時更新，更新後將在本頁面發布。繼續使用本站即表示接受更新後的政策。"

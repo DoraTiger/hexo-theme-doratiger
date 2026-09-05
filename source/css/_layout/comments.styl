@@ -1,10 +1,18 @@
 #comment-container {
   padding: 1rem;
+  color: $color-text;
+
+  // Provider styles are loaded independently, so adapt them here through the
+  // theme tokens instead of letting their bundled light palette leak through.
+  .gitment-container, .vwrap, #twikoo {
+    color: $color-text;
+  }
 
   .gitment {
     &-container {
       margin: 0 1rem;
       border-radius: 4px;
+      color: $color-text;
     }
 
     &-header-container {
@@ -49,9 +57,9 @@
             }
           }
 
-          .gitment-editor-login {
-            padding: 0 0.5rem;
-            button-hover-effect();
+        .gitment-editor-login {
+          padding: 0 0.5rem;
+          button-hover-effect();
           }
         }
 
@@ -88,8 +96,62 @@
       margin: 1rem 0;
     }
   }
+
+  .gitment-editor-main, .gitment-editor-header, .gitment-editor-body, .gitment-editor-footer {
+    background: var(--dt-surface-raised);
+    border-color: $color-border;
+  }
+
+  .gitment-editor-write-field textarea, .gitment-editor-preview-field {
+    color: $color-text;
+  }
+
+  .vwrap {
+    background: var(--dt-surface-raised);
+    border-color: $color-border;
+
+    .vheader .vinput, .veditor, .vcontent, .vcard .vhead .vsys, .vcard .vhead .vnick {
+      color: $color-text;
+    }
+
+    .vheader .vinput, .veditor {
+      color: $color-text;
+      background: transparent;
+      border-color: $color-border;
+    }
+
+    .vinput::placeholder, .veditor::placeholder {
+      color: $color-text-muted;
+      opacity: .9;
+    }
+
+    .vsubmit .vbtn {
+      color: var(--dt-on-accent) !important;
+      background: var(--dt-accent) !important;
+      border-color: var(--dt-accent) !important;
+      opacity: 1;
+    }
+  }
 }
 
 #twikoo {
   padding: 1rem;
+
+  .tk-main, .tk-comments-container, .tk-submit, .tk-preview-container {
+    color: $color-text;
+    background: var(--dt-surface-raised);
+    border-color: $color-border;
+  }
+
+  input, textarea {
+    color: $color-text;
+    background: transparent;
+    border-color: $color-border;
+  }
+
+  .tk-send {
+    color: var(--dt-on-accent);
+    background: var(--dt-accent);
+    border-color: var(--dt-accent);
+  }
 }

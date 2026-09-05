@@ -1,0 +1,36 @@
+- let searchMenu = _p('header.search.menu')
+
+if(theme.search.type ==="algolia")
+  include ./header/algolia.pug
+else if(theme.search.type ==="local")
+  -
+    var localConfig = theme.search.local || {};
+    var localHit = localConfig.hit || {};
+    var localHits = localConfig.hits || {};
+    var localPath = Array.isArray(localConfig.path) ? localConfig.path[0] : (localConfig.path || 'search.json');
+    var localIndexPath = url_for(localPath);
+    var localTitle = _p('search.local.title');
+    var localPlaceholder = localHit.placeholder || _p('search.local.placeholder');
+    var localEmpty = localHit.empty || _p('search.local.empty');
+  #search-container(role='dialog' aria-modal='true' aria-hidden='true' aria-label=searchMenu tabindex='-1')
+    .search-content
+      .search-content-header
+        .search-content-header-title
+        span.search-content-header-logo= localTitle
+        button.search-content-header-closebutton(type='button' aria-label=_p('header.search.close'))
+          i.fa.fa-times
+      .search-content-box
+        input.search-content-box-input(type="text" placeholder=localPlaceholder)
+      #algolia-hits.search-content-result
+    .search-mask
+  script.
+    window.searchConfig = {
+      localSearch: {
+        indexPath: "#{localIndexPath}",
+        per_page: #{localHits.per_page || 10},
+        empty: !{JSON.stringify(localEmpty)},
+        loading: !{JSON.stringify(_p('search.local.loading'))},
+        error: !{JSON.stringify(_p('search.local.error'))},
+        untitled: !{JSON.stringify(_p('search.local.untitled'))}
+      }
+    };

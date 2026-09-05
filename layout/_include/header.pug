@@ -1,17 +1,23 @@
 mixin header-search
+  - const searchMenu = _p('header.search.menu')
   if (theme.search.enable)
-    - let search_menu = _p('header.search.menu')
-    #header-right-search
-      i.fas.fa-search
-      span= search_menu
+    button#header-right-search(type='button' aria-label=searchMenu aria-controls='search-container' aria-expanded='false')
+      i.fas.fa-search(aria-hidden='true')
+      span.sr-only= searchMenu
 
 mixin header-time
   if (theme.header.time.enable)
     #header-right-time
       span.header-right-time-time
 
+mixin header-appearance
+  - const switchToDay = _p('header.appearance.switch_to_day')
+  - const switchToNight = _p('header.appearance.switch_to_night')
+  button#header-right-appearance(type='button' aria-label=switchToDay aria-pressed='false' data-day-label=switchToDay data-night-label=switchToNight)
+    span.header-right-appearance-symbol(aria-hidden='true') 🌙
+
 #header-left
-  #header-left-menu-icon
+  button#header-left-menu-icon(type='button' aria-label=_p('header.navigation.toggle') aria-controls='header-left-menu-list' aria-expanded='true')
     i.fas.fa-bars
   #header-left-menu-list
     each item in (theme.header.menu || [])
@@ -22,35 +28,7 @@ mixin header-time
 
 #header-right
   +header-search
+  +header-appearance
   #header-right-title
     a.header-right-title-text(href=config.root)= config.title
   +header-time
-
-if(theme.search.type ==="algolia")
-  include ./header/algolia.pug
-else if(theme.search.type ==="local")
-  -
-    var localConfig = theme.search.local || {};
-    var localHit = localConfig.hit || {};
-    var localHits = localConfig.hits || {};
-    var localPath = Array.isArray(localConfig.path) ? localConfig.path[0] : (localConfig.path || 'search.json');
-    var localIndexPath = url_for(localPath);
-  #search-container
-    .search-content
-      .search-content-header
-        .search-content-header-title
-        span.search-content-header-logo 本地搜索
-        .search-content-header-closebutton
-          i.fa.fa-times
-      .search-content-box
-        input.search-content-box-input(type="text" placeholder=localHit.placeholder || '搜索文章')
-      #algolia-hits.search-content-result
-    .search-mask
-  script.
-    window.searchConfig = {
-      localSearch: {
-        indexPath: "#{localIndexPath}",
-        per_page: #{localHits.per_page || 10},
-        empty: "#{localHit.empty || '找不到内容'}"
-      }
-    };

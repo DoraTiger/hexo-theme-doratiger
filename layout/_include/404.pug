@@ -8,7 +8,7 @@
   p.page404-content= page404_content
   p.page404-countdown
     span#countdown-text #{Math.round(redirect_delay / 1000)}
-    |  秒后自动返回首页
+    | #{_p('page404.countdown')}
   script.
     (function() {
       var delay = #{redirect_delay};

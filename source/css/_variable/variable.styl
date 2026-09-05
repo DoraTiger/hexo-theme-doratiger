@@ -1,15 +1,78 @@
 // color
-$color-theme = theme-config('style.color.theme', 'rgba(230, 119, 0, 1)'); // 主题色
-$color-sub-theme = theme-config('style.color.sub_theme', 'rgba(73, 177, 245, 1)'); // 次主题色
-$color-text = theme-config('style.color.text', 'rgba(255, 255, 255, 1)'); // 文字颜色
-$color-background = theme-config('style.color.background', 'radial-gradient(100% 100% at 70% 120%, rgba(33, 39, 80, 1) 10%, #020409 100%)'); // 全局背景色
-$color-content-background = theme-config('style.color.content_background', 'rgba(255, 255, 255, 0.1)'); // 内容默认背景色
-$color-sidebar-background = theme-config('style.color.sidebar_background', $color-content-background); // 侧边栏背景色
-$color-button-background = theme-config('style.color.button_background', $color-content-background); // 按钮背景色
-$color-code-header-background = theme-config('style.color.code_header_background', $color-content-background); // 代码块头部背景色
-$color-code-background = theme-config('style.color.code_background', $color-content-background); // 代码块背景色
-$color-border = theme-config('style.color.border', 'rgba(128, 128, 128, 0.8)'); // 边框颜色
-$color-border-shadow = theme-config('style.color.border_shadow', 'rgba(0, 0, 0, 0.5)'); // 边框阴影颜色
+:root
+  --dt-canvas: #020409
+  --dt-surface: rgba(255, 255, 255, .10)
+  --dt-surface-raised: rgba(20, 25, 57, .46)
+  --dt-chrome: rgba(5, 8, 24, .42)
+  --dt-control: rgba(255, 255, 255, .10)
+  --dt-control-hover: rgba(255, 255, 255, .18)
+  --dt-control-border: rgba(155, 169, 211, .32)
+  --dt-scroll-track: rgba(2, 4, 9, .58)
+  --dt-scroll-thumb: rgba(124, 145, 201, .58)
+  --dt-overlay: rgba(2, 4, 16, .68)
+  --dt-text: #fff
+  --dt-text-muted: #bac5e1
+  --dt-on-accent: #fff
+  --dt-border: rgba(154, 170, 216, .24)
+  --dt-code: rgba(7, 10, 31, .72)
+  --dt-accent: unquote(theme-config('style.accent', '#E7A63A'))
+  --dt-accent-glow: rgba(231, 166, 58, .48)
+  --dt-accent-secondary: unquote(theme-config('style.accent_secondary', '#73C4F5'))
+  --dt-stage-width: unquote(theme-config('style.layout.content_width', '46rem'))
+  --dt-celestial-safe-space: 0
+  --dt-celestial-stage-offset: 0
+
+html[data-appearance='day']
+  --dt-canvas: #fdf6e3
+  --dt-surface: rgba(253, 246, 227, .82)
+  --dt-surface-raised: rgba(238, 232, 213, .9)
+  --dt-chrome: rgba(253, 246, 227, .62)
+  --dt-control: rgba(238, 232, 213, .9)
+  --dt-control-hover: rgba(255, 243, 204, .98)
+  --dt-control-border: rgba(88, 110, 117, .44)
+  --dt-scroll-track: rgba(238, 232, 213, .72)
+  --dt-scroll-thumb: rgba(88, 110, 117, .64)
+  --dt-overlay: rgba(238, 232, 213, .68)
+  --dt-text: #073642
+  --dt-text-muted: #586e75
+  --dt-border: rgba(88, 110, 117, .28)
+  --dt-code: #eee8d5
+  --dt-accent-glow: rgba(181, 137, 0, .46)
+
+@media (prefers-color-scheme: light)
+  html[data-appearance='system']
+    --dt-canvas: #fdf6e3
+    --dt-surface: rgba(253, 246, 227, .82)
+    --dt-surface-raised: rgba(238, 232, 213, .9)
+    --dt-chrome: rgba(253, 246, 227, .62)
+    --dt-control: rgba(238, 232, 213, .9)
+    --dt-control-hover: rgba(255, 243, 204, .98)
+    --dt-control-border: rgba(88, 110, 117, .44)
+    --dt-scroll-track: rgba(238, 232, 213, .72)
+    --dt-scroll-thumb: rgba(88, 110, 117, .64)
+    --dt-overlay: rgba(238, 232, 213, .68)
+    --dt-text: #073642
+    --dt-text-muted: #586e75
+    --dt-border: rgba(88, 110, 117, .28)
+    --dt-code: #eee8d5
+    --dt-accent-glow: rgba(181, 137, 0, .46)
+
+$color-theme = unquote('var(--dt-accent)')
+$color-sub-theme = unquote('var(--dt-accent-secondary)')
+$color-text = unquote('var(--dt-text)')
+$color-text-muted = unquote('var(--dt-text-muted)')
+$color-on-accent = unquote('var(--dt-on-accent)')
+$color-background = unquote('var(--dt-canvas)')
+$color-content-background = unquote('var(--dt-surface)')
+$color-sidebar-background = unquote('var(--dt-surface-raised)')
+$color-button-background = unquote('var(--dt-surface-raised)')
+$color-control = unquote('var(--dt-control)')
+$color-control-hover = unquote('var(--dt-control-hover)')
+$color-control-border = unquote('var(--dt-control-border)')
+$color-code-header-background = unquote('var(--dt-surface-raised)')
+$color-code-background = unquote('var(--dt-code)')
+$color-border = unquote('var(--dt-border)')
+$color-border-shadow = rgba(0, 0, 0, 0.35)
 // color for random
 $colors = #495057 #f03e3e #ae3ec9 #7048e8 #4263eb #1098ad #0ca678 #37b24d #f59f00 #f76707 #6f42c1;
 
@@ -20,20 +83,18 @@ for color, i in $colors {
 }
 
 // font
-$font-size = theme-config('style.font.size', '16px');
+$font-size = theme-config('style.typography.font_size', '16px');
 // sidebar-container
-$sidebar-width = theme-config('style.sidebar.width', '300px');
-// sidebar-toc
-$sidebar-toc-prefix = theme-config('sidebar.toc.prefix', '>>');
+$sidebar-width = theme-config('style.layout.sidebar_width', '18rem');
 // main-container
 // main-header
-$main-header-height = theme-config('style.main.header.height', '3rem');
-$main-header-border-bottom = theme-config('style.main.header.border_bottom', '1px solid rgba(128, 128, 128, 0.8)');
+$main-header-height = 3rem;
+$main-header-border-bottom = '1px solid var(--dt-border)';
 // main-content
-$main-content-max-width = theme-config('style.main.content.max_width', '800px');
-$main-content-padding = theme-config('style.main.content.padding', '1rem');
+$main-content-max-width = unquote('var(--dt-stage-width)');
+$main-content-padding = '1rem';
 // main-footer
-$main-footer-height = theme-config('style.main.footer.height', '3rem');
-$main-footer-border-top = theme-config('style.main.footer.border_top', '1px solid rgba(128, 128, 128, 0.8)');
+$main-footer-height = 3rem;
+$main-footer-border-top = '1px solid var(--dt-border)';
 // amimation
 $transition-delay = all 0.5s;

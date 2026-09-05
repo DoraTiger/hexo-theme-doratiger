@@ -1,13 +1,18 @@
 class Background {
     constructor() {
-        this.starDensity = 0.216; // 星星密度
+        const appearance = document.documentElement.dataset.appearance;
+        this.isDay = appearance === "day" || (
+            appearance === "system" && window.matchMedia("(prefers-color-scheme: light)").matches
+        );
+        this.reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        this.starDensity = 0.216;
         this.speedCoeff = 0.05; // 速度系数
         this.width = 0; // 画布宽度
         this.height = 0; // 画布高度
         this.starCount = 0; // 星星数量
-        this.giantColor = "180,184,240"; // 巨型星星颜色
-        this.starColor = "226,225,142"; // 普通星星颜色
-        this.cometColor = "226,225,224"; // 彗星颜色
+        this.giantColor = "180,184,240";
+        this.starColor = "226,225,142";
+        this.cometColor = "226,225,224";
         this.canva = document.getElementById("universe"); // 画布元素
         this.stars = []; // 星星数组
         this.universe = null; // 画布上下文
@@ -17,26 +22,56 @@ class Background {
     }
 
     init() {
+        if (this.reducedMotion) return;
+        if (!this.canva) return;
+        this.universe = this.canva.getContext("2d");
         this.windowResizeHandler();
         window.addEventListener(
             "resize",
             () => this.windowResizeHandler(),
             false
         );
-        this.createUniverse();
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                cancelAnimationFrame(this.animationFrameId);
+            } else {
+                if (!this.isDay) this.startAnimation();
+            }
+        });
+        document.addEventListener("doratiger:appearancechange", (event) => {
+            this.updateAppearance(event.detail?.isDay);
+        });
+    }
+
+    updateAppearance(nextIsDay) {
+        this.isDay = typeof nextIsDay === "boolean" ? nextIsDay : this.resolveIsDay();
+        if (this.isDay) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = null;
+            this.universe.clearRect(0, 0, this.width, this.height);
+            return;
+        }
+        this.windowResizeHandler();
+    }
+
+    resolveIsDay() {
+        const appearance = document.documentElement.dataset.appearance;
+        return appearance === "day" || (
+            appearance === "system" && window.matchMedia("(prefers-color-scheme: light)").matches
+        );
     }
 
     // 窗口大小变化处理
     windowResizeHandler() {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
-        this.starCount = this.width * this.starDensity; // 根据窗口宽度计算星星数量
+        this.starCount = this.width * this.starDensity * (this.width < 768 ? 0.45 : 1);
         this.canva.setAttribute("width", this.width); // 设置画布宽度
         this.canva.setAttribute("height", this.height); // 设置画布高度
 
         // 重新初始化星星
         this.stars = [];
-        this.createUniverse();
+        if (!this.isDay) this.createUniverse();
     }
 
     // 创建星空
@@ -59,6 +94,7 @@ class Background {
 
     // 绘制动画
     draw() {
+        if (this.isDay || document.hidden) return;
         this.universe.clearRect(0, 0, this.width, this.height); // 清空画布
         for (const star of this.stars) {
             star.move(); // 移动星星
@@ -90,8 +126,8 @@ class Star {
 
     // 重置星星属性
     reset() {
-        this.giant = this.getProbability(3); // 是否为巨型星星
-        this.comet = this.giant ? false : this.getProbability(5); // 是否为彗星
+        this.giant = !this.background.isDay && this.getProbability(3); // 是否为巨型星星
+        this.comet = !this.background.isDay && !this.giant && this.getProbability(5); // 是否为彗星
         this.x = this.getRandInterval(0, this.background.width - 10); // 星星的初始 x 坐标
         this.y = this.getRandInterval(0, this.background.height); // 星星的初始 y 坐标
         this.r = this.getRandInterval(1.1, 2.6); // 星星的半径
@@ -147,6 +183,13 @@ class Star {
     draw() {
         const { universe, giantColor, cometColor, starColor } = this.background;
         universe.beginPath();
+        if (this.background.isDay) {
+            universe.fillStyle = `rgba(${starColor},${this.opacity * 0.55})`;
+            universe.arc(this.x, this.y, this.r * 0.55, 0, 2 * Math.PI, false);
+            universe.fill();
+            universe.closePath();
+            return;
+        }
         if (this.giant) {
             universe.fillStyle = `rgba(${giantColor},${this.opacity})`;
             // universe.arc(this.x, this.y, 2, 0, 2 * Math.PI, false); // 绘制巨型方框星星

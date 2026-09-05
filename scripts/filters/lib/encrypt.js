@@ -15,6 +15,9 @@ const TAG_LENGTH = 16;
 
 module.exports = function (hexo, data) {
     const theme = hexo.theme.config || {};
+    const language = hexo.theme.i18n.languages[0] || "en";
+    const translations = hexo.theme.i18n.data[language] || {};
+    const translate = (key) => translations[key] || "";
 
     // 检查是否启用加密
     if (!theme.encrypt || !theme.encrypt.enable) return data;
@@ -43,11 +46,16 @@ module.exports = function (hexo, data) {
     const encrypted = encryptContent(content, password);
 
     // 生成 HTML（文章 front-matter 优先，其次主题配置，最后默认值）
-    const abstract = data.abstract || theme.encrypt.abstract || "这是一篇加密文章，需要密码才能继续阅读。";
-    const message = data.message || theme.encrypt.message || "请输入密码：";
-    const wrongPass = theme.encrypt.wrong_pass_message || "密码错误，请重试。";
+    const abstract =
+        data.abstract || theme.encrypt.abstract || translate("encrypt.abstract");
+    const message =
+        data.message || theme.encrypt.message || translate("encrypt.message");
+    const wrongPass =
+        theme.encrypt.wrong_pass_message ||
+        translate("encrypt.wrong_pass_message");
+    const submitLabel = translate("encrypt.submit");
 
-    data.content = buildEncryptedHTML(encrypted, abstract, message, wrongPass);
+    data.content = buildEncryptedHTML(encrypted, abstract, message, wrongPass, submitLabel);
     // 首页摘要也替换为加密提示
     data.excerpt = `<div class="hexo-encrypt-summary">🔒 ${escapeHtml(abstract)}</div>`;
     data.layout = data.layout || "post";
@@ -78,48 +86,17 @@ function encryptContent(content, password) {
 }
 
 // 生成加密后的 HTML
-function buildEncryptedHTML(encrypted, abstract, message, wrongPass) {
+function buildEncryptedHTML(encrypted, abstract, message, wrongPass, submitLabel) {
     return `
-<div class="hexo-encrypt" data-salt="${encrypted.salt}" data-iv="${encrypted.iv}" data-tag="${encrypted.tag}" data-wrong="${wrongPass}">
+<div class="hexo-encrypt" data-salt="${encrypted.salt}" data-iv="${encrypted.iv}" data-tag="${encrypted.tag}" data-wrong="${escapeHtml(wrongPass)}">
   <div class="hexo-encrypt-abstract">${escapeHtml(abstract)}</div>
   <div class="hexo-encrypt-input">
-    <input type="password" class="hexo-encrypt-password" placeholder="${escapeHtml(message)}" />
-    <button class="hexo-encrypt-submit" type="button">🔓</button>
+    <input type="password" class="hexo-encrypt-password" placeholder="${escapeHtml(message)}" aria-label="${escapeHtml(message)}" />
+    <button class="hexo-encrypt-submit" type="button" aria-label="${escapeHtml(submitLabel)}">🔓</button>
   </div>
+  <p class="hexo-encrypt-error" role="alert" hidden></p>
   <div class="hexo-encrypt-data" style="display:none">${encrypted.data}</div>
-</div>
-<script>
-(function(){
-  var d = document, el = d.currentScript.previousElementSibling;
-  var salt = el.dataset.salt, iv = el.dataset.iv, tag = el.dataset.tag, wrong = el.dataset.wrong;
-  var encData = el.querySelector('.hexo-encrypt-data').textContent;
-  var input = el.querySelector('.hexo-encrypt-password');
-  var btn = el.querySelector('.hexo-encrypt-submit');
-
-  function hexToBuf(h){var a=new Uint8Array(h.length/2);for(var i=0;i<h.length;i+=2)a[i/2]=parseInt(h.substr(i,2),16);return a}
-
-  async function decrypt(pwd){
-    var keyMat = await crypto.subtle.importKey('raw',new TextEncoder().encode(pwd),{name:'PBKDF2'},false,['deriveBits','deriveKey']);
-    var key = await crypto.subtle.deriveKey({name:'PBKDF2',salt:hexToBuf(salt),iterations:100000,hash:'SHA-256'},keyMat,{name:'AES-GCM',length:256},false,['decrypt']);
-    var ct = hexToBuf(encData);
-    var t = hexToBuf(tag);
-    var combined = new Uint8Array(ct.length+t.length);
-    combined.set(ct);combined.set(t,ct.length);
-    var pt = await crypto.subtle.decrypt({name:'AES-GCM',iv:hexToBuf(iv),tagLength:128},key,combined);
-    return new TextDecoder().decode(pt);
-  }
-
-  btn.addEventListener('click',async function(){
-    try{
-      var html = await decrypt(input.value);
-      el.innerHTML = html;
-    }catch(e){
-      alert(wrong);
-    }
-  });
-  input.addEventListener('keydown',function(e){if(e.key==='Enter')btn.click()});
-})();
-</script>`;
+</div>`;
 }
 
 function escapeHtml(s) {
