@@ -32,6 +32,7 @@ const initToggleHeaderMenu = (
 ) => {
     const menuList = document.querySelector(menu_selector);
     const toggleButton = document.querySelector(button_selector);
+    const closeButton = document.querySelector("#header-left-menu-close");
 
     if (!menuList || !toggleButton) {
         console.debug("[header] skip initToggleHeaderMenu: required element missing", {
@@ -41,33 +42,68 @@ const initToggleHeaderMenu = (
         return;
     }
 
-    let isVisible = window.matchMedia("(min-width: 1280px)").matches;
+    const narrowViewport = window.matchMedia("(max-width: 1279px)");
+    let desktopVisible = true;
 
-    function renderMenu() {
-        menuList.classList.toggle("hidden", !isVisible);
-        toggleButton.setAttribute("aria-expanded", String(isVisible));
-    }
+    const closeMobileMenu = (restoreFocus = true) => {
+        menuList.classList.remove("show");
+        menuList.setAttribute("aria-hidden", "true");
+        menuList.setAttribute("role", "dialog");
+        menuList.setAttribute("aria-modal", "true");
+        menuList.setAttribute("tabindex", "-1");
+        toggleButton.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("modal-open");
+        if (restoreFocus) toggleButton.focus();
+    };
 
-    function toggleSidebar() {
-        isVisible = !isVisible; // 切换状态
+    const openMobileMenu = () => {
+        menuList.classList.add("show");
+        menuList.setAttribute("aria-hidden", "false");
+        toggleButton.setAttribute("aria-expanded", "true");
+        document.body.classList.add("modal-open");
+        menuList.querySelector(".header-left-menu-list-item")?.focus();
+    };
+
+    const renderMenu = () => {
+        if (narrowViewport.matches) {
+            closeMobileMenu(false);
+            return;
+        }
+
+        menuList.classList.remove("show");
+        menuList.classList.toggle("desktop-hidden", !desktopVisible);
+        menuList.removeAttribute("role");
+        menuList.removeAttribute("aria-modal");
+        menuList.removeAttribute("tabindex");
+        menuList.setAttribute("aria-hidden", "false");
+        toggleButton.setAttribute("aria-expanded", String(desktopVisible));
+        document.body.classList.remove("modal-open");
+    };
+
+    toggleButton.addEventListener("click", () => {
+        if (narrowViewport.matches) {
+            if (menuList.classList.contains("show")) closeMobileMenu();
+            else openMobileMenu();
+            return;
+        }
+
+        desktopVisible = !desktopVisible;
         renderMenu();
-    }
+    });
 
-    toggleButton.addEventListener("click", toggleSidebar);
-
+    closeButton?.addEventListener("click", () => closeMobileMenu());
+    menuList.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            if (narrowViewport.matches) closeMobileMenu(false);
+        });
+    });
     document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && window.innerWidth < 1280 && isVisible) {
-            isVisible = false;
-            renderMenu();
-            toggleButton.focus();
+        if (event.key === "Escape" && narrowViewport.matches && menuList.classList.contains("show")) {
+            event.preventDefault();
+            closeMobileMenu();
         }
     });
-
-    window.addEventListener("resize", () => {
-        isVisible = window.matchMedia("(min-width: 1280px)").matches;
-        renderMenu();
-    });
-
+    narrowViewport.addEventListener("change", renderMenu);
     renderMenu();
 };
 

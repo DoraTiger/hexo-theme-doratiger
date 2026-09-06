@@ -62,7 +62,9 @@ sidebar:
 
 header:
   navigation:
+    menu: "导航"
     toggle: "切换导航栏"
+    close: "关闭导航栏"
   appearance:
     switch_to_day: "切换为日间主题"
     switch_to_night: "切换为夜间主题"

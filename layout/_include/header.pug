@@ -17,9 +17,11 @@ mixin header-appearance
     span.header-right-appearance-symbol(aria-hidden='true') 🌙
 
 #header-left
-  button#header-left-menu-icon(type='button' aria-label=_p('header.navigation.toggle') aria-controls='header-left-menu-list' aria-expanded='true')
+  button#header-left-menu-icon(type='button' aria-label=_p('header.navigation.toggle') aria-controls='header-left-menu-list' aria-expanded='false')
     i.fas.fa-bars
-  #header-left-menu-list
+  nav#header-left-menu-list(aria-label=_p('header.navigation.menu') aria-hidden='true' tabindex='-1')
+    button#header-left-menu-close(type='button' aria-label=_p('header.navigation.close'))
+      i.fas.fa-times(aria-hidden='true')
     each item in (theme.header.menu || [])
       - let i18n = item.key + ".menu"
       a.header-left-menu-list-item(href=url_for(item.url))= _p(i18n)

@@ -62,7 +62,9 @@ sidebar:
 
 header:
   navigation:
+    menu: "導覽"
     toggle: "切換導覽列"
+    close: "關閉導覽列"
   appearance:
     switch_to_day: "切換為日間主題"
     switch_to_night: "切換為夜間主題"

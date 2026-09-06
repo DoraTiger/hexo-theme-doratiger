@@ -62,7 +62,9 @@ sidebar:
 
 header:
   navigation:
+    menu: "Navigation"
     toggle: "Toggle navigation"
+    close: "Close navigation"
   appearance:
     switch_to_day: "Switch to day appearance"
     switch_to_night: "Switch to night appearance"

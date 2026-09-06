@@ -214,22 +214,7 @@ html[data-appearance='day'] #celestial-sky
   overflow-y auto
 
 #content-wrapper, #sidebar-container
-  scrollbar-width thin
-  scrollbar-color unquote('var(--dt-scroll-thumb) var(--dt-scroll-track)')
-
-  &::-webkit-scrollbar
-    width .65rem
-
-  &::-webkit-scrollbar-track
-    background var(--dt-scroll-track)
-
-  &::-webkit-scrollbar-thumb
-    background var(--dt-scroll-thumb)
-    border 2px solid var(--dt-scroll-track)
-    border-radius 1rem
-
-  &::-webkit-scrollbar-thumb:hover
-    background $color-theme
+  themed-scrollbar()
 
   #content
     width calc(100% - 2rem)
@@ -273,7 +258,7 @@ html[data-appearance='day'] #celestial-sky
 #return-top
   position fixed
   right unquote('max(1rem, env(safe-area-inset-right))')
-  bottom unquote('calc(3rem + max(1rem, env(safe-area-inset-bottom)))')
+  bottom unquote('calc(var(--dt-footer-height, 3rem) + 1rem + max(1rem, env(safe-area-inset-bottom)))')
   z-index 15
   display grid
   width 44px
@@ -325,7 +310,23 @@ html[data-appearance='day'] #celestial-sky
     width calc(100% - 1.25rem)
   #footer-wrapper
     flex-wrap wrap
+    align-content center
     font-size .82rem
+
+  // Footer space is reserved for statutory registrations first.  Community
+  // records and ancillary metadata are hidden by the responsive controller;
+  // the two legal records may naturally flow onto separate rows.
+  #footer-right
+    flex 1 1 100%
+    width 100%
+    row-gap .35rem
+    column-gap .75rem
+
+    &-statistics, &-copyright, .footer-right-community-records-item
+      display none
+
+    &-miit, &-mps
+      margin-right 0
 
 @media (max-height: 700px) and (min-width: 768px)
   #header-wrapper

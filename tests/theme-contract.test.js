@@ -222,6 +222,46 @@ test("theme emits selectable celestial appearance tokens", async (t) => {
     assert.match(css, /#content-wrapper\s*\{[^}]*overflow-y:\s*auto/);
     assert.match(css, /#sidebar-container\.closed ~ #main-container/);
     assert.match(css, /@media \(max-width: 1279px\)[\s\S]*#footer-wrapper #footer-left\s*\{[^}]*display:\s*none/);
+    assert.match(index, /<nav id="header-left-menu-list"[^>]*aria-label="Navigation"/,
+        "the generated primary navigation must retain semantic navigation markup");
+    assert.match(css, /@media \(max-width: 1279px\)[\s\S]*#header-left-menu-list\s*\{[\s\S]*position:\s*fixed/,
+        "narrow viewports must turn primary navigation into an overlay instead of a horizontal header row");
+    assert.match(css, /@media \(max-width: 1279px\)[\s\S]*#header-left-menu-list\s*\{[\s\S]*height:\s*100dvh/,
+        "the narrow navigation overlay must explicitly fill the viewport");
+    assert.match(css, /@media \(max-width: 1279px\)[\s\S]*#header-left-menu-list\.hidden\s*\{[^}]*display:\s*none/,
+        "the narrow navigation overlay must be closed before JavaScript runs");
+    assert.match(css, /#footer-right\s*\{[\s\S]*flex-wrap:\s*wrap/,
+        "legal registration links must be allowed to wrap instead of being removed on narrow screens");
+    assert.match(css, /@media \(max-width: 767px\)[\s\S]*#footer-right\s*\{[\s\S]*flex:\s*1 1 100%/,
+        "mobile footer must give legal registrations a shrinkable full row");
+    assert.doesNotMatch(
+        fs.readFileSync(path.join(themeDir, "source", "js", "layout", "footer.js"), "utf8"),
+        /\{ selector: "#footer-right-(?:miit|mps)", width: 0 \}/,
+        "legal registrations must never be candidates for responsive hiding",
+    );
+    assert.match(css, /#footer-right-mps[\s\S]*a\.mps-text\s*\{[^}]*display:\s*inline-flex/,
+        "the public-security registration icon and label must share an alignment context");
+    assert.match(css, /post-item-copyright-qrcode[\s\S]*float:\s*right/,
+        "a post QR code must float so long copyright text can reclaim the full width below it");
+    assert.ok(
+        post.indexOf("post-item-copyright-qrcode") < post.indexOf("post-item-copyright-info"),
+        "the QR code must precede copyright text so it occupies the top-right of the notice",
+    );
+    assert.match(css, /@media \(max-width: 767px\)[\s\S]*#comment-container[\s\S]*min-width:\s*0/,
+        "comment providers must not force horizontal overflow on mobile");
+    assert.match(fs.readFileSync(path.join(themeDir, "source", "css", "_layout", "header.styl"), "utf8"), /#header-left-menu-icon,\s*#header-right-search,\s*#header-right-appearance\s*\{[\s\S]*control-surface\(\)/,
+        "header controls must share one visual-control contract");
+    assert.match(css, /\.search-content\s*\{[\s\S]*scrollbar-color:\s*var\(--dt-scroll-thumb\) var\(--dt-scroll-track\)/,
+        "the search dialog must reuse themed scrollbars");
+    assert.match(css, /@media \(max-width: 767px\)[\s\S]*post-item-copyright-qrcode\s*\{[\s\S]*display:\s*none/,
+        "mobile posts must not render a redundant QR code");
+    assert.match(css, /bottom:\s*calc\(var\(--dt-footer-height, 3rem\) \+ 1rem \+ max\(1rem, env\(safe-area-inset-bottom\)\)\)/,
+        "the return-top control must clear the measured footer height");
+    assert.match(
+        fs.readFileSync(path.join(themeDir, "source", "js", "utils", "scroll.js"), "utf8"),
+        /--dt-footer-height[\s\S]*ResizeObserver/,
+        "the scroll controller must keep the footer offset current when it wraps",
+    );
     assert.match(css, /#post \.post-item-content[\s\S]*margin-left:\s*auto/);
     const headerTemplate = fs.readFileSync(path.join(themeDir, "layout", "_include", "header.pug"), "utf8");
     const layoutTemplate = fs.readFileSync(path.join(themeDir, "layout", "_include", "_layout.pug"), "utf8");

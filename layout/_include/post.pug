@@ -48,6 +48,13 @@ article#post
       let copyright_link = url_for(page.permalink)
       let enableQR = theme.post_extend?.qrcode?.enable ?? false
     .post-item-copyright
+      if(enableQR)
+        -
+          let qrSize = theme.post_extend?.qrcode?.size ?? 80
+          let qrTip = theme.post_extend?.qrcode?.tip || _p('post.qrcode.tip')
+        .post-item-copyright-qrcode
+          .post-item-qrcode-img#post-qrcode(data-url=url_for(page.permalink) data-size=qrSize data-alt=_p('post.qrcode.alt'))
+          span.post-item-copyright-qrcode-tip= qrTip
       .post-item-copyright-info
         .post-item-copyright-item
           span.post-item-copyright-item-meta= __('post.copyright.author')+ ": "
@@ -64,13 +71,6 @@ article#post
           .post-item-copyright-item
             span.post-item-copyright-item-meta= _p("post.copyright.copyright_notice")+ ": "
             span.post-item-copyright-item-text!= __('post.copyright.copyright_content',copyright_license_link,copyright_license,config.url, config.title)
-      if(enableQR)
-        -
-          let qrSize = theme.post_extend?.qrcode?.size ?? 80
-          let qrTip = theme.post_extend?.qrcode?.tip || _p('post.qrcode.tip')
-        .post-item-copyright-qrcode
-          .post-item-qrcode-img#post-qrcode(data-url=url_for(page.permalink) data-size=qrSize data-alt=_p('post.qrcode.alt'))
-          span.post-item-copyright-qrcode-tip= qrTip
 
     // 评论
     -

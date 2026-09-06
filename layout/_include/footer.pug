@@ -124,8 +124,9 @@ mixin mps
       - mps_text = theme.footer.beian.mps.text.replace(/\s/g, '')
       - mps_icon = theme.footer.beian.mps.icon
       #footer-right-mps
-        img.footer-right-record-icon.mps-img(src=url_for(mps_icon) alt='' aria-hidden='true' width='16' height='16')
-        a.mps-text(rel='noopener' href=mps_link target='_blank') #{mps_text}
+        a.mps-text(rel='noopener' href=mps_link target='_blank')
+          img.footer-right-record-icon.mps-img(src=url_for(mps_icon) alt='' aria-hidden='true' width='16' height='16')
+          | #{mps_text}
 
 mixin communityRecords
   - const communityConfig = (theme.footer && theme.footer.community_records) || {}

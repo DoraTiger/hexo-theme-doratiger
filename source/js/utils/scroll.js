@@ -5,6 +5,7 @@ class ScrollHandler {
         this.progressBar = document.querySelector(".sidebar-toc-progress-bar");
         this.toc = document.querySelector(".sidebar-toc-content");
         this.returnTop = document.querySelector("#return-top");
+        this.footer = document.querySelector("#footer-wrapper");
 
         // 确保 DOM 已经加载完成
         if (document.readyState === "loading") {
@@ -23,6 +24,7 @@ class ScrollHandler {
         }
 
         this.initReturnTopButton()
+        this.initFooterOffset();
         this.updateReturnTopButton();
         this.updateReadProgress();
         this.updateActiveTocLink();
@@ -61,6 +63,22 @@ class ScrollHandler {
                 behavior: "smooth",
             });
         });
+    }
+
+    initFooterOffset() {
+        if (!this.footer) return;
+
+        const updateFooterOffset = () => {
+            document.documentElement.style.setProperty(
+                "--dt-footer-height",
+                `${this.footer.offsetHeight}px`,
+            );
+        };
+
+        updateFooterOffset();
+        if (typeof ResizeObserver !== "undefined") {
+            new ResizeObserver(updateFooterOffset).observe(this.footer);
+        }
     }
 
     updateReturnTopButton() {

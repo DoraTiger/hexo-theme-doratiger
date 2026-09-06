@@ -33,8 +33,12 @@
 
 #footer-right {
   display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
   flex-shrink: 0;
   box-sizing: border-box;
+  align-items: center;
+  justify-content: flex-end;
 
   .footer-right-separator {
     margin: 0.25rem 0.25rem;
@@ -74,9 +78,6 @@
   }
 
   &-mps {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     margin-right: 1rem;
     hover-underline(50%);
 
@@ -84,7 +85,9 @@
       display: none;
     }
 
-    .mps-text {
+    a.mps-text {
+      display: inline-flex;
+      align-items: center;
     }
   }
 

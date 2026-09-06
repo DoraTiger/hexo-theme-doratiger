@@ -17,8 +17,6 @@ const autoResizeFooterRight = () => {
         ).map((el) => ({ element: el, width: 0 })),
         { selector: "#footer-right-statistics", width: 0 },
         { selector: "#footer-right-copyright", width: 0 },
-        { selector: "#footer-right-miit", width: 0 },
-        { selector: "#footer-right-mps", width: 0 },
     ];
 
     // 初始化对象及宽度信息
