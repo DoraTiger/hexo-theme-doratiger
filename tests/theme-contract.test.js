@@ -232,13 +232,8 @@ test("theme emits selectable celestial appearance tokens", async (t) => {
         "the narrow navigation overlay must be closed before JavaScript runs");
     assert.match(css, /#footer-right\s*\{[\s\S]*flex-wrap:\s*wrap/,
         "legal registration links must be allowed to wrap instead of being removed on narrow screens");
-    assert.match(css, /@media \(max-width: 767px\)[\s\S]*#footer-right\s*\{[\s\S]*flex:\s*1 1 100%/,
-        "mobile footer must give legal registrations a shrinkable full row");
-    assert.doesNotMatch(
-        fs.readFileSync(path.join(themeDir, "source", "js", "layout", "footer.js"), "utf8"),
-        /\{ selector: "#footer-right-(?:miit|mps)", width: 0 \}/,
-        "legal registrations must never be candidates for responsive hiding",
-    );
+    assert.match(css, /@media \(max-width: 1279px\)[\s\S]*#footer-right\s*\{[\s\S]*flex:\s*1 1 100%/,
+        "the footer must give legal registrations a shrinkable full row whenever the sidebar disappears");
     assert.match(css, /#footer-right-mps[\s\S]*a\.mps-text\s*\{[^}]*display:\s*inline-flex/,
         "the public-security registration icon and label must share an alignment context");
     assert.match(css, /post-item-copyright-qrcode[\s\S]*float:\s*right/,
@@ -280,6 +275,27 @@ test("theme emits selectable celestial appearance tokens", async (t) => {
         fs.readFileSync(path.join(themeDir, "source", "css", "_layout", "header.styl"), "utf8"),
         /@media \(max-width: 767px\)[\s\S]*#header-right-time\s*\{[\s\S]*display: none[\s\S]*#header-right-title\s*\{[\s\S]*left: 50%/,
         "mobile chrome must suppress the clock and center the site title independently",
+    );
+    assert.match(
+        fs.readFileSync(path.join(themeDir, "source", "css", "_layout", "header.styl"), "utf8"),
+        /#header-right\s*\{[\s\S]*gap: var\(--dt-header-control-gap\)/,
+        "header-right must own one spacing token for controls and inline text",
+    );
+    assert.match(
+        fs.readFileSync(path.join(themeDir, "source", "css", "_layout", "_layout.styl"), "utf8"),
+        /@media \(max-width: 1279px\)[\s\S]*#footer-wrapper\s*[\r\n][\s\S]*flex-wrap\s+wrap[\s\S]*#footer-right\s*[\r\n][\s\S]*flex\s+1 1 100%/,
+        "the footer must enter its wrapping contract as soon as the sidebar disappears",
+    );
+    assert.match(css, /#footer-right\s*\{[\s\S]*container-type:\s*inline-size/,
+        "footer records must use their own available width as the responsive container");
+    assert.match(css, /@container footer-records \(max-width: 74rem\)[\s\S]*footer-right-community-records-item:nth-of-type\(2\)[\s\S]*display:\s*none/,
+        "the second community record must fold before the first one");
+    assert.match(css, /@container footer-records \(max-width: 63rem\)[\s\S]*footer-right-community-records-item:nth-of-type\(1\)[\s\S]*display:\s*none/,
+        "the first community record must fold only after the second one");
+    assert.doesNotMatch(
+        fs.readFileSync(path.join(themeDir, "source", "js", "main.js"), "utf8"),
+        /layout\/footer\.js|initAutoResizeFooterRight/,
+        "footer visibility must remain in CSS rather than a browser measurement controller",
     );
     await hexo.exit();
 });

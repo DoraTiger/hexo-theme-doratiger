@@ -34,11 +34,13 @@
 #footer-right {
   display: flex;
   flex-wrap: wrap;
+  flex: 1 1 0;
   min-width: 0;
-  flex-shrink: 0;
   box-sizing: border-box;
   align-items: center;
   justify-content: flex-end;
+  container-name: footer-records;
+  container-type: inline-size;
 
   .footer-right-separator {
     margin: 0.25rem 0.25rem;
@@ -97,6 +99,18 @@
     height: 1rem;
     margin-right: 0.125rem;
     object-fit: contain;
+  }
+}
+
+@container footer-records (max-width: 74rem) {
+  #footer-right .footer-right-community-records-item:nth-of-type(2) {
+    display: none;
+  }
+}
+
+@container footer-records (max-width: 63rem) {
+  #footer-right .footer-right-community-records-item:nth-of-type(1) {
+    display: none;
   }
 }
 

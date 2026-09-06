@@ -2,7 +2,6 @@ import { initPageVisibility } from "./utils/PageVisibility.js";
 import { initClock, initAutoResizeHeaderRight, initToggleHeaderMenu, initSearchButton } from "./layout/header.js";
 import AppearanceController from "./layout/appearance.js";
 import { initToggleSidebar, initSidebarSwitch } from "./layout/sidebar.js";
-import { initAutoResizeFooterRight } from "./layout/footer.js";
 import { initCodeCopy } from "./utils/codeCopy.js";
 import ScrollHandler from "./utils/scroll.js";
 import Background from "./layout/background.js";
@@ -18,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
     new AppearanceController();
     initToggleSidebar();
     initAutoResizeHeaderRight();
-    initAutoResizeFooterRight();
     initToggleHeaderMenu();
     initSidebarSwitch();
     initCodeCopy();
