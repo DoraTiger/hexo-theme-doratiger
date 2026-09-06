@@ -249,7 +249,7 @@ test("theme emits selectable celestial appearance tokens", async (t) => {
     );
     assert.match(css, /@media \(max-width: 767px\)[\s\S]*#comment-container[\s\S]*min-width:\s*0/,
         "comment providers must not force horizontal overflow on mobile");
-    assert.match(fs.readFileSync(path.join(themeDir, "source", "css", "_layout", "header.styl"), "utf8"), /#header-left-menu-icon,\s*#header-right-search,\s*#header-right-appearance\s*\{[\s\S]*control-surface\(\)/,
+    assert.match(fs.readFileSync(path.join(themeDir, "source", "css", "_layout", "header.styl"), "utf8"), /\.chrome-control\s*\{[\s\S]*control-surface\(\)/,
         "header controls must share one visual-control contract");
     assert.match(css, /\.search-content\s*\{[\s\S]*scrollbar-color:\s*var\(--dt-scroll-thumb\) var\(--dt-scroll-track\)/,
         "the search dialog must reuse themed scrollbars");
@@ -267,6 +267,20 @@ test("theme emits selectable celestial appearance tokens", async (t) => {
     const layoutTemplate = fs.readFileSync(path.join(themeDir, "layout", "_include", "_layout.pug"), "utf8");
     assert.doesNotMatch(headerTemplate, /onclick=|onchange=|addEventListener/);
     assert.doesNotMatch(layoutTemplate, /onclick=|onchange=|addEventListener/);
+    assert.match(headerTemplate, /\.chrome-control\.chrome-control-icon/,
+        "header actions must opt into the shared chrome-control primitive");
+    assert.match(headerTemplate, /header-inline/,
+        "header title and clock must opt into the shared inline alignment primitive");
+    assert.match(
+        fs.readFileSync(path.join(themeDir, "source", "css", "_layout", "header.styl"), "utf8"),
+        /\.chrome-control-icon[\s\S]*--dt-control-size[\s\S]*\.header-inline/,
+        "header geometry must derive from shared control and inline primitives",
+    );
+    assert.match(
+        fs.readFileSync(path.join(themeDir, "source", "css", "_layout", "header.styl"), "utf8"),
+        /@media \(max-width: 767px\)[\s\S]*#header-right-time\s*\{[\s\S]*display: none[\s\S]*#header-right-title\s*\{[\s\S]*left: 50%/,
+        "mobile chrome must suppress the clock and center the site title independently",
+    );
     await hexo.exit();
 });
 

@@ -59,8 +59,6 @@
   }
 
   &-appearance {
-    border-radius: 50%;
-
     &-symbol {
       font-family: ui-sans-serif, system-ui, sans-serif;
       font-size: .9rem;
@@ -79,10 +77,6 @@
   }
 
   &-title {
-    display: flex;
-    min-height: 2.2rem;
-    align-items: center;
-    margin-right: 1rem;
     hover-underline(50%);
 
     &.hidden {
@@ -95,11 +89,6 @@
   }
 
   &-time {
-    display: flex;
-    min-height: 2.2rem;
-    align-items: center;
-    margin-right: 1rem;
-
     &.hidden {
       display: none;
     }
@@ -110,33 +99,48 @@
   }
 }
 
-#header-left-menu-icon,
-#header-right-search,
-#header-right-appearance {
+.chrome-control {
   control-surface()
+}
+
+.chrome-control-icon {
   display: grid;
-  width: 2.2rem;
-  height: 2.2rem;
+  width: var(--dt-control-size);
+  height: var(--dt-control-size);
   padding: 0;
   place-items: center;
 }
 
+.chrome-control-round {
+  border-radius: 50%;
+}
+
+.header-inline {
+  display: grid;
+  min-width: 0;
+  min-height: var(--dt-control-size);
+  place-items: center;
+  white-space: nowrap;
+}
+
 #header-left-menu-icon {
-  margin-left: 1rem;
+  margin-left: var(--dt-header-edge-gap);
   font-size: 1rem;
 }
 
 #header-right-search,
 #header-right-appearance {
-  margin-right: .75rem;
+  margin-right: var(--dt-header-control-gap);
 }
 
 @media (pointer: coarse) {
-  #header-left-menu-icon,
-  #header-right-search,
-  #header-right-appearance {
-    width: 44px;
-    height: 44px;
+  :root {
+    --dt-control-size: 44px;
+    --dt-header-edge-gap: .25rem;
+    --dt-header-control-gap: .25rem;
+  }
+
+  #header-left-menu-icon {
     margin-right: 0.25rem;
     margin-left: 0.25rem;
   }
@@ -166,17 +170,14 @@
     }
 
     #header-left-menu-close {
-      control-surface()
-      display: grid;
-      width: 44px;
-      height: 44px;
       margin: 0 0 1rem auto;
-      place-items: center;
-      border-radius: 50%;
+    }
+
+    .chrome-mobile-control {
+      control-surface()
     }
 
     .header-left-menu-list-item {
-      control-surface()
       display: flex;
       min-height: 44px;
       align-items: center;
@@ -186,5 +187,24 @@
       font-size: clamp(1.15rem, 5vw, 1.5rem);
       border-radius: .75rem;
     }
+  }
+}
+
+@media (max-width: 767px) {
+  #header-wrapper {
+    position: relative;
+  }
+
+  #header-right-time {
+    display: none;
+  }
+
+  #header-right-title {
+    position: absolute;
+    left: 50%;
+    max-width: calc(100vw - 10rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transform: translateX(-50%);
   }
 }

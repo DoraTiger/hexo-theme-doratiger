@@ -1,6 +1,11 @@
 *, *::before, *::after
   box-sizing border-box
 
+:root
+  --dt-control-size: 2.2rem
+  --dt-header-edge-gap: 1rem
+  --dt-header-control-gap: .75rem
+
 html
   height 100%
   scroll-behavior smooth
@@ -301,6 +306,11 @@ html[data-appearance='day'] #celestial-sky
     display none
 
 @media (max-width: 767px)
+  :root
+    --dt-control-size: 44px
+    --dt-header-edge-gap: .25rem
+    --dt-header-control-gap: .25rem
+
   #celestial-orbit
     top 108%
     left 92%

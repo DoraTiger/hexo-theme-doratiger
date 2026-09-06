@@ -1,36 +1,36 @@
 mixin header-search
   - const searchMenu = _p('header.search.menu')
   if (theme.search.enable)
-    button#header-right-search(type='button' aria-label=searchMenu aria-controls='search-container' aria-expanded='false')
+    button#header-right-search.chrome-control.chrome-control-icon(type='button' aria-label=searchMenu aria-controls='search-container' aria-expanded='false')
       i.fas.fa-search(aria-hidden='true')
       span.sr-only= searchMenu
 
 mixin header-time
   if (theme.header.time.enable)
-    #header-right-time
+    #header-right-time.header-inline
       span.header-right-time-time
 
 mixin header-appearance
   - const switchToDay = _p('header.appearance.switch_to_day')
   - const switchToNight = _p('header.appearance.switch_to_night')
-  button#header-right-appearance(type='button' aria-label=switchToDay aria-pressed='false' data-day-label=switchToDay data-night-label=switchToNight)
+  button#header-right-appearance.chrome-control.chrome-control-icon.chrome-control-round(type='button' aria-label=switchToDay aria-pressed='false' data-day-label=switchToDay data-night-label=switchToNight)
     span.header-right-appearance-symbol(aria-hidden='true') 🌙
 
 #header-left
-  button#header-left-menu-icon(type='button' aria-label=_p('header.navigation.toggle') aria-controls='header-left-menu-list' aria-expanded='false')
+  button#header-left-menu-icon.chrome-control.chrome-control-icon(type='button' aria-label=_p('header.navigation.toggle') aria-controls='header-left-menu-list' aria-expanded='false')
     i.fas.fa-bars
   nav#header-left-menu-list(aria-label=_p('header.navigation.menu') aria-hidden='true' tabindex='-1')
-    button#header-left-menu-close(type='button' aria-label=_p('header.navigation.close'))
+    button#header-left-menu-close.chrome-control.chrome-control-icon.chrome-control-round(type='button' aria-label=_p('header.navigation.close'))
       i.fas.fa-times(aria-hidden='true')
     each item in (theme.header.menu || [])
       - let i18n = item.key + ".menu"
-      a.header-left-menu-list-item(href=url_for(item.url))= _p(i18n)
+      a.header-left-menu-list-item.chrome-mobile-control(href=url_for(item.url))= _p(i18n)
 
 #header-center
 
 #header-right
   +header-search
   +header-appearance
-  #header-right-title
+  #header-right-title.header-inline
     a.header-right-title-text(href=config.root)= config.title
   +header-time
