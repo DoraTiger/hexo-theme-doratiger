@@ -1,3 +1,5 @@
+import { enhanceContent } from '../utils/content.js';
+
 const hexToBuffer = (hex) => {
     const bytes = new Uint8Array(hex.length / 2);
     for (let index = 0; index < hex.length; index += 2) {
@@ -45,6 +47,7 @@ const initEncryptedPosts = (selector = ".hexo-encrypt") => {
             }
         };
         const unlock = async () => {
+            if (submit.disabled) return;
             clearError();
             submit.disabled = true;
             try {
@@ -55,6 +58,7 @@ const initEncryptedPosts = (selector = ".hexo-encrypt") => {
                     tag: container.dataset.tag,
                     encryptedData: data.textContent,
                 });
+                enhanceContent(container);
             } catch (_) {
                 showError();
                 submit.disabled = false;

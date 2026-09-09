@@ -1,4 +1,5 @@
 import { prepareWithSegments, layoutWithLines } from '../../lib/pretext/layout.js';
+import { runCanvasAnimation } from '../utils/canvasMotion.js';
 
 class Page404 {
   constructor() {
@@ -53,7 +54,6 @@ class Page404 {
 
   animate() {
     this.startTime = performance.now();
-    let frame = 0;
 
     const tick = (now) => {
       const elapsed = now - this.startTime;
@@ -69,10 +69,8 @@ class Page404 {
         }
       }
 
-      frame++;
-      requestAnimationFrame(tick);
     };
-    requestAnimationFrame(tick);
+    runCanvasAnimation({ frame: tick, renderStatic: () => this.draw(1) });
   }
 
   draw(progress) {

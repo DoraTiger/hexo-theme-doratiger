@@ -1,4 +1,5 @@
 import { prepareWithSegments, layoutWithLines } from '../../lib/pretext/layout.js';
+import { runCanvasAnimation } from '../utils/canvasMotion.js';
 
 class Hero {
   constructor() {
@@ -66,6 +67,7 @@ class Hero {
       const { lines } = layoutWithLines(prepared, maxWidth * dpr, titleLineHeight * dpr);
       for (const line of lines) {
         this.lines.push({
+          y: this.lines.length * titleLineHeight,
           text: line.text,
           x: (this.width - line.width / dpr) / 2,
           fontSize: titleFontSize,
@@ -85,13 +87,13 @@ class Hero {
       const titleBlockHeight = this.lines.length > 0
         ? this.lines.length * this.lines[0].lineHeight + 24
         : 0;
-      for (const line of lines) {
+      for (const [index, line] of lines.entries()) {
         this.lines.push({
           text: line.text,
           x: (this.width - line.width / dpr) / 2,
           fontSize: subtitleFontSize,
           lineHeight: subtitleLineHeight,
-          y: titleBlockHeight,
+          y: titleBlockHeight + index * subtitleLineHeight,
           type: 'subtitle',
         });
       }
@@ -101,9 +103,13 @@ class Hero {
     const totalHeight = (this.lines.filter(l => l.type === 'title').length * titleLineHeight)
       + 24
       + (this.lines.filter(l => l.type === 'subtitle').length * subtitleLineHeight);
-    const offsetY = (this.height - totalHeight) / 2;
+    const scale = Math.min(1, this.height * .85 / totalHeight);
+    const offsetY = (this.height - totalHeight * scale) / 2;
     for (const line of this.lines) {
-      line.y = (line.y || 0) + offsetY;
+      line.y = (line.y || 0) * scale + offsetY;
+      line.x = this.width / 2 + (line.x - this.width / 2) * scale;
+      line.fontSize *= scale;
+      line.lineHeight *= scale;
     }
   }
 
@@ -118,11 +124,12 @@ class Hero {
       this.animProgress = Math.min(elapsed / this.duration, 1);
       const eased = this.easeOutExpo(this.animProgress);
       this.draw(eased);
-      if (this.animProgress < 1) {
-        requestAnimationFrame(tick);
-      }
+      return this.animProgress < 1;
     };
-    requestAnimationFrame(tick);
+    runCanvasAnimation({ frame: tick, renderStatic: () => {
+      this.animProgress = 1;
+      this.draw(1);
+    } });
   }
 
   draw(progress) {
@@ -132,7 +139,7 @@ class Hero {
     for (let i = 0; i < this.lines.length; i++) {
       const line = this.lines[i];
       // Stagger each line
-      const lineDelay = line.type === 'title' ? i * 0.08 : 0.4 + i * 0.06;
+      const lineDelay = Math.min(.8, line.type === 'title' ? i * 0.08 : 0.4 + i * 0.06);
       const lineProgress = Math.max(0, Math.min((progress - lineDelay) / (1 - lineDelay), 1));
       const eased = this.easeOutExpo(lineProgress);
 

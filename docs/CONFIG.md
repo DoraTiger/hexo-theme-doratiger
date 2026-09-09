@@ -525,10 +525,10 @@
 2. 配置项说明
 
     - `appearance`：初始外观策略。`night` 为默认星空，`day` 为日照配色，`system` 跟随浏览器的系统配色偏好；页头月/日按钮可在浏览器本地覆盖此初始选择，不会改写主题配置。
-    - `accent`、`accent_secondary`：主强调色与次强调色，分别用于主操作/当前状态和链接/辅助定位。
+    - `accent`、`accent_secondary`：主强调色与次强调色，分别用于主操作/当前状态和链接/辅助定位。日间会基于配置色自动加深，避免浅色背景上的对比度不足；自定义配色仍需检查昼夜两种效果。
     - `typography.font_size`：基础字号。
     - `layout.content_width`：正文最大阅读宽度。
-    - `layout.sidebar_width`：桌面侧栏宽度；低于 1280px 时侧栏会转为抽屉。
+    - `layout.sidebar_width`：桌面侧栏宽度；低于 1280px 时不提供侧栏，顶部导航改用全屏菜单。
 
 3. 配置建议
 

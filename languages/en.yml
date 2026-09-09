@@ -1,4 +1,5 @@
 name: "English"
+return_top: "Back to top"
 
 page_visibility:
   visible: "Welcome back! d(`･∀･)b 👏"

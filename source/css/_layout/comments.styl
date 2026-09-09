@@ -88,7 +88,7 @@
         }
 
         .gitment-editor-submit {
-          button-hover-effect();
+          action-control();
         }
       }
     }
@@ -104,6 +104,14 @@
   }
 
   .gitment-editor-write-field textarea, .gitment-editor-preview-field {
+    color: $color-text;
+  }
+
+  .gitment-container a {
+    color: $color-sub-theme;
+  }
+
+  .gitment-editor-tab {
     color: $color-text;
   }
 
@@ -126,7 +134,8 @@
       opacity: .9;
     }
 
-    .vsubmit .vbtn {
+    .vsubmit.vbtn {
+      action-control();
       color: var(--dt-on-accent) !important;
       background: var(--dt-accent) !important;
       border-color: var(--dt-accent) !important;
@@ -149,6 +158,20 @@
     .gitment-editor-main, .vwrap, #twikoo {
       min-width: 0;
     }
+
+    .gitment-editor-main .gitment-editor-header {
+      display: flex;
+      flex-wrap: wrap;
+      height: auto;
+
+      .gitment-editor-login {
+        position: static;
+        float: none;
+        margin: .5rem 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
   }
 
   #twikoo {
@@ -167,14 +190,11 @@
   }
 
   input, textarea {
-    color: $color-text;
+    form-field();
     background: transparent;
-    border-color: $color-border;
   }
 
   .tk-send {
-    color: var(--dt-on-accent);
-    background: var(--dt-accent);
-    border-color: var(--dt-accent);
+    action-control();
   }
 }

@@ -88,10 +88,10 @@ article#post
         let sponsorAlipay = theme.post_extend?.sponsor?.alipay ?? ""
         let sponsorWechat = theme.post_extend?.sponsor?.wechat ?? ""
       .post-item-sponsor
-        .post-item-sponsor-btn#sponsor-btn
+        button.post-item-sponsor-btn#sponsor-btn(type="button" aria-expanded="false" aria-controls="sponsor-panel")
           i.fas.fa-mug-hot
           span= _p('post.sponsor.button')
-        .post-item-sponsor-panel#sponsor-panel(style="display:none")
+        .post-item-sponsor-panel#sponsor-panel(hidden)
           .post-item-sponsor-panel-tip= sponsorTip
           .post-item-sponsor-panel-codes
             if sponsorAlipay
@@ -102,12 +102,3 @@ article#post
               .post-item-sponsor-panel-codes-code
                 img(src=url_for(sponsorWechat) alt=_p('post.sponsor.wechat'))
                 span= _p('post.sponsor.wechat')
-        script.
-          (function(){
-            var btn = document.getElementById('sponsor-btn');
-            var panel = document.getElementById('sponsor-panel');
-            if (!btn || !panel) return;
-            btn.addEventListener('click', function(){
-              panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
-            });
-          })();

@@ -13,35 +13,29 @@ const initToggleSidebar = (
         return;
     }
 
-    let isSidebarVisible = window.matchMedia("(min-width: 1280px)").matches;
+    const desktopViewport = window.matchMedia("(min-width: 1280px)");
+    let desktopVisible = true;
+    let isSidebarVisible = desktopViewport.matches;
 
     function renderSidebar() {
         sidebarContainer.classList.toggle("closed", !isSidebarVisible);
         sidebarContainer.classList.toggle("open", isSidebarVisible);
         toggleButton.classList.toggle("closed", !isSidebarVisible);
         toggleButton.setAttribute("aria-expanded", String(isSidebarVisible));
+        sidebarContainer.inert = !isSidebarVisible;
     }
 
     function toggleSidebar() {
-        isSidebarVisible = !isSidebarVisible; // 切换状态
+        if (!desktopViewport.matches) return;
+        desktopVisible = !desktopVisible;
+        isSidebarVisible = desktopVisible;
         renderSidebar();
-        if (isSidebarVisible && window.innerWidth < 1280) {
-            sidebarContainer.querySelector("a, button")?.focus();
-        }
     }
 
     toggleButton.addEventListener("click", toggleSidebar);
 
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && window.innerWidth < 1280 && isSidebarVisible) {
-            isSidebarVisible = false;
-            renderSidebar();
-            toggleButton.focus();
-        }
-    });
-
-    window.addEventListener("resize", () => {
-        isSidebarVisible = window.matchMedia("(min-width: 1280px)").matches;
+    desktopViewport.addEventListener("change", () => {
+        isSidebarVisible = desktopViewport.matches && desktopVisible;
         renderSidebar();
     });
 

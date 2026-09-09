@@ -100,7 +100,7 @@
         padding: 0.2rem 0.15rem 0.2rem 0.85rem;
         color: $color-text-muted;
         letter-spacing: 0.01em;
-        transition: color $transition-delay, transform $transition-delay;
+        transition: color $transition-duration ease, transform $transition-duration ease;
 
         &::before {
           position: absolute;
@@ -115,7 +115,7 @@
           background: var(--dt-chrome);
           box-shadow: 0 0 0 0 transparent;
           transform: translateY(-50%) scale(0.72);
-          transition: background $transition-delay, border-color $transition-delay, box-shadow $transition-delay, transform $transition-delay;
+          transition: background $transition-duration ease, border-color $transition-duration ease, box-shadow $transition-duration ease, transform $transition-duration ease;
         }
 
         &:hover {

@@ -100,17 +100,16 @@ const initLocalSearch = () => {
         .then((data) => {
             index = normalizeIndex(data);
             loadState = "ready";
+            renderQuery();
         })
         .catch((error) => {
             loadState = "error";
+            renderQuery();
             console.error("[localSearch] failed to load index", { indexPath, error });
         });
 
     // 搜索
-    let debounce = null;
-    input.addEventListener("input", () => {
-        clearTimeout(debounce);
-        debounce = setTimeout(() => {
+    const renderQuery = () => {
             const query = normalizeText(input.value).trim().toLowerCase();
             if (!query) {
                 hitsEl.textContent = "";
@@ -169,7 +168,11 @@ const initLocalSearch = () => {
                 resultItem.appendChild(link);
                 hitsEl.appendChild(resultItem);
             });
-        }, 200);
+    };
+    let debounce = null;
+    input.addEventListener("input", () => {
+        clearTimeout(debounce);
+        debounce = setTimeout(renderQuery, 200);
     });
 };
 

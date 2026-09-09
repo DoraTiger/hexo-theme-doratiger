@@ -261,6 +261,7 @@ html[data-appearance='day'] #celestial-sky
   transition background .68s ease, border-color .68s ease, color .68s ease
 
 #return-top
+  control-surface()
   position fixed
   right unquote('max(1rem, env(safe-area-inset-right))')
   bottom unquote('calc(var(--dt-footer-height, 3rem) + 1rem + max(1rem, env(safe-area-inset-bottom)))')
@@ -270,6 +271,8 @@ html[data-appearance='day'] #celestial-sky
   height 44px
   place-items center
   opacity 0
+  visibility hidden
+  pointer-events none
   color $color-text
   background $color-button-background
   border 1px solid $color-border
@@ -279,6 +282,8 @@ html[data-appearance='day'] #celestial-sky
 
   &.show
     opacity 1
+    visibility visible
+    pointer-events auto
 
 #sidebar-container.closed
   transform translateX(-100%)

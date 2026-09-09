@@ -9,7 +9,10 @@ const FOCUSABLE_SELECTOR = [
 ].join(",");
 
 const getFocusable = (container) => Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR))
-    .filter((element) => !element.hidden && element.getClientRects().length > 0);
+    .filter((element) => !element.hidden && !element.closest('[inert]')
+        && getComputedStyle(element).visibility !== 'hidden' && element.getClientRects().length > 0);
+
+let activeDialog = null;
 
 const setBackgroundInteractivity = (dialog, isOpen) => {
     Array.from(document.body.children).forEach((element) => {
@@ -26,7 +29,7 @@ const setBackgroundInteractivity = (dialog, isOpen) => {
     });
 };
 
-const createModalDialog = ({ dialog, trigger, initialFocus, closeButtons = [] }) => {
+const createModalDialog = ({ dialog, trigger, initialFocus, closeButtons = [], bindTrigger = true }) => {
     if (!dialog || !trigger) return null;
 
     let opener = null;
@@ -34,7 +37,7 @@ const createModalDialog = ({ dialog, trigger, initialFocus, closeButtons = [] })
         const target = typeof initialFocus === "function" ? initialFocus() : initialFocus;
         (target || getFocusable(dialog)[0] || dialog).focus();
     };
-    const close = () => {
+    const close = (restoreFocus = true) => {
         if (!dialog.classList.contains("show")) return;
         dialog.classList.remove("show");
         dialog.setAttribute("aria-hidden", "true");
@@ -42,26 +45,31 @@ const createModalDialog = ({ dialog, trigger, initialFocus, closeButtons = [] })
         document.body.classList.remove("modal-open");
         setBackgroundInteractivity(dialog, false);
 
-        if (opener instanceof HTMLElement && document.contains(opener)) opener.focus();
-        else trigger.focus();
+        if (restoreFocus) {
+            if (opener instanceof HTMLElement && document.contains(opener)) opener.focus();
+            else trigger.focus();
+        }
         opener = null;
+        activeDialog = null;
     };
     const open = () => {
         if (dialog.classList.contains("show")) return;
-        opener = document.activeElement;
+        activeDialog?.close(false);
+        opener = document.activeElement === document.body ? trigger : document.activeElement;
         dialog.classList.add("show");
         dialog.setAttribute("aria-hidden", "false");
         trigger.setAttribute("aria-expanded", "true");
         document.body.classList.add("modal-open");
         setBackgroundInteractivity(dialog, true);
         focusInitial();
+        activeDialog = { close };
     };
 
-    trigger.addEventListener("click", () => {
+    if (bindTrigger) trigger.addEventListener("click", () => {
         if (dialog.classList.contains("show")) close();
         else open();
     });
-    closeButtons.filter(Boolean).forEach((button) => button.addEventListener("click", close));
+    closeButtons.filter(Boolean).forEach((button) => button.addEventListener("click", () => close()));
     dialog.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
             event.preventDefault();

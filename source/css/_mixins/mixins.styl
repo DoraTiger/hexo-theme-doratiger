@@ -106,7 +106,7 @@ control-surface() {
   border: 1px solid $color-control-border;
   border-radius: .5rem;
   cursor: pointer;
-  transition: background .22s ease, border-color .22s ease, color .22s ease, box-shadow .22s ease;
+  transition: background $transition-duration ease, border-color $transition-duration ease, color $transition-duration ease, box-shadow $transition-duration ease;
 
   &::before {
     content: ''; // 伪元素必须设置 content，即使为空。
@@ -115,20 +115,93 @@ control-surface() {
     top: 0;
     width: 100%; // 设置伪元素宽度为按钮宽度，使其光影效果完全覆盖按钮。
     height: 100%; // 设置伪元素高度为按钮高度，使其光影效果完全覆盖按钮。
+    pointer-events: none;
     background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, .2) 42%, transparent 62%);
     transform: translateX(-135%);
-    transition: transform .35s ease;
+    // Reset outside the control without replaying the sweep on pointer exit.
+    opacity: 0;
+    transition: none;
   }
 
   // 鼠标悬停效果
-  &:hover {
+  &:hover:not(:disabled), &:focus-visible {
     color: $color-theme;
     background: $color-control-hover;
     border-color: $color-theme;
     box-shadow: 0 .35rem .9rem rgba(0, 43, 54, .18);
     &::before {
+      opacity: 1;
       transform: translateX(135%);
+      transition: transform $transition-duration ease;
     }
+  }
+}
+
+pagination-list() {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+pagination-control() {
+  control-surface();
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: .35rem .5rem;
+  line-height: 1.25;
+  text-decoration: none;
+  color: $color-text;
+  box-sizing: border-box;
+}
+
+// Shared filled actions and form fields; components only supply layout.
+action-control() {
+  control-surface()
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  color: $color-on-accent;
+  background: $color-theme;
+  border-color: $color-theme;
+  min-height: 44px;
+
+  &:hover:not(:disabled), &:focus-visible {
+    color: $color-on-accent;
+    background: $color-theme;
+  }
+
+  &:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+  }
+}
+
+form-field() {
+  min-width: 0;
+  color: $color-text;
+  background: $color-control;
+  border: 1px solid $color-control-border;
+  border-radius: .5rem;
+  font: inherit;
+  transition: border-color $transition-duration ease, background $transition-duration ease;
+
+  &::placeholder {
+    color: $color-text-muted;
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-sub-theme;
+    outline-offset: 2px;
   }
 }
 

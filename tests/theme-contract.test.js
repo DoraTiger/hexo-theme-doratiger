@@ -173,6 +173,10 @@ test("theme emits selectable celestial appearance tokens", async (t) => {
     write(path.join(fixtureDir, "_config.hexo-theme-doratiger.yml"), [
         "style:", "  appearance: system",
         "sidebar:", "  toc:", "    enable: true",
+        "footer:", "  community_records:", "    enable: true", "    items:",
+        "      - { text: First, url: 'https://example.test/1' }",
+        "      - { text: Second, url: 'https://example.test/2' }",
+        "      - { text: Third, url: 'https://example.test/3' }",
     ].join("\n") + "\n");
     write(path.join(fixtureDir, "source", "_posts", "hello.md"), "---\ntitle: Hello\ndate: 2026-09-05\n---\n## Section\n\nHello.\n");
     const hexo = new Hexo(fixtureDir, { silent: true });
@@ -224,11 +228,11 @@ test("theme emits selectable celestial appearance tokens", async (t) => {
     assert.match(css, /@media \(max-width: 1279px\)[\s\S]*#footer-wrapper #footer-left\s*\{[^}]*display:\s*none/);
     assert.match(index, /<nav id="header-left-menu-list"[^>]*aria-label="Navigation"/,
         "the generated primary navigation must retain semantic navigation markup");
-    assert.match(css, /@media \(max-width: 1279px\)[\s\S]*#header-left-menu-list\s*\{[\s\S]*position:\s*fixed/,
+    assert.match(css, /@media \(max-width: 767px\)[\s\S]*#header-left-menu-list\s*\{[\s\S]*position:\s*fixed/,
         "narrow viewports must turn primary navigation into an overlay instead of a horizontal header row");
-    assert.match(css, /@media \(max-width: 1279px\)[\s\S]*#header-left-menu-list\s*\{[\s\S]*height:\s*100dvh/,
+    assert.match(css, /@media \(max-width: 767px\)[\s\S]*#header-left-menu-list\s*\{[\s\S]*height:\s*100dvh/,
         "the narrow navigation overlay must explicitly fill the viewport");
-    assert.match(css, /@media \(max-width: 1279px\)[\s\S]*#header-left-menu-list\.hidden\s*\{[^}]*display:\s*none/,
+    assert.match(css, /#header-left-menu-list\.hidden\s*\{[^}]*display:\s*none/,
         "the narrow navigation overlay must be closed before JavaScript runs");
     assert.match(css, /#footer-right\s*\{[\s\S]*flex-wrap:\s*wrap/,
         "legal registration links must be allowed to wrap instead of being removed on narrow screens");
@@ -290,6 +294,10 @@ test("theme emits selectable celestial appearance tokens", async (t) => {
         "footer records must use their own available width as the responsive container");
     assert.match(css, /@container footer-records \(max-width: 74rem\)[\s\S]*footer-right-community-records-item:nth-of-type\(2\)[\s\S]*display:\s*none/,
         "the second community record must fold before the first one");
+    assert.match(css, /@container footer-records \(max-width: 85rem\)[\s\S]*footer-right-community-records-item:nth-of-type\(3\)[\s\S]*display:\s*none/,
+        "additional community records must also participate in folding");
+    assert.doesNotMatch(css, /transition:\s*[^;]*(?:#[0-9a-f]{3,8}|color all)/i,
+        "transition property names must not be overwritten by Stylus variables");
     assert.match(css, /@container footer-records \(max-width: 63rem\)[\s\S]*footer-right-community-records-item:nth-of-type\(1\)[\s\S]*display:\s*none/,
         "the first community record must fold only after the second one");
     assert.doesNotMatch(

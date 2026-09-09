@@ -12,16 +12,23 @@
   --dt-overlay: rgba(2, 4, 16, .68)
   --dt-text: #fff
   --dt-text-muted: #bac5e1
-  --dt-on-accent: #fff
+  --dt-on-accent: #111827
   --dt-border: rgba(154, 170, 216, .24)
   --dt-code: rgba(7, 10, 31, .72)
-  --dt-accent: unquote(theme-config('style.accent', '#E7A63A'))
+  --dt-accent-base: unquote(theme-config('style.accent', '#E7A63A'))
+  --dt-accent: var(--dt-accent-base)
   --dt-accent-glow: rgba(231, 166, 58, .48)
-  --dt-accent-secondary: unquote(theme-config('style.accent_secondary', '#73C4F5'))
+  --dt-accent-secondary-base: unquote(theme-config('style.accent_secondary', '#73C4F5'))
+  --dt-accent-secondary: var(--dt-accent-secondary-base)
+  --dt-code-keyword: #ff7b72
+  --dt-code-string: #a5d6ff
+  --dt-code-number: #79c0ff
+  --dt-code-title: #d2a8ff
+  --dt-code-comment: #a5afbc
   --dt-stage-width: unquote(theme-config('style.layout.content_width', '46rem'))
   --dt-celestial-safe-space: 0
 
-html[data-appearance='day']
+day-palette()
   --dt-canvas: #fdf6e3
   --dt-surface: rgba(253, 246, 227, .82)
   --dt-surface-raised: rgba(238, 232, 213, .9)
@@ -37,24 +44,21 @@ html[data-appearance='day']
   --dt-border: rgba(88, 110, 117, .28)
   --dt-code: #eee8d5
   --dt-accent-glow: rgba(181, 137, 0, .46)
+  --dt-accent: unquote('color-mix(in srgb, var(--dt-accent-base) 55%, #073642)')
+  --dt-accent-secondary: unquote('color-mix(in srgb, var(--dt-accent-secondary-base) 45%, #073642)')
+  --dt-on-accent: #fff
+  --dt-code-keyword: #a4262c
+  --dt-code-string: #075985
+  --dt-code-number: #0451a5
+  --dt-code-title: #6f42a1
+  --dt-code-comment: #52636b
+
+html[data-appearance='day']
+  day-palette()
 
 @media (prefers-color-scheme: light)
   html[data-appearance='system']
-    --dt-canvas: #fdf6e3
-    --dt-surface: rgba(253, 246, 227, .82)
-    --dt-surface-raised: rgba(238, 232, 213, .9)
-    --dt-chrome: rgba(253, 246, 227, .62)
-    --dt-control: rgba(238, 232, 213, .9)
-    --dt-control-hover: rgba(255, 243, 204, .98)
-    --dt-control-border: rgba(88, 110, 117, .44)
-    --dt-scroll-track: rgba(238, 232, 213, .72)
-    --dt-scroll-thumb: rgba(88, 110, 117, .64)
-    --dt-overlay: rgba(238, 232, 213, .68)
-    --dt-text: #073642
-    --dt-text-muted: #586e75
-    --dt-border: rgba(88, 110, 117, .28)
-    --dt-code: #eee8d5
-    --dt-accent-glow: rgba(181, 137, 0, .46)
+    day-palette()
 
 $color-theme = unquote('var(--dt-accent)')
 $color-sub-theme = unquote('var(--dt-accent-secondary)')
@@ -75,9 +79,9 @@ $color-border-shadow = rgba(0, 0, 0, 0.35)
 // color for random
 $colors = #495057 #f03e3e #ae3ec9 #7048e8 #4263eb #1098ad #0ca678 #37b24d #f59f00 #f76707 #6f42c1;
 
-for color, i in $colors {
-  .bg-color{i} {
-    background: color;
+for $swatch, $index in $colors {
+  .bg-color{$index} {
+    background: $swatch;
   }
 }
 
@@ -97,3 +101,4 @@ $main-footer-height = 3rem;
 $main-footer-border-top = '1px solid var(--dt-border)';
 // amimation
 $transition-delay = all 0.5s;
+$transition-duration = 0.22s;

@@ -21,6 +21,7 @@ pre {
     }
 
     &-copy {
+      control-surface();
       display: flex; // 弹性布局
       cursor: pointer; // 鼠标指针
       align-items: center; // 垂直居中
@@ -60,7 +61,7 @@ pre {
       flex-direction: column; // 垂直布局
       width: 2.5rem; // 宽度
       text-align: right; // 文字右对齐
-      color: #999; // 行号颜色
+      color: $color-text-muted; // 行号颜色
       user-select: none; // // 禁止选中
       padding: 1rem 0.5rem 1rem 0; // 内边距
 
@@ -76,3 +77,19 @@ pre {
     }
   }
 }
+
+// Syntax roles follow the active palette, independent of provider stylesheet.
+#content .hljs
+  color $color-text
+  span
+    color inherit
+  .hljs-comment, .hljs-quote
+    color var(--dt-code-comment)
+  .hljs-keyword, .hljs-selector-tag, .hljs-deletion, .hljs-name, .hljs-doctag
+    color var(--dt-code-keyword)
+  .hljs-string, .hljs-regexp, .hljs-addition, .hljs-attribute
+    color var(--dt-code-string)
+  .hljs-number, .hljs-literal, .hljs-variable, .hljs-attr, .hljs-built_in, .hljs-type
+    color var(--dt-code-number)
+  .hljs-title, .hljs-section, .hljs-symbol, .hljs-bullet, .hljs-meta, .hljs-selector-class
+    color var(--dt-code-title)

@@ -35,8 +35,9 @@ const showTip = (copyTips, tip) => {
     copyTips.classList.add("active");
 };
 
-const initCodeCopy = ()=> {
-    const codeBlocks = document.querySelectorAll("pre");
+const initializedButtons = new WeakSet();
+const initCodeCopy = (root = document)=> {
+    const codeBlocks = root.querySelectorAll("pre");
 
     if (!codeBlocks.length) {
         console.debug("[codeCopy] no code blocks found, skip initCodeCopy");
@@ -58,6 +59,8 @@ const initCodeCopy = ()=> {
         }
 
         const defaultTip = copyTips.getAttribute("data-copy") || "";
+        if (initializedButtons.has(copyButton)) return;
+        initializedButtons.add(copyButton);
         const successTip = copyTips.getAttribute("data-copy-success") || defaultTip;
         const errorTip = copyTips.getAttribute("data-copy-error") || defaultTip;
 

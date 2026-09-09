@@ -142,7 +142,7 @@
   }
 }
 
-@media (max-width: 1279px) {
+@media (max-width: 767px) {
   #header-left-menu-list {
     position: fixed;
     top: 0;
@@ -166,6 +166,7 @@
     }
 
     #header-left-menu-close {
+      display: grid;
       margin: 0 0 1rem auto;
     }
 
@@ -198,9 +199,15 @@
   #header-right-title {
     position: absolute;
     left: 50%;
-    max-width: calc(100vw - 10rem);
+    max-width: calc(100vw - 13rem);
     overflow: hidden;
     text-overflow: ellipsis;
     transform: translateX(-50%);
+
+    .header-right-title-text {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
