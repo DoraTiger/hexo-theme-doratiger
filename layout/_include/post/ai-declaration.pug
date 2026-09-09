@@ -1,0 +1,8 @@
+section.post-item-ai#post-ai-disclosure(aria-label=_p('post.ai.title'))
+  - const aiTools = aiDeclaration.tools.map(tool => tool.detail ? __('post.ai.tool_detail', tool.name, tool.detail) : tool.name).join(_p('post.ai.separator'))
+  - const aiUsage = aiDeclaration.usage.length ? __('post.ai.usage_clause', aiDeclaration.usage.join(_p('post.ai.separator'))) : ''
+  .post-item-copyright-item
+    span.post-item-copyright-item-meta= _p('post.ai.label') + ': '
+    span.post-item-copyright-item-text= aiTools + aiUsage
+  if aiDeclaration.note
+    .post-item-copyright-item.post-item-ai-note(aria-label=_p('post.ai.note'))= aiDeclaration.note

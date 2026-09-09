@@ -290,6 +290,11 @@ post:
 # --------------------------------------------------
 
 post_extend:
+  # AI 辅助声明：仅在文章 Front Matter 填写有效 ai.tools 后显示
+  # AI assistance disclosure: shown only when the post defines valid ai.tools
+  ai_declaration:
+    enable: true
+
   # 预计阅读时间
   # Estimated reading time
   reading_time:

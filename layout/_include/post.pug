@@ -1,4 +1,5 @@
 article#post
+  - const aiDeclaration = theme.post_extend?.ai_declaration?.enable !== false ? ai_declaration(page.ai) : null
   .post-item
     .post-item-header
       - let title_text = page.title || _p("post.untitled")
@@ -38,6 +39,11 @@ article#post
           .post-item-header-meta-item
             i.fas.fa-book-open.post-item-header-meta-item-icon(aria-hidden="true")
             span.post-item-header-meta-item-text= __('post.reading_time', wordCount, readMin)
+        if aiDeclaration
+          - const aiSummary = aiDeclaration.tools.length === 1 ? aiDeclaration.tools[0].name : __('post.ai.multiple', aiDeclaration.tools.length)
+          a.post-item-header-meta-item.post-item-ai-link(href='#post-ai-disclosure')
+            i.fas.fa-robot.post-item-header-meta-item-icon(aria-hidden='true')
+            span.post-item-header-meta-item-text= _p('post.ai.label') + ' · ' + aiSummary
     .post-item-content!= page.content
 
     // 版权声明
@@ -71,6 +77,8 @@ article#post
           .post-item-copyright-item
             span.post-item-copyright-item-meta= _p("post.copyright.copyright_notice")+ ": "
             span.post-item-copyright-item-text!= __('post.copyright.copyright_content',copyright_license_link,copyright_license,config.url, config.title)
+        if aiDeclaration
+          include post/ai-declaration.pug
 
     // 评论
     -

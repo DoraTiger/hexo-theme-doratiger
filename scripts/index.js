@@ -8,3 +8,4 @@ require("./console")(hexo);
 require("./events")(hexo);
 require("./filters")(hexo);
 require("./generators")(hexo);
+require("./helpers")(hexo);

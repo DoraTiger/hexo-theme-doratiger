@@ -89,6 +89,14 @@ post:
   posted: "Posted on"
   untitled: "Untitled"
   reading_time: "%d words · about %d min"
+  ai:
+    label: "AI-assisted"
+    title: "AI assistance disclosure"
+    multiple: "%d tools"
+    tool_detail: "%s (%s)"
+    separator: ", "
+    usage_clause: "; used for %s"
+    note: "Author’s note"
   qrcode:
     tip: "Scan to read on mobile"
     alt: "Article QR code"

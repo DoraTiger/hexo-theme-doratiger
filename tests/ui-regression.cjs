@@ -47,7 +47,7 @@ const port = async () => {
             footer: { community_records: { enable: true, items: [1, 2, 3].map(n => ({ name: `Record ${n}`, text: `Record ${n}`, url: `https://example.test/${n}` })) } },
         }));
         const code = '\n## Code\n\n```javascript\nconst message = "review";\nconsole.log(message);\n```\n';
-        write('source/_posts/review.md', '---\ntitle: review\ndate: 2026-09-09\n---\n' + code);
+        write('source/_posts/review.md', '---\n' + JSON.stringify({title:'review',date:'2026-09-09',ai:{tools:[{name:'Example assistant with a long name',provider:'Example provider',model:'An explicitly declared model version'},{name:'Second tool'}],usage:['Research','Editing'],note:'Only the author can describe what was checked.'}}) + '\n---\n' + code);
         write('source/_posts/secret.md', '---\ntitle: secret\npassword: review-pass\ndate: 2026-09-09\n---\n' + code);
         const cli = path.join(host, 'node_modules/hexo/bin/hexo');
         for (const command of ['clean', 'generate']) {
@@ -150,6 +150,13 @@ const port = async () => {
                 for (const mode of ['night', 'day']) {
                     await appearance(mode);
                     assert.equal(await ev("['#header-wrapper','#footer-wrapper','#content-wrapper'].some(s=>{const e=document.querySelector(s);return e.scrollWidth>e.clientWidth+1})"), false, `${route} ${width} ${mode}: shell overflow`);
+                    if (route === '/review/') {
+                        assert.equal(await ev("(()=>{const e=document.querySelector('#post-ai-disclosure');return !!e&&e.scrollWidth<=e.clientWidth+1})()"), true, `${width} ${mode}: AI disclosure must fit`);
+                        await ev("document.querySelector('.post-item-ai-link').click()");
+                        assert.equal(await ev("location.hash"), '#post-ai-disclosure');
+                        assert.equal(await ev("(()=>{const r=document.querySelector('#post-ai-disclosure').getBoundingClientRect();return r.top>=48&&r.top<innerHeight-60})()"), true, 'AI anchor must scroll within the article stage');
+                        if (width === 320 || width === 1440) await screenshot(`ai-${width}-${mode}`);
+                    }
                 }
             }
         }

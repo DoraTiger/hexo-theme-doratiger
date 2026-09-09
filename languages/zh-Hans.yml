@@ -90,6 +90,14 @@ post:
   posted: "发表于"
   untitled: "未命名文章"
   reading_time: "%d 字 · 约 %d 分钟"
+  ai:
+    label: "AI 辅助"
+    title: "AI 辅助说明"
+    multiple: "%d 个工具"
+    tool_detail: "%s（%s）"
+    separator: "、"
+    usage_clause: "；用于%s"
+    note: "补充说明"
   qrcode:
     tip: "手机扫码阅读"
     alt: "文章二维码"

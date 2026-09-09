@@ -89,6 +89,14 @@ post:
   posted: "發表於"
   untitled: "未命名文章"
   reading_time: "%d 字 · 約 %d 分鐘"
+  ai:
+    label: "AI 輔助"
+    title: "AI 輔助說明"
+    multiple: "%d 個工具"
+    tool_detail: "%s（%s）"
+    separator: "、"
+    usage_clause: "；用於%s"
+    note: "補充說明"
   qrcode:
     tip: "手機掃碼閱讀"
     alt: "文章二維碼"
