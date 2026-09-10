@@ -26,6 +26,7 @@
   const pageImage = page.image || theme.global.avatar
   const themeFavicon = theme.global.favicon
   const themeColor = (theme.style && theme.style.accent) || "#E7A63A"
+  const seo = seo_metadata(page, is_post())
 
 //- 基础标签
 meta(charset='UTF-8')
@@ -49,7 +50,9 @@ meta(name="copyright" content=pageCopyright)
 meta(property="og:title" content=pageTitle)
 meta(property="og:description" content=pageDescription)
 meta(property="og:image" content=url_for(pageImage))
-meta(property="og:url" content=url_for(page.permalink))
+meta(property="og:url" content=seo.current)
+if seo.canonical
+  link(rel="canonical" href=seo.canonical)
 meta(name="twitter:card" content="summary_large_image")
 
 //- 移动端优化标签
@@ -76,30 +79,5 @@ meta(name="robots" content="index, follow")
 meta(name="revisit-after" content="7 days")
 meta(name="generator" content="Hexo")
 
-// SEO 结构化数据
-if(is_post())
-  script(type="application/ld+json").
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "#{page.title || ''}",
-      "author": {
-        "@type": "Person",
-        "name": "#{config.author}"
-      },
-      "datePublished": "#{page.date ? page.date.toISOString() : ''}",
-      "dateModified": "#{page.updated ? page.updated.toISOString() : ''}",
-      "publisher": {
-        "@type": "Organization",
-        "name": "#{config.title}"
-      },
-      "mainEntityOfPage": "#{url_for(page.permalink)}"
-    }
-else
-  script(type="application/ld+json").
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "#{config.title}",
-      "url": "#{config.url}"
-    }
+//- SEO 结构化数据由 helper 安全序列化
+script(type="application/ld+json")!= seo.structured

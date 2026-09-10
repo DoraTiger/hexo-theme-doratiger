@@ -109,9 +109,12 @@ git submodule update --remote
 | Algolia 搜索 | `hexo algolia` 索引管理命令 + 前端搜索组件 | 关闭 | 运行索引管理命令时安装 `algoliasearch` |
 | 本地搜索 | `doratiger_local_search` 生成器 + 浏览器端搜索 | 关闭 | 无 |
 | Sitemap | `doratiger_sitemap` 生成器，可输出 XML 和 TXT | 开启 | 无 |
+| Canonical | 默认自引用，支持首选站点和文章级覆盖，联动 sitemap/robots | 开启 | 无 |
 | 文章加密 | 构建期 AES-256-GCM + PBKDF2 过滤器 | 关闭 | 无 |
 | 正文图片 CDN | `hexo cdn sync/check/prune` + 构建期 URL 改写 | 关闭 | 无（七牛通过 HTTP API 调用） |
 | 多目标构建、预览与发布 | `hexo multi-generate/multi-server/multi-push/multi-deploy`，共用目标配置 | 关闭 | 预览需要 `hexo-server`；Git 发布需要系统 Git 与仓库权限 |
+
+Canonical 独立于 multi：公共主题配置的 `canonical.base_url` 留空时自引用，指定首选站点时映射对应页面；Front Matter `canonical` 支持完整地址或 `false`。文章 JSON-LD 跟随规范地址，访问链接不变。Sitemap 仅推荐自引用页面，没有有效条目时不输出文件，robots 声明与 XML/TXT 实际计划一致。变更后请清理构建与部署中的旧 sitemap，避免重复 canonical 插件；详见[配置说明](docs/CONFIG.md)。
 
 多目标功能在 Hexo 根目录的主题主配置 `_config.hexo-theme-doratiger.yml` 中设置 `multi_deploy`，统一管理目标、子配置路径和全部 `publish` 参数。子配置只通过 `site`、`theme` 覆盖域名、评论等个性化字段，未填写的字段继承公共配置；不要在子配置中配置 `multi_deploy` 或发布参数。
 

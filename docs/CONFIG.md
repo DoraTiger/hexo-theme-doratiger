@@ -988,6 +988,47 @@ ai:
 
 ---
 
+### 规范网址（canonical）
+
+在 Hexo 根目录的主题主配置 `_config.hexo-theme-doratiger.yml` 中设置：
+
+```yaml
+canonical:
+  enable: true
+  base_url: ""  # 留空跟随 Hexo url/root，例如 https://primary.example.com/blog
+```
+
+- 默认自引用；`base_url` 可指定首选站点及子目录，仅接受 HTTP/HTTPS，不允许凭据、查询参数或片段。`enable: false` 关闭标签与规范地址筛选，sitemap 恢复当前站点地址。
+- 映射替换整个部署前缀，保留页面相对路径，例如镜像 `/overseas/post/` 对应主站 `/blog/post/`，不叠加前缀。两端需保持相同路由，路径不同的文章需显式覆盖。
+- 首页、文章、普通页面、分类、标签、归档和分页各自指向对应页面，不把第二页指向第一页。去掉结尾 `index.html`；普通 `.html` 遵循 `pretty_urls.trailing_html`；中文路径编码，自动地址去掉路由查询参数和片段。
+- 404、外链中转页和未发布文章不输出标签。静态文件及 `layout: false` 页面不经过主题 head，不自动注入。
+- Front Matter 支持 `canonical: "https://original.example.com/article/"` 覆盖完整地址，或 `canonical: false` 单独关闭。显式地址保留查询参数、去掉片段；非法地址报 `CANONICAL_CONFIG`，不回显配置值。
+- 文章 JSON-LD 的 `mainEntityOfPage` 跟随 canonical，关闭时使用当前页面地址；`og:url`、导航、搜索、评论、二维码和版权链接保留当前部署域名。
+- 普通构建与 multi 共用逻辑。公共主题配置的首选站点由子配置继承；目标若需自引用，可设置 `theme.canonical.base_url: ""`，不需要修改 multi。
+
+canonical 是首选收录信号，不保证搜索引擎最终选择。不要同时启用其他 canonical/sitemap 插件；不要用 `Disallow: /` 或 `noindex` 阻挡镜像抓取。修改后执行 `hexo clean && hexo generate`，部署时移除旧产物，避免旧 sitemap 残留。
+
+参考：[Google canonical 指南](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls)、[Hexo URL helpers](https://hexo.io/docs/helpers#full-url-for)。
+
+---
+
+### Robots（robots）
+
+```yaml
+robots:
+  enable: true
+  disallow:
+    - /admin/
+    - /api/
+    - /tmp/
+```
+
+- `enable`：启用 robots.txt 生成。
+- `disallow`：保留用户配置，不因跨域 canonical 自动禁止镜像抓取。
+- `Sitemap` 仅声明本主题计划生成的文件，与 `sitemap.format` 一致；关闭 sitemap 或没有有效条目时不声明，地址跟随当前部署的 `url/root`。
+
+---
+
 ### Sitemap（sitemap）
 
 1. 原始配置项
@@ -1015,31 +1056,9 @@ ai:
 
 3. 配置建议
 
-    - front-matter 使用 `sitemap: false` 可排除单篇文章。
-
----
-
-### Robots（robots）
-
-1. 原始配置项
-
-    ```yaml
-    robots:
-      enable: true
-      disallow:
-        - /admin/
-        - /api/
-        - /tmp/
-    ```
-
-2. 配置项说明
-
-    - `enable`：启用 robots.txt 生成。
-    - `disallow`：爬虫禁止路径列表。
-
-3. 配置建议
-
-    - `sitemap` 地址会自动关联站点 URL。
+    - Front Matter 使用 `sitemap: false` 可排除文章或页面，但不关闭其 canonical。
+    - canonical 开启时只列出自引用的规范 URL；同站别名、跨域镜像和 `canonical: false` 页面不列入。没有有效条目时不生成空文件；镜像若有显式自引用的独有页面，仍可生成只含这些页面的 sitemap。
+    - XML/TXT 共用条目列表，遵循 Hexo 子目录和 pretty URL 设置，`priority: 0` 不会被默认值替换。
 
 ---
 

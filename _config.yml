@@ -921,6 +921,18 @@ comment:
     envId: ""
 
 # --------------------------------------------------
+# 规范网址：独立于 multi；不改变导航、搜索、评论或访问域名
+# Canonical URLs: independent of multi; navigation, search and comments stay local
+# --------------------------------------------------
+canonical:
+  # 默认自引用；关闭后不生成 canonical，sitemap 沿用当前站点
+  # Self-reference by default; disabling keeps sitemap URLs on the current site
+  enable: true
+  # 首选站点完整地址（可含子目录）；留空跟随 Hexo url/root
+  # Preferred absolute site URL (optional subdirectory); empty follows Hexo url/root
+  base_url: ""
+
+# --------------------------------------------------
 # robots.txt 配置
 # Robots.txt Configuration
 # --------------------------------------------------
