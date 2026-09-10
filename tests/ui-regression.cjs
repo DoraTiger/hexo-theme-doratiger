@@ -10,6 +10,7 @@ const { spawn, spawnSync } = require('node:child_process');
 const net = require('node:net');
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 const theme = path.resolve(__dirname, '..');
+const twikooResource = require('js-yaml').load(fs.readFileSync(path.join(theme, '_config.yml'), 'utf8')).resource.twikoo.local.js[0];
 const host = process.env.HEXO_HOST_DIR || path.resolve(theme, '../..');
 const port = async () => {
     const server = net.createServer();
@@ -264,7 +265,7 @@ const port = async () => {
         assert.equal(await ev("!!document.querySelector('.vwrap .vsubmit.vbtn')"), true, 'Valine must actually mount');
         for (const provider of ['gitment', 'twikoo']) {
             await nav('/review/');
-            await ev(`(async()=>{const container=document.querySelector('#comment-container');container.replaceChildren();await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='${provider === 'gitment' ? '/lib/gitment/gitment.browser.js' : '/lib/twikoo/@1.6.40/twikoo.all.min.js'}';s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});${provider === 'gitment' ? "const link=document.createElement('link');link.rel='stylesheet';link.href='/lib/gitment/default.css';document.head.appendChild(link);new Gitment({owner:'fixture',repo:'fixture',oauth:{client_id:'fixture',client_secret:'fixture'}}).render('comment-container');" : "twikoo.init({envId:'http://127.0.0.1:9',el:'#comment-container'});"}})()`);
+            await ev(`(async()=>{const container=document.querySelector('#comment-container');container.replaceChildren();await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='${provider === 'gitment' ? '/lib/gitment/gitment.browser.js' : twikooResource}';s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});${provider === 'gitment' ? "const link=document.createElement('link');link.rel='stylesheet';link.href='/lib/gitment/default.css';document.head.appendChild(link);new Gitment({owner:'fixture',repo:'fixture',oauth:{client_id:'fixture',client_secret:'fixture'}}).render('comment-container');" : "twikoo.init({envId:'http://127.0.0.1:9',el:'#comment-container'});"}})()`);
             await pause(500);
             for (const mode of ['night', 'day']) {
                 await appearance(mode);
