@@ -204,6 +204,18 @@ style:
 
 ### 共享交互实现
 
+尺寸相关更新统一通过 `source/js/utils/layoutObserver.js` 的 `observeLayout(elements, update, options)` 订阅。工具共用一个 `ResizeObserver` 和窗口 resize 监听，按订阅在 `requestAnimationFrame` 中合并重复通知；它不包含页面选择器，不发送全站布局刷新事件，也不调用其他组件。`request()` 允许滚动等已有事件进入同一调度队列，`disconnect()` 释放订阅；最后一个订阅解除时释放底层监听。没有 `ResizeObserver` 的环境仅退回窗口变化通知，不保证容器独立变化的实时更新。
+
+| 消费者 | 观察的尺寸来源 |
+| --- | --- |
+| Hero / 404 Canvas | 各自父容器及视口变化；尺寸和 DPR 未改变时不重设画布 |
+| 顶栏收缩 | 顶栏、左侧导航、中央区域与视口，不与菜单点击处理器互调 |
+| 阅读进度 / 目录 / 回顶状态 | 内容滚动区域、正文内容尺寸及视口；scroll 复用同一帧调度 |
+| 回顶按钮的页脚偏移 | 页脚尺寸 |
+| 星空背景 | 仅视口变化，不因正文或侧栏变化重建星空 |
+
+浏览器回归由 `tests/ui-regression.cjs` 调用 `tests/layout-observation.cjs`，验证不调整窗口时侧栏开合后的 Canvas 尺寸、长标题导航收缩恢复、正文异步增高及视口高度变化后的阅读进度，并验证调度去重、订阅隔离和解除订阅。
+
 文章 AI 声明使用独立 helper 统一规范化 Front Matter，顶部和文末读取同一结果。顶部复用元数据控件，以原生锚点连接文末；文末复用文章信息行和边框令牌，不新增卡片、厂商配色或事件脚本。UI 标签跟随站点语言，作者填写的内容保持原文；没有声明不推断为纯人工创作。
 
 `node tests/ui-regression.cjs` 使用独立临时站点调用 Hexo CLI 构建，并启动本地 Chromium 做布局和交互断言；需要可执行的 `chromium`（或 `CHROMIUM` 路径）及宿主 `node_modules`。测试阻断远程请求，不读取私人配置；评论服务的登录、发布和服务端响应不在该测试范围。

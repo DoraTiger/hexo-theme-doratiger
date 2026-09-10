@@ -1,4 +1,5 @@
 import { createModalDialog } from "../utils/dialog.js";
+import { observeLayout } from "../utils/layoutObserver.js";
 
 /**
  * @description 初始化实时时间显示
@@ -147,9 +148,10 @@ const autoResizeHeaderRight = () => {
 
 const initAutoResizeHeaderRight = () => {
     autoResizeHeaderRight();
-    window.addEventListener("resize", () => {
-        autoResizeHeaderRight();
-    });
+    return observeLayout(
+        ['#header-wrapper', '#header-left', '#header-center'].map(selector => document.querySelector(selector)),
+        autoResizeHeaderRight,
+    );
 };
 
 const initSearchButton = () => {

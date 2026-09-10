@@ -1,5 +1,6 @@
 import { prepareWithSegments, layoutWithLines } from '../../lib/pretext/layout.js';
 import { runCanvasAnimation } from '../utils/canvasMotion.js';
+import { observeLayout } from '../utils/layoutObserver.js';
 
 class Page404 {
   constructor() {
@@ -16,20 +17,26 @@ class Page404 {
 
   init() {
     this.resize();
-    window.addEventListener('resize', () => this.resize());
-    this.createParticles();
+    this.layoutObservation = observeLayout([this.canvas.parentElement], () => this.resize());
     this.animate();
   }
 
   resize() {
     const container = this.canvas.parentElement;
-    this.width = container.clientWidth;
-    this.height = Math.min(container.clientWidth * 0.5, 300);
+    const width = container.clientWidth;
+    const height = Math.min(width * 0.5, 300);
+    const dpr = window.devicePixelRatio || 1;
+    if (this.width === width && this.height === height && this.dpr === dpr) return;
+    const sizeChanged = this.width !== width || this.height !== height;
+    this.width = width;
+    this.height = height;
+    this.dpr = dpr;
     this.canvas.width = this.width * this.dpr;
     this.canvas.height = this.height * this.dpr;
     this.canvas.style.width = this.width + 'px';
     this.canvas.style.height = this.height + 'px';
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    if (sizeChanged) this.createParticles();
     this.draw(1);
   }
 

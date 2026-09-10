@@ -1,5 +1,6 @@
 import { prepareWithSegments, layoutWithLines } from '../../lib/pretext/layout.js';
 import { runCanvasAnimation } from '../utils/canvasMotion.js';
+import { observeLayout } from '../utils/layoutObserver.js';
 
 class Hero {
   constructor() {
@@ -22,7 +23,7 @@ class Hero {
   init() {
     this.updatePalette();
     this.resize();
-    window.addEventListener('resize', () => this.resize());
+    this.layoutObservation = observeLayout([this.canvas.parentElement], () => this.resize());
     document.addEventListener('doratiger:appearancechange', () => {
       this.updatePalette();
       this.draw(1);
@@ -38,6 +39,9 @@ class Hero {
 
   resize() {
     const rect = this.canvas.parentElement.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    if (this.width === rect.width && this.height === rect.height && this.dpr === dpr) return;
+    this.dpr = dpr;
     this.width = rect.width;
     this.height = rect.height;
     this.canvas.width = this.width * this.dpr;

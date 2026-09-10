@@ -256,11 +256,7 @@ test("theme emits selectable celestial appearance tokens", async (t) => {
         "mobile posts must not render a redundant QR code");
     assert.match(css, /bottom:\s*calc\(var\(--dt-footer-height, 3rem\) \+ 1rem \+ max\(1rem, env\(safe-area-inset-bottom\)\)\)/,
         "the return-top control must clear the measured footer height");
-    assert.match(
-        fs.readFileSync(path.join(themeDir, "source", "js", "utils", "scroll.js"), "utf8"),
-        /--dt-footer-height[\s\S]*ResizeObserver/,
-        "the scroll controller must keep the footer offset current when it wraps",
-    );
+    // Live footer-height tracking is covered by layout-observation.cjs in the browser.
     assert.match(css, /#post \.post-item-content[\s\S]*margin-left:\s*auto/);
     const headerTemplate = fs.readFileSync(path.join(themeDir, "layout", "_include", "header.pug"), "utf8");
     const layoutTemplate = fs.readFileSync(path.join(themeDir, "layout", "_include", "_layout.pug"), "utf8");

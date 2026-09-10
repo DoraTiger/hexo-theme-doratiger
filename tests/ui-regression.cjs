@@ -121,6 +121,7 @@ const port = async () => {
                 ...(key === 'Enter' ? { text: '\r', unmodifiedText: '\r' } : {}) });
             await call('Input.dispatchKeyEvent', { type: 'keyUp', key, code: key, windowsVirtualKeyCode });
         };
+        await require('./layout-observation.cjs')({ ev, nav, size, pause, appearance, screenshot });
         await nav('/');
         for (const width of [1280, 1279, 1024, 768]) {
             await size(width, 900);
@@ -216,6 +217,24 @@ const port = async () => {
         assert.equal(await ev('document.activeElement.id'), 'header-right-appearance');
         await key('Enter');
         assert.notEqual(await ev("document.documentElement.dataset.appearance"), beforeMode);
+        await size(1440, 900);
+        await nav('/');
+        const heroGeometry = () => ev(`(()=>{const c=document.querySelector('#hero-canvas'),p=c.parentElement.getBoundingClientRect(),r=c.getBoundingClientRect();return {parent:p.width,canvas:r.width,bitmap:c.width/devicePixelRatio,offset:r.x+r.width/2-p.x-p.width/2}})()`);
+        for (const mode of ['night', 'day']) {
+            await appearance(mode);
+            for (const width of [1440, 1920, 3840]) {
+                await size(width, 900);
+                for (let i = 0; i < 2; i++) {
+                    await ev("document.querySelector('#footer-left-sidebar-icon').click()");
+                    await pause(750); // No viewport resize: only the sidebar changes layout.
+                    const geometry = await heroGeometry();
+                    assert.ok(Math.abs(geometry.canvas - geometry.parent) < 1, `Hero container resize ${mode}/${width}: ${JSON.stringify(geometry)}`);
+                    assert.ok(Math.abs(geometry.bitmap - geometry.parent) < 1, `Hero bitmap resize: ${JSON.stringify(geometry)}`);
+                    assert.ok(Math.abs(geometry.offset) < 1, `Hero center: ${JSON.stringify(geometry)}`);
+                    if (width === 1440 && i === 0) await screenshot(`hero-sidebar-collapsed-${mode}`);
+                }
+            }
+        }
         await size(1440, 900);
         await ev("document.querySelector('#footer-left-sidebar-icon').click()"); await size(1441, 900);
         assert.equal(await ev("document.querySelector('#sidebar-container').classList.contains('closed')"), true);

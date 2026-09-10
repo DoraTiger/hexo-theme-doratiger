@@ -1,3 +1,5 @@
+import { observeLayout } from '../utils/layoutObserver.js';
+
 class Background {
     constructor() {
         const appearance = document.documentElement.dataset.appearance;
@@ -25,12 +27,8 @@ class Background {
         if (this.reducedMotion) return;
         if (!this.canva) return;
         this.universe = this.canva.getContext("2d");
-        this.windowResizeHandler();
-        window.addEventListener(
-            "resize",
-            () => this.windowResizeHandler(),
-            false
-        );
+        // The sky depends on the viewport, not on content or sidebar sizes.
+        this.layoutObservation = observeLayout([], () => this.windowResizeHandler());
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
                 cancelAnimationFrame(this.animationFrameId);

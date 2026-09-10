@@ -1,3 +1,5 @@
+import { observeLayout } from './layoutObserver.js';
+
 class ScrollHandler {
     constructor() {
         this.contentWrapper = document.querySelector("#content-wrapper");
@@ -25,9 +27,7 @@ class ScrollHandler {
 
         this.initReturnTopButton()
         this.initFooterOffset();
-        this.updateReturnTopButton();
-        this.updateReadProgress();
-        this.updateActiveTocLink();
+        this.updateScrollState();
         this.initScroll();
     }
 
@@ -40,12 +40,19 @@ class ScrollHandler {
             return;
         }
 
-        // 监听内容区域的滚动事件
-        this.contentWrapper.addEventListener("scroll", () => {
-            this.updateReturnTopButton();
-            this.updateReadProgress();
-            this.updateActiveTocLink();
-        });
+        // Observe both the viewport and flowing content: images, comments and
+        // decrypted text can change scrollHeight without a scroll event.
+        this.layoutObservation = observeLayout(
+            [this.contentWrapper, document.querySelector('#content')],
+            () => this.updateScrollState(),
+        );
+        this.contentWrapper.addEventListener('scroll', this.layoutObservation.request, { passive: true });
+    }
+
+    updateScrollState() {
+        this.updateReturnTopButton();
+        this.updateReadProgress();
+        this.updateActiveTocLink();
     }
 
     initReturnTopButton() {
@@ -76,9 +83,7 @@ class ScrollHandler {
         };
 
         updateFooterOffset();
-        if (typeof ResizeObserver !== "undefined") {
-            new ResizeObserver(updateFooterOffset).observe(this.footer);
-        }
+        this.footerObservation = observeLayout([this.footer], updateFooterOffset);
     }
 
     updateReturnTopButton() {
