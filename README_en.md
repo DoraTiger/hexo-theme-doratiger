@@ -99,9 +99,12 @@ The theme gathers everyday blog features—search, sitemaps, post encryption, an
 | Algolia search | `hexo algolia` index-management command and browser search UI | Off | Install `algoliasearch` when running the index-management command |
 | Local search | `doratiger_local_search` generator and browser search | Off | None |
 | Sitemap | `doratiger_sitemap` generator for XML and TXT | On | None |
+| Canonical | Self-reference by default; preferred site and per-page overrides, coordinated with sitemap/robots | On | None |
 | Post encryption | Build-time AES-256-GCM + PBKDF2 filter | Off | None |
 | Post image CDN | `hexo cdn sync/check/prune` and build-time URL rewrite | Off | None (Qiniu is called through its HTTP API) |
 | Multi-target builds, previews and publishing | `hexo multi-generate/multi-server/multi-push/multi-deploy`, one shared target profile | Off | `hexo-server` for previews; system Git and repository access for publishing |
+
+Canonical works independently of multi. Leave `canonical.base_url` empty in the shared theme configuration for self-reference, or set a preferred site to map corresponding pages. Front Matter `canonical` accepts an absolute URL or `false`. Article JSON-LD follows the canonical URL; visitor links stay on the current site. Sitemaps list only self-canonical pages and are omitted when empty; robots declarations match the planned XML/TXT files. Clean old sitemap artifacts when rebuilding and deploying, and avoid duplicate canonical plugins. See the [configuration guide](docs/CONFIG.md).
 
 Configure `multi_deploy` in the main theme configuration, `_config.hexo-theme-doratiger.yml` at the Hexo root, to manage targets, child configuration paths and all `publish` parameters. Child files contain only `site` and `theme` overrides for differences such as domains and comments; omitted fields inherit the shared configuration. Do not put `multi_deploy` or publishing parameters in child files.
 

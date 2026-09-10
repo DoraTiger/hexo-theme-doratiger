@@ -6,6 +6,14 @@
 
 ## 1. 整体架构
 
+### Canonical 与收录元数据
+
+`scripts/utils/canonical.js` 独立处理当前地址、首选部署前缀、文章覆盖和 sitemap 收录资格，不依赖 multi、不改变实际访问链接。使用 Hexo URL helper 保持编码和 pretty URL 语义，统一归一化目录首页。`seo-metadata` helper 提供地址并安全序列化 JSON-LD，Pug 只输出标签；文章 `mainEntityOfPage` 跟随 canonical，`og:url` 保留当前部署绝对地址。
+
+`scripts/utils/sitemap.js` 统一计算条目与文件计划：sitemap 生成器负责 XML/TXT 序列化，robots 仅声明计划中的文件，不依赖生成器执行顺序。跨域镜像无规范条目时不生成空 sitemap，也不添加抓取禁令。
+
+`tests/canonical.test.cjs` 使用真实 Hexo CLI 验证普通与 multi 构建、分页、中文与子目录、全站/单页开关、同站别名、镜像独有页面、JSON-LD、非法地址和 sitemap/robots 一致性；在磁盘缓存临时目录测试，不调用远端发布。
+
 ### 多目标构建、预览与发布
 
 `algolia-target.js` 只负责目标命令编排，复用 resolve/capture/prepare 与真实 Hexo CLI，先 generate 再运行原 Algolia 命令，finally 清理临时副本；不重复配置合并、不借用公共数据库、不接入 Git 发布。`site.js` 在共享准备入口拒绝环境索引与目标显式索引冲突，保持页面查询和远端写入一致。目标命令默认远端更新仍需用户显式执行，测试使用 dry-run。

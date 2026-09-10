@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- 新增独立 canonical 配置和文章级覆盖，联动文章 JSON-LD、sitemap XML/TXT 与 robots；跨域镜像不重复推荐非规范页面，robots 不再声明未生成的站点地图。导航、搜索、评论保留当前站点域名；结构化数据改为安全 JSON 序列化。
+
 - Algolia 记录 ID 改为文章相对源路径的稳定摘要，避免隔离构建配合 `--clean false` 重复添加文章；升级后需完整重建索引一次。
 
 - Algolia 新增 `--target` 目标配置支持，隔离构建最新文章再生成索引，支持 dry-run；环境索引与目标显式索引冲突时报错，防止多目标误写共享索引。
