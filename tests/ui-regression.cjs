@@ -243,14 +243,18 @@ const port = async () => {
         assert.equal(await ev("Array.from(document.querySelectorAll('.footer-right-community-records-item')).every(e=>getComputedStyle(e).display==='none')"), true);
         await size(3840, 2160);
         assert.equal(await ev("Array.from(document.querySelectorAll('.footer-right-community-records-item')).every(e=>getComputedStyle(e).display!=='none')"), true);
-        await call('Page.addScriptToEvaluateOnNewDocument', { source: "const originalFetch=fetch;window.fetch=(...args)=>String(args[0]).includes('search.json')?new Promise(r=>setTimeout(r,3000)).then(()=>originalFetch(...args)):originalFetch(...args);" });
+        // Keep the index pending until the loading-state assertion, regardless
+        // of how long navigation, resizing or appearance transitions take.
+        const searchGate = await call('Page.addScriptToEvaluateOnNewDocument', { source: "const originalFetch=fetch;const searchReady=new Promise(resolve=>window.releaseSearchIndex=resolve);window.fetch=(...args)=>String(args[0]).includes('search.json')?searchReady.then(()=>originalFetch(...args)):originalFetch(...args);" });
         await nav('/'); await size(375, 667); await appearance('night');
         await ev("document.querySelector('#header-right-search').click();const input=document.querySelector('.search-content-box-input');input.value='review';input.dispatchEvent(new Event('input'))");
         assert.equal(await ev("getComputedStyle(document.querySelector('.search-content-box-input')).color"), 'rgb(255, 255, 255)');
-        await pause(300);
+        for (let i = 0; i < 50 && !await ev("/Loading/.test(document.querySelector('#algolia-hits').innerText)"); i++) await pause(100);
         assert.match(await ev("document.querySelector('#algolia-hits').innerText"), /Loading/);
-        await pause(3300);
+        await ev("window.releaseSearchIndex()");
+        for (let i = 0; i < 50 && !await ev("!!document.querySelector('#algolia-hits .algolia-hit-item')"); i++) await pause(100);
         assert.match(await ev("document.querySelector('#algolia-hits').innerText"), /review/);
+        await call('Page.removeScriptToEvaluateOnNewDocument', { identifier: searchGate.identifier });
         await nav('/secret/'); await size(320, 568);
         assert.equal(await ev("(()=>{const p=document.querySelector('.hexo-encrypt').getBoundingClientRect();const b=document.querySelector('.hexo-encrypt-submit').getBoundingClientRect();return b.right<=p.right&&b.left>=p.left})()"), true);
         await ev("document.querySelector('.hexo-encrypt-password').value='review-pass';document.querySelector('.hexo-encrypt-submit').click()");
