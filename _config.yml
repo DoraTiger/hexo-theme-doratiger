@@ -962,3 +962,56 @@ sitemap:
     category: 0.5
     tag: 0.5
     archive: 0.4
+
+# --------------------------------------------------
+# 多目标隔离构建、预览与发布（Git 发布需要系统 Git）
+# Multi-target isolated builds, previews and publishing (Git publishing requires system Git)
+# --------------------------------------------------
+# 在 Hexo 根目录的 _config.hexo-theme-doratiger.yml 中配置 multi_deploy，包括目标与全部 publish 参数
+# Configure multi_deploy, including targets and all publish parameters, in _config.hexo-theme-doratiger.yml at the Hexo root
+# 子配置仅允许 site/theme 个性化覆盖；未填写字段继承公共配置，不可重定义 multi_deploy 或放入发布参数
+# Child files allow only site/theme overrides; omitted fields inherit shared config; no multi_deploy or publishing parameters
+multi_deploy:
+  # 命令始终注册；仅执行时检查开关
+  # Commands always register; this switch is checked when invoked
+  enable: false
+  # 相对 Hexo 根目录；仅保存运行数据，不是插件源码目录
+  # Relative to the Hexo root; runtime data only, not plugin source
+  work_dir: plugins/multi_deploy
+  # 影响渲染的环境变量名，计入构建摘要，不保存明文值
+  # Rendering environment variable names included in the build fingerprint
+  fingerprint_env: []
+  # 仅 multi-clean 执行时生效，不自动删除；每项为正整数
+  # Applied only by multi-clean, never automatically; positive integers
+  cleanup:
+    keep_builds: 3 # 每目标保留最近完整构建，始终保护最新产物 / Recent complete builds per target; latest always protected
+    keep_records: 20 # 每目标保留的发布记录数 / Publication records retained per target
+  targets: {}
+  # 目标名不可使用内部快照保留名称 input
+  # Target names must not use the reserved snapshot name input
+  # 预览：hexo multi-server cn --port 4003（默认只监听 127.0.0.1）
+  # Preview: hexo multi-server cn --port 4003 (binds to 127.0.0.1 by default)
+  # --static 仅预览已校验的最新产物；开发预览目标可不填 publish
+  # --static serves the verified latest artifact; development-only targets may omit publish
+  # 用以下示例替换 targets: {} / Replace targets: {} with this example:
+  # targets:
+  #   cn:
+  #     config: doratiger_config.cn.yml
+  #     publish:
+  #       type: git
+  #       repo: /absolute/path/to/cn.git
+  #       branch: pages
+  #       # 可选 GitHub Pages 适配；不自动设置远程 Pages 或 DNS
+  #       # Optional GitHub Pages adaptation; does not configure remote Pages or DNS
+  #       pages:
+  #         enable: false # 开启时生成 .nojekyll / Generate .nojekyll when enabled
+  #         # cname: www.example.com # 可选，仅域名；不从 url 推导 / Optional bare domain, never inferred from url
+  #       message: "Publish cn" # 可选，单行；保留内部标识 / Optional single line; internal trailers retained
+  #       name: "Publisher" # 可选，覆盖作者与提交者姓名 / Optional author and committer override
+  #       email: "publisher@example.com" # 可选，否则继承 Git / Optional; otherwise inherit Git
+  #       # HTTPS 才可使用以下认证项；不要填写令牌明文
+  #       # HTTPS only; never enter a literal token
+  #       # token: "$BLOG_GIT_TOKEN"
+  #       # username: "git" # 默认 git，按托管平台要求填写 / Default git; follow your hosting provider
+  # 强推仅通过 hexo multi-push <target> --force 显式启用，可能覆盖远端提交
+  # Force is explicit via hexo multi-push <target> --force and may overwrite remote commits

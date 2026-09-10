@@ -79,6 +79,8 @@ layout：about
 
 ## 更新主题
 
+Algolia 索引 ID 已改为稳定的文章源路径摘要。升级后请完整重建索引一次，以移除旧 ID；随后重复 `--clean false` 不再因临时数据库变化而新增重复记录。源文件移动或删除仍需完整重建。
+
 **方式一：源码更新**
 
 通过 `git` 命令，获取主题最新内容。
@@ -109,6 +111,25 @@ git submodule update --remote
 | Sitemap | `doratiger_sitemap` 生成器，可输出 XML 和 TXT | 开启 | 无 |
 | 文章加密 | 构建期 AES-256-GCM + PBKDF2 过滤器 | 关闭 | 无 |
 | 正文图片 CDN | `hexo cdn sync/check/prune` + 构建期 URL 改写 | 关闭 | 无（七牛通过 HTTP API 调用） |
+| 多目标构建、预览与发布 | `hexo multi-generate/multi-server/multi-push/multi-deploy`，共用目标配置 | 关闭 | 预览需要 `hexo-server`；Git 发布需要系统 Git 与仓库权限 |
+
+多目标功能在 Hexo 根目录的主题主配置 `_config.hexo-theme-doratiger.yml` 中设置 `multi_deploy`，统一管理目标、子配置路径和全部 `publish` 参数。子配置只通过 `site`、`theme` 覆盖域名、评论等个性化字段，未填写的字段继承公共配置；不要在子配置中配置 `multi_deploy` 或发布参数。
+
+多目标 Git 发布支持按目标设置提交信息、作者与 HTTPS 令牌环境变量引用。默认普通推送；`multi-push --force` 可显式强推并接管分支，可能覆盖远端提交。详见配置文档中的安全说明。
+
+GitHub Pages 可按目标开启 `publish.pages.enable`，在产物中生成 `.nojekyll`；可选 `publish.pages.cname` 生成域名文件。源文件冲突会报错，不修改公共内容或远程 Pages 设置，命令仍使用 `multi-*`。
+
+Algolia 可用 `hexo algolia --target github --dry-run` 检查目标索引；去掉 `--dry-run` 才更新远端。命令重新构建隔离文章数据，不复用公共数据库；目标显式索引与 `ALGOLIA_INDEX_NAME` 冲突时拒绝运行。Sitemap、本地搜索及前端配置自动随目标构建，无需额外命令。
+
+`multi-history` 查看自动保存的本地发布记录；`multi-clean` 按目标保留最近构建和记录，默认只预览，实际删除需要 `--apply --yes`。两者不检查正式网站状态。
+
+Git 发布失败时，可加 `--debug` 查看白名单化的操作名、退出码、耗时和错误分类；不输出原始 Git 错误中的凭据或安全规则放行链接。
+
+`multi-generate` 的分支校验及 Git 发布需要系统 Git；缺失时提示 `MULTI_GIT_MISSING`，请安装并确认 `git --version` 可执行。普通构建、multi 预览、历史查询和清理不因缺少 Git 而受阻。
+
+多目标构建也包含 `source` 中的独立页面与静态文件；原样发布小工具等内容可使用 Hexo 的 `skip_render`，无需新增主题开关。规则可放在公共站点配置或目标的 `site` 下，详见[独立页面与静态文件](./docs/CONFIG.md#独立页面与静态文件)。
+
+`hexo multi-server <目标> --port 4003` 在独立临时目录预览；源文件或配置变化后重启 Hexo，刷新浏览器即可查看。加 `--static` 只预览该目标已生成且通过校验的最新产物，不重建或推送。默认仅监听本机。
 
 需要通过 `hexo algolia` 写入 Algolia 索引时，在**博客根目录**安装 SDK：
 

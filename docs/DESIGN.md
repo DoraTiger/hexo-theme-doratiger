@@ -6,6 +6,32 @@
 
 ## 1. 整体架构
 
+### 多目标构建、预览与发布
+
+`algolia-target.js` 只负责目标命令编排，复用 resolve/capture/prepare 与真实 Hexo CLI，先 generate 再运行原 Algolia 命令，finally 清理临时副本；不重复配置合并、不借用公共数据库、不接入 Git 发布。`site.js` 在共享准备入口拒绝环境索引与目标显式索引冲突，保持页面查询和远端写入一致。目标命令默认远端更新仍需用户显式执行，测试使用 dry-run。
+
+`pages.js` 独立负责 `publish.pages` 校验与 GitHub Pages 文件适配。真实 Hexo 生成后、产物树摘要记录前，按目标显式添加 `.nojekyll` 和可选 `CNAME`；源文件/生成器 CNAME 冲突拒绝，不推断站点域名、不修改共享 source，也不耦合 Git transport。`multi-pages.test.cjs` 使用真实 CLI 与本地裸仓库验证目标隔离、文件复用/冲突、关闭与省略配置、重复推送及篡改拒绝。命令仍为 `multi-*`，帮助描述标明 DoraTiger 来源。
+
+本地回归需将 `TMPDIR` 指向磁盘缓存目录（例如 `~/.cache/hexo-theme-doratiger`），避免大体积副本占满 tmpfs；串行执行，测试结束清理副本，仅保留需要的日志。中断后核实进程与目录归属再清理，不删除开发 worktree 或用户备份。
+
+Git 错误诊断由 `diagnostics.js` 单独分类，`process.js` 仅附带白名单元数据；console 在 `--debug` 时输出，不持久化原始 stderr、参数或环境。`multi-debug-cli.test.cjs` 通过真实 Hexo CLI 和拒绝推送的本地 hook 验证默认静默、调试分类及敏感信息不外泄。
+
+输入快照区分内容与运行数据：宿主按允许的输入目录收集，主题根目录排除构建缓存与开发文档；内容中的 `public/`、`db.json` 不按名称删除。敏感元数据仍逐层排除，其他静态内容交给真实 Hexo 的 `skip_render`、`include`、`exclude` / `ignore` 处理。构建与预览共用该边界，不再维护独立静态文件发布规则。
+
+`multi-generate/multi-push/multi-deploy` 在 console 埋点无条件注册，执行时检查公共主题配置。Hexo 根目录的主题主配置 `_config.hexo-theme-doratiger.yml` 统一管理 `multi_deploy` 开关、运行参数、目标注册和全部 `publish` 参数；主题仓库的 `_config.yml` 提供默认模板。目标子配置只含 `site` 与 `theme`，仅负责个性化覆盖，不承载发布参数，也不能重定义 `multi_deploy`。前者用于隔离目录中的有效站点配置，后者通过私有构建上下文进入既有 `ready` 提前合并路径，优先级高于公共 `theme_config`；未填写字段继承公共配置，对象递归合并、数组替换、`false` 生效。普通构建不加载目标文件。
+
+`scripts/utils/multi-deploy/` 按配置校验、文件边界、输入快照、构建记录、子进程调用拆分；`publishers/git.js` 仅接收已经验证的产物，`git-auth.js` 单独处理环境变量令牌和 HTTPS 认证。运行状态默认位于宿主 `plugins/multi_deploy`，不是主题脚本聚合目录。每个目标通过真实 Hexo CLI 在独立 cwd 构建，不在同一个实例中切换配置。Git 使用专属目录及显式分支，默认拒绝未知归属和非快进，不复用普通 deployer 的缓存。只有 `multi-push --force` 允许接管及强推，过期或篡改产物始终拒绝。提交信息可配置，内部 trailer 固定追加；姓名和邮箱按目标覆盖，不修改全局 Git。
+
+`multi-server` 通过独立 console 入口调用 `server.js` 管理会话，`server-process.js` 管理长驻 Hexo CLI 子进程；`site.js` 为构建和预览共用的配置准备模块。配置重载复用 `themeConfig.js` 的合并函数，不另建优先级体系。默认模式轮询输入元数据，变更后从新快照重启，避免热更新遗漏配置、模板和已删除文章；真正复制时仍验证内容摘要。`server-snapshot.js` 为每次尝试分配独立私有目录，连续保存引发的快照竞态可重试，未完成副本立即回收，不移除仍在服务的旧副本；配置和渲染错误仍终止。预览位于系统私有临时目录，与发布工作目录分离，不占用长期发布锁。静态模式在短期锁内校验并复制最新产物，之后只服务副本，不更新 latest 或历史。
+
+验证：`HEXO_HOST_DIR=/path/to/hexo node tests/multi-server.test.cjs` 使用真实 Hexo CLI 和 HTTP 检查目标/公共配置覆盖、根路径及子路径、源文件增删改、并行服务、端口冲突、退出清理，以及静态产物在后续生成/清理期间保持不变；不会推送真实远程。
+
+认证测试：`HEXO_HOST_DIR=/path/to/hexo node tests/multi-deploy-auth.test.cjs` 使用临时 TLS 证书、HTTPS smart-HTTP 服务与本地裸仓库运行真实 Hexo CLI；验证令牌成功/失败、重定向拒绝及凭据不落盘，需要 OpenSSL 与 Git 2.31+，不连接真实托管平台。
+
+运行维护由独立 `history.js` 与 `cleanup.js` 实现，通过 console 埋点注册 `multi-history` 和 `multi-clean`。记录在持锁运行中原子写入，网络 push 前标记阶段，网络失败或中断保守视作未确认；维护命令只解析公共目标名、运行目录和保留策略，不加载目标 profile 或连接远端。清理先生成完整清单，实际删除共用工作目录锁，按目标保留构建/记录、保护 latest，并保留其他目标仍引用的共享输入。CLI 集成测试覆盖清理预览/确认、锁与路径拒绝、保留规则、清理后再次推送及远端已成功但验证中断的记录语义。
+
+测试：`HEXO_HOST_DIR=/path/to/hexo MULTI_KEEP_FIXTURE=1 node tests/multi-deploy.test.cjs` 创建本地 bare 目标并检查提交树、幂等、删除、失败与重试；随后 `node tests/multi-deploy-browser.cjs /tmp/doratiger-multi-test-<id>` 从这些仓库克隆部署结果，在 Chromium 检查日夜、窄屏、搜索和评论开关。浏览器测试需要 Node.js 22+ 与 Chromium；外部评论 API 被阻断，不代表真实评论服务的登录/发布已验证。
+
 ```
 ┌─────────────────────────────────────────────────┐
 │                   _config.yml                    │
