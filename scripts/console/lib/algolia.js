@@ -99,13 +99,16 @@ function preCheck(hexo) {
     };
 }
 
-module.exports = async (hexo, options, callback = () => {}) => {
+module.exports = async (hexo, options, callback = (error) => { if (error) throw error; }) => {
+    if (options.target !== undefined) return require('./algolia-target')(hexo, options);
     let option_clean = getBoolOption(options, ["clean", "c"], true);
     let option_dry_run = getBoolOption(options, ["dry-run", "d"], false);
     let algoliaConfig = preCheck(hexo);
     if (!algoliaConfig) {
+        if (process.env.DORATIGER_MULTI_CONTEXT) throw new Error('Algolia configuration or SDK unavailable');
         return callback();
     }
+    log(hexo, `[algolia] url=${hexo.config.url} index=${algoliaConfig.index_name}`, `[algolia] url=${hexo.config.url} index=${algoliaConfig.index_name}`, 'info');
     await hexo.database.load();
     let posts = getPostsWithFields(hexo, algoliaConfig.fields);
 

@@ -1,4 +1,5 @@
 "use strict";
+const { createHash } = require('node:crypto');
 
 const getPosts = (hexo) => {
     const posts = hexo.database
@@ -24,9 +25,11 @@ function resolveTagsAndCategories(field) {
 
 const getPostsWithFields = (hexo, fields) => {
     const posts = getPosts(hexo).map((post) => {
-        const objectID = post._id.toString();
+        // Database IDs change in clean/isolated builds. Source-relative paths
+        // remain stable across domain, permalink, title and content changes.
+        if (typeof post.source !== 'string' || !post.source) throw new Error('Missing post source for search identity');
+        const objectID = createHash('sha256').update('post\0' + post.source.replace(/\\/g, '/')).digest('hex');
         return {
-            objectID,
             ...fields.reduce((acc, field) => {
                 const value = getNestedValue(post, field);
                 if (value !== undefined) {
@@ -38,6 +41,7 @@ const getPostsWithFields = (hexo, fields) => {
                 }
                 return acc;
             }, {}),
+            objectID,
         };
     });
     return posts;

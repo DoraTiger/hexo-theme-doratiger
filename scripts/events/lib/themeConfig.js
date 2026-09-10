@@ -111,9 +111,8 @@ const getDefaultThemeLangConfig = (hexo) => {
     return langConfigMap;
 };
 
-module.exports = (hexo) => {
+const readMergedThemeConfig = (hexo) => {
     let themeMergeConfig = {};
-    let themeMergeI18nData = {};
 
     // 合并主题配置
     const dataThemeConfig = getDataThemeConfig(hexo);
@@ -140,6 +139,18 @@ module.exports = (hexo) => {
         );
     }
 
+    // Keep early plugin reads consistent with Hexo's public override and the
+    // explicitly selected managed target. Ordinary builds have no target layer.
+    const { merge: mergeOverrides } = require('../../utils/multi-deploy/config');
+    const { readContext } = require('../../utils/multi-deploy/context');
+    themeMergeConfig = mergeOverrides(themeMergeConfig, hexo.config.theme_config, readContext(hexo));
+    return themeMergeConfig;
+};
+
+module.exports = (hexo) => {
+    const themeMergeConfig = readMergedThemeConfig(hexo);
+    let themeMergeI18nData = {};
+
     // 合并主题多语言配置
     const dataLangConfigMap = getDataLangConfig(hexo);
     const defaultLangConfigMap = getDefaultThemeLangConfig(hexo);
@@ -165,3 +176,5 @@ module.exports = (hexo) => {
     };
     hexo.doratiger = doratiger;
 };
+// Preview reloads use the same merge owner without changing the host instance.
+module.exports.readMergedThemeConfig = readMergedThemeConfig;
