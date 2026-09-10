@@ -144,6 +144,116 @@
   }
 }
 
+#twikoo {
+  min-width: 0;
+  padding: 1rem;
+  color: $color-text;
+
+  // Adapt Element UI's generated controls once; preview/cancel/reply and send
+  // share geometry, with only the primary intent selecting the filled variant.
+  .el-button {
+    control-surface();
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    min-height: 44px;
+    padding: .5rem .875rem;
+    box-sizing: border-box;
+    font: inherit;
+    line-height: 1.25;
+    color: $color-text;
+
+    &:focus-visible {
+      outline: 2px solid $color-sub-theme;
+      outline-offset: 2px;
+    }
+
+    &:disabled, &.is-disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+  }
+
+  .el-button--primary {
+    action-control();
+  }
+
+  .el-input__inner, .el-textarea__inner, .el-input-group__prepend, .el-input-group__append {
+    form-field();
+  }
+
+  .el-input__inner {
+    min-height: 44px;
+    height: auto;
+    padding: .5rem .75rem;
+    line-height: 1.5;
+  }
+
+  .el-textarea__inner {
+    min-height: 8rem;
+    padding: .75rem;
+    line-height: 1.75;
+    resize: none;
+  }
+
+  // Retain Element UI's joined prepend/input structure instead of putting
+  // a separate rounded border around each half of the field.
+  .el-input-group__prepend {
+    color: $color-text-muted;
+    border-right-width: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .el-input-group__append {
+    color: $color-text-muted;
+    border-left-width: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .el-input-group--prepend .el-input__inner {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .el-input-group--append .el-input__inner {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .tk-main, .tk-comments-container, .tk-submit, .tk-input, .tk-meta-input .el-input {
+    min-width: 0;
+  }
+
+  .tk-preview-container {
+    color: $color-text;
+    background: var(--dt-surface-raised);
+    border-color: $color-border;
+    border-radius: .5rem;
+    overflow-wrap: anywhere;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .tk-row.actions {
+    flex-wrap: wrap;
+    gap: .5rem;
+
+    .el-button + .el-button {
+      margin-left: 0;
+    }
+  }
+
+  .tk-row-actions-start {
+    min-width: 0;
+  }
+}
+
 @media (max-width: 767px) {
   #comment-container {
     min-width: 0;
@@ -175,26 +285,20 @@
   }
 
   #twikoo {
-    min-width: 0;
     padding: .75rem;
-  }
-}
 
-#twikoo {
-  padding: 1rem;
+    // The composer avatar is decorative; keep the comment-list avatars while
+    // allowing fields to use the full narrow-screen width.
+    .tk-submit > .tk-row > .tk-avatar {
+      display: none;
+    }
 
-  .tk-main, .tk-comments-container, .tk-submit, .tk-preview-container {
-    color: $color-text;
-    background: var(--dt-surface-raised);
-    border-color: $color-border;
-  }
+    .tk-submit > .tk-row > .tk-col {
+      min-width: 0;
+    }
 
-  input, textarea {
-    form-field();
-    background: transparent;
-  }
-
-  .tk-send {
-    action-control();
+    .tk-row.actions, .tk-preview-container {
+      margin-left: 0;
+    }
   }
 }

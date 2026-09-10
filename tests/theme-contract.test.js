@@ -326,7 +326,6 @@ test("appearance tokens drive shared text, overlay, and hero rendering", () => {
     assert.doesNotMatch(heroModule, /rgba\(255,\s*255,\s*255/);
     assert.match(commentStyles, /\.gitment-container, \.vwrap, #twikoo/);
     assert.match(commentStyles, /var\(--dt-surface-raised\)/);
-    assert.match(commentStyles, /\.tk-send/);
     assert.match(sidebarStyles, /\.sidebar-toc-content\s*\{[\s\S]*&::before/);
     assert.match(sidebarStyles, /\.toc-link\s*\{[\s\S]*&::before\s*\{[\s\S]*border-radius:\s*50%/);
     assert.doesNotMatch(sidebarStyles, /sidebar-toc-prefix/);
