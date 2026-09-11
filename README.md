@@ -124,6 +124,8 @@ GitHub Pages 可按目标开启 `publish.pages.enable`，在产物中生成 `.no
 
 Algolia 可用 `hexo algolia --target github --dry-run` 检查目标索引；去掉 `--dry-run` 才更新远端。命令重新构建隔离文章数据，不复用公共数据库；目标显式索引与 `ALGOLIA_INDEX_NAME` 冲突时拒绝运行。Sitemap、本地搜索及前端配置自动随目标构建，无需额外命令。
 
+`hexo algolia --all --dry-run` 检查全部已配置目标，去掉 `--dry-run` 则逐个更新索引；`--all` 与 `--target` 互斥，遇错即停，不回滚此前更新。不指定两者仍使用公共配置。
+
 `multi-history` 查看自动保存的本地发布记录；`multi-clean` 按目标保留最近构建和记录，默认只预览，实际删除需要 `--apply --yes`。两者不检查正式网站状态。
 
 Git 发布失败时，可加 `--debug` 查看白名单化的操作名、退出码、耗时和错误分类；不输出原始 Git 错误中的凭据或安全规则放行链接。

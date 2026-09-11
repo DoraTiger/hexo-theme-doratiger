@@ -114,6 +114,8 @@ For GitHub Pages, explicitly enable `publish.pages.enable` per target to generat
 
 Use `hexo algolia --target github --dry-run` to inspect a target index; remove `--dry-run` to update the remote index. The command builds fresh isolated post data instead of using the shared database. A conflicting `ALGOLIA_INDEX_NAME` and explicit target index is rejected. Sitemaps, local search and frontend configuration already follow target builds without extra commands.
 
+Use `hexo algolia --all --dry-run` to inspect all configured targets, or omit `--dry-run` to update their indexes sequentially. `--all` and `--target` are mutually exclusive; errors stop processing without rolling back earlier updates. With neither option, the shared configuration is used.
+
 `multi-history` reads automatically saved local publication records. `multi-clean` retains recent builds and records per target, previews by default, and requires `--apply --yes` to delete runtime data. Neither command monitors the live website.
 
 For Git publication failures, add `--debug` to show allowlisted operation names, exit codes, elapsed times and error categories. Raw Git diagnostics, credentials and security-rule bypass links are never printed by this diagnostic output.

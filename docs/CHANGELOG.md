@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Algolia 新增 `--all`，复用 multi 目标选择与隔离构建，支持批量 dry-run、遇错停止；与 `--target` 互斥。
+
 - 新增独立 canonical 配置和文章级覆盖，联动文章 JSON-LD、sitemap XML/TXT 与 robots；跨域镜像不重复推荐非规范页面，robots 不再声明未生成的站点地图。导航、搜索、评论保留当前站点域名；结构化数据改为安全 JSON 序列化。
 
 - Algolia 记录 ID 改为文章相对源路径的稳定摘要，避免隔离构建配合 `--clean false` 重复添加文章；升级后需完整重建索引一次。

@@ -16,6 +16,8 @@
 
 ### 多目标构建、预览与发布
 
+Algolia `--all` 与 `--target` 共用 `algolia-target.js` 和 multi 目标解析器；一次捕获源文件快照，逐目标 prepare/generate/index，遇错退出并清理。不开新调度层，不改变公共配置命令，不自动回滚远端索引。
+
 `algolia-target.js` 只负责目标命令编排，复用 resolve/capture/prepare 与真实 Hexo CLI，先 generate 再运行原 Algolia 命令，finally 清理临时副本；不重复配置合并、不借用公共数据库、不接入 Git 发布。`site.js` 在共享准备入口拒绝环境索引与目标显式索引冲突，保持页面查询和远端写入一致。目标命令默认远端更新仍需用户显式执行，测试使用 dry-run。
 
 `pages.js` 独立负责 `publish.pages` 校验与 GitHub Pages 文件适配。真实 Hexo 生成后、产物树摘要记录前，按目标显式添加 `.nojekyll` 和可选 `CNAME`；源文件/生成器 CNAME 冲突拒绝，不推断站点域名、不修改共享 source，也不耦合 Git transport。`multi-pages.test.cjs` 使用真实 CLI 与本地裸仓库验证目标隔离、文件复用/冲突、关闭与省略配置、重复推送及篡改拒绝。命令仍为 `multi-*`，帮助描述标明 DoraTiger 来源。

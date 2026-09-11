@@ -1294,11 +1294,15 @@ hexo multi-clean --all --apply --yes
 hexo algolia --target github --dry-run
 hexo algolia --target github
 hexo algolia --target github --clean false
+hexo algolia --all --dry-run
+hexo algolia --all
 ```
 
 `--target` 选择一个已启用的 multi 目标（不要求配置 publish），复用目标的 `site` / `theme` 合并与隔离快照，先通过真实 Hexo generate 处理文章，再读取该副本的数据库生成索引。不读取公共旧数据库，不修改公共 public/db.json，不产生发布记录，结束清理临时副本。日志显示目标、有效站点 URL 和索引名；dry-run 输出待写入的公开文章，不写远端。实际更新仍默认清空索引，可用 `--clean false` 禁用清空；失败可能已部分写入，重试前核对远端。
 
-不传 `--target` 保持原有公共配置命令；多目标构建、预览和 Git 发布不会自动更新 Algolia。若环境变量 `ALGOLIA_INDEX_NAME` 与目标 `theme.search.algolia.index_name` 显式配置不一致，所有隔离目标运行均报 `MULTI_ALGOLIA_ENV`，请取消或对齐该环境变量，不能让前端查询与索引写入指向不同索引。其他凭据仍按现有环境变量优先规则读取，不打印密钥。不同域名应使用不同索引。
+`--all` 按主题主配置 `multi_deploy.targets` 的顺序逐个处理所有目标，与 `--target` 互斥，不接受位置参数。所有目标共用本次源文件快照，各自隔离构建；`--dry-run` 和 `--clean false` 应用于每个目标。沿用单目标行为，未启用 Algolia 的目标提示后跳过；遇到构建或索引错误则停止，之前已更新的索引不回滚。无需 Git publish 配置。
+
+不传 `--target` 或 `--all` 保持原有公共配置命令；多目标构建、预览和 Git 发布不会自动更新 Algolia。若环境变量 `ALGOLIA_INDEX_NAME` 与目标 `theme.search.algolia.index_name` 显式配置不一致，所有隔离目标运行均报 `MULTI_ALGOLIA_ENV`，请取消或对齐该环境变量，不能让前端查询与索引写入指向不同索引。其他凭据仍按现有环境变量优先规则读取，不打印密钥。不同域名应使用不同索引。
 
 主题不替用户改工作流或配置跨域 canonical。
 

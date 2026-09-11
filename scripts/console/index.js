@@ -39,6 +39,7 @@ hexo.extend.console.register(
     {
         options: [
             { name: '--target <target>', description: 'Use one DoraTiger multi target in an isolated Hexo build' },
+            { name: '--all', description: 'Use every configured DoraTiger multi target; mutually exclusive with --target' },
             {
                 name: "-c, --clean",
                 description: "weather to clean the index",
