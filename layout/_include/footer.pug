@@ -63,8 +63,8 @@ mixin statistics
                   .then(function(d) {
                     var sv = document.getElementById('counter-value');
                     var pv = document.getElementById('page-counter-value');
-                    if (sv) sv.textContent = d.site_uv || d.site_pv || 0;
-                    if (pv) pv.textContent = d.page_uv || d.page_pv || 0;
+                    if (sv) sv.textContent = d.site_pv || 0;
+                    if (pv) pv.textContent = d.page_pv || 0;
                   })
                   .catch(function() {
                     fallbackCount();

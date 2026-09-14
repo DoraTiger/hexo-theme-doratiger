@@ -5,6 +5,7 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
+const vm = require("node:vm");
 const Hexo = require("hexo");
 
 const themeDir = path.resolve(__dirname, "..");
@@ -52,6 +53,12 @@ test("theme honors a subpath root across generated assets, routes, and metadata"
         "  enable: true",
         "  fallback:",
         "    enable: true",
+        "statistics:",
+        "  enable: true",
+        "  type: counter",
+        "  counter:",
+        "    api: https://counter.example.test/count",
+        "    uv: true",
         "footer:",
         "  community_records:",
         "    enable: true",
@@ -105,6 +112,31 @@ test("theme honors a subpath root across generated assets, routes, and metadata"
     const page404 = fs.readFileSync(path.join(fixtureDir, "public", "404.html"), "utf8");
     const terms = fs.readFileSync(path.join(fixtureDir, "public", "terms", "index.html"), "utf8");
     const css = fs.readFileSync(path.join(fixtureDir, "public", "css", "main.css"), "utf8");
+
+    const counterValues = {
+        "counter-value": { textContent: "-" },
+        "page-counter-value": { textContent: "-" },
+    };
+    const counterScript = index.match(/<script>\(function\(\)[\s\S]*?<\/script>/)?.[0]
+        ?.replace(/^<script>|<\/script>$/g, "");
+    assert.ok(counterScript, "the generated page must include the counter script");
+    vm.runInNewContext(counterScript, {
+        crypto: { randomUUID: () => "generated-visitor" },
+        document: {
+            cookie: "dtc_uid=fixture-visitor",
+            getElementById: (id) => counterValues[id] || null,
+        },
+        fetch: () => Promise.resolve({
+            json: () => Promise.resolve({ site_pv: 5039, page_pv: 31, site_uv: 200, page_uv: 1 }),
+        }),
+        localStorage: { getItem: () => null, setItem: () => {} },
+        location: { pathname: "/hello/" },
+    });
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.equal(counterValues["counter-value"].textContent, 5039,
+        "the total-visits label must show site_pv rather than site_uv");
+    assert.equal(counterValues["page-counter-value"].textContent, 31,
+        "the page-views label must show page_pv rather than page_uv");
 
     assert.match(index, /href="\/blog\/css\/main\.css"/);
     assert.match(index, /src="\/blog\/js\/main\.js"/);
