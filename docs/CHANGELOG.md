@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Git 发布改为浅拉取远端最新提交；`fetch/push` 超时上限调整为 10 分钟，其他 Git 操作仍为 2 分钟。超时和输出超限时清理子进程树，避免 SSH 继续占用输出管道。
+
 - Algolia 新增 `--all`，复用 multi 目标选择与隔离构建，支持批量 dry-run、遇错停止；与 `--target` 互斥。
 
 - 新增独立 canonical 配置和文章级覆盖，联动文章 JSON-LD、sitemap XML/TXT 与 robots；跨域镜像不重复推荐非规范页面，robots 不再声明未生成的站点地图。导航、搜索、评论保留当前站点域名；结构化数据改为安全 JSON 序列化。

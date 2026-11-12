@@ -34,7 +34,7 @@ async function publish(target, artifact, work, { force = false, progress = () =>
     const found = await remote(['ls-remote', '--refs', repo, ref]);
     let owned = false;
     if (found) {
-        await remote(['fetch', '--no-tags', repo, ref]);
+        await remote(['fetch', '--depth=1', '--no-tags', repo, ref]);
         const message = await git(['show', '-s', '--format=%B', 'FETCH_HEAD'], directory);
         owned = message.split('\n').includes(`Doratiger-Target: ${target.name}`);
         if (!owned && !force) fail('OWNERSHIP');

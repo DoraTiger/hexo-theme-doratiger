@@ -8,14 +8,22 @@ const { summarize } = require('./diagnostics');
 // contain private YAML or credential-helper diagnostics.
 function run(command, args, cwd, env = process.env, timeoutMs = 600000) {
     return new Promise((resolve, reject) => {
-        const child = spawn(command, args, { cwd, env, stdio: ['ignore', 'pipe', 'pipe'], shell: false });
+        const child = spawn(command, args, { cwd, env, stdio: ['ignore', 'pipe', 'pipe'], shell: false, detached: process.platform !== 'win32' });
         let output = '', stdout = '';
         const limit = 16 * 1024 * 1024;
         let oversized = false, timedOut = false;
-        const timer = setTimeout(() => { timedOut = true; child.kill('SIGKILL'); }, timeoutMs);
+        function stop() {
+            if (!child.pid) return;
+            if (process.platform === 'win32') {
+                spawn('taskkill', ['/pid', String(child.pid), '/T', '/F'], { stdio: 'ignore' }).on('error', () => child.kill());
+            } else {
+                try { process.kill(-child.pid, 'SIGKILL'); } catch (error) { if (error.code !== 'ESRCH') child.kill('SIGKILL'); }
+            }
+        }
+        const timer = setTimeout(() => { timedOut = true; stop(); }, timeoutMs);
         function append(value, out) {
             if (oversized) return;
-            if (output.length + value.length > limit) { oversized = true; child.kill(); return; }
+            if (output.length + value.length > limit) { oversized = true; stop(); return; }
             output += value; if (out) stdout += value;
         }
         child.stdout.on('data', data => append(data.toString(), true));
@@ -35,7 +43,7 @@ async function git(args, cwd, identity = {}) {
         // Git's tracing can bypass captured stderr and write secrets to files.
         for (const key of Object.keys(env)) if (/^GIT_(TRACE.*|CURL_VERBOSE)$/.test(key)) delete env[key];
         result = await run('git', ['-c', 'commit.gpgSign=false', '-c', 'core.autocrlf=false', ...args], cwd,
-            env, 120000);
+            env, args.some(arg => arg === 'fetch' || arg === 'push') ? 600000 : 120000);
     } catch (error) {
         // ENOENT can also mean an invalid cwd; do not mislabel that as a
         // missing executable. Only diagnose Git absence with a valid cwd.

@@ -87,6 +87,8 @@ try {
     const sha = remote('cn', 'rev-parse', 'pages');
     ok(cli('multi-push', 'cn'));
     assert.equal(remote('cn', 'rev-parse', 'pages'), sha, 'repeat push must not commit');
+    const attempts = path.join(site, 'plugins/multi_deploy/git/cn');
+    assert.ok(fs.readdirSync(attempts).some(name => fs.existsSync(path.join(attempts, name, '.git/shallow'))), 'existing destinations must use a shallow fetch');
     const history = n => JSON.parse(ok(cli('multi-history', n, '--json', '--silent')).stdout);
     assert.equal(history('cn')[0].result, 'unchanged');
     assert.equal(history('cn')[0].commit, sha);
