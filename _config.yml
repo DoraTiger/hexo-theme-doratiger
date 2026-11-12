@@ -574,11 +574,11 @@ resource:
 
     local:
       js:
-        - "/lib/twikoo/@1.7.22/twikoo.min.js"
+        - "/lib/twikoo/@2.0.17/twikoo.min.js"
 
     cdn:
       js:
-        - "https://cdn.jsdelivr.net/npm/twikoo@1.7.22/dist/twikoo.min.js"
+        - "https://cdn.jsdelivr.net/npm/twikoo@2.0.17/dist/twikoo.min.js"
 
   # valine 资源路径
   # Resource path for valine
