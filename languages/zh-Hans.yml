@@ -201,3 +201,6 @@ privacy:
   updates:
     title: "5. 政策更新"
     description: "本政策可能不时更新，更新后将在本页面发布。继续使用本站即表示接受更新后的政策。"
+
+seo:
+  page: "第 %d 页"

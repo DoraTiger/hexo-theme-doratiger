@@ -41,8 +41,11 @@ try {
     post('hello'); post('second'); post('alias', { canonical: 'https://primary.example.test/blog/hello/' });
     post('external', { canonical: 'https://original.example.test/post/?v=1#part' });
     post('disabled', { canonical: false });
-    write('source/about/index.md', '---\ntitle: about\n---\nAbout.');
+    write('source/about/index.md', '---\ntitle: about\ntype: about\n---\nAbout.');
     build();
+    assert.match(read('hello/index.html'), /name="description" content="Article\."/);
+    assert.match(read('page/2/index.html'), /<title>Page 2【Canonical fixture】<\/title>/);
+    assert.match(read('about/index.html'), /name="description" content="About\."/);
     assert.equal(canonical(page('hello/index.html')), 'https://primary.example.test/blog/hello/');
     assert.equal(canonical(page('index.html')), 'https://primary.example.test/blog/');
     assert.equal(canonical(page('page/2/index.html')), 'https://primary.example.test/blog/page/2/');

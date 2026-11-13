@@ -200,3 +200,6 @@ privacy:
   updates:
     title: "5. Policy Updates"
     description: "This policy may be updated from time to time. Continued use of this site means you accept the updated policy."
+
+seo:
+  page: "Page %d"

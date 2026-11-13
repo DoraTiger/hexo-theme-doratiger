@@ -1,20 +1,7 @@
 -
-  const getPageTitle = (page, config) =>{
-    let pageTitle = page.title || config.subtitle || ''
-    if (pageTitle === 'about') pageTitle = _p('about.title')
-    if (is_archive()) pageTitle = _p('archives.title')
-    if (is_tag()) pageTitle = _p('tags.title') + ':' + page.tag
-    if (is_category())
-      pageTitle = _p('categories.title') + ':' + page.category
-    if (is_month()) pageTitle += ':' + page.month + '/' + page.year
-    if (is_year()) pageTitle += ':' + page.year
-    pageTitle += '【' + config.title + '】'
-    return pageTitle
-  }
-
-  const pageTitle = getPageTitle(page, config)
-  const pageDescription =
-    page.description || page.title || config.description || ''
+  const seo = seo_metadata(page, is_post())
+  const pageTitle = seo.title
+  const pageDescription = seo.description
   const pageKeywords =
     page.tags && page.tags.data
       ? page.tags.data.map(tag => tag.name).join(',')
@@ -26,7 +13,6 @@
   const pageImage = page.image || theme.global.avatar
   const themeFavicon = theme.global.favicon
   const themeColor = (theme.style && theme.style.accent) || "#E7A63A"
-  const seo = seo_metadata(page, is_post())
 
 //- 基础标签
 meta(charset='UTF-8')

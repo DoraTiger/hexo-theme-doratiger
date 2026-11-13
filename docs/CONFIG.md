@@ -988,6 +988,10 @@ ai:
 
 ---
 
+### 页面标题与描述
+
+页面描述优先使用 Front Matter 的 `description`，其次从 `excerpt` 或正文提取最多 160 个字符的纯文本，跳过脚本、样式和代码块；没有正文时使用站点描述。隐私页使用对应语言的简介。分页标题附带本地化页码，关于页和隐私页提供本地化标题；canonical 规则保持不变。
+
 ### 规范网址（canonical）
 
 在 Hexo 根目录的主题主配置 `_config.hexo-theme-doratiger.yml` 中设置：
