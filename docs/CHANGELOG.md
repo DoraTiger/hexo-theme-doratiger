@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- 新增可选日夜头像及正文日夜图片，复用现有主题状态；保留单头像配置，取消头像悬停旋转。
+- Add optional appearance-aware avatars and content images using the existing theme state; preserve single-avatar configuration and remove avatar hover rotation.
+
 - SEO 描述回退到文章摘要或正文，分页标题增加本地化页码，补齐关于页和隐私页标题。
 
 - Git 发布改为浅拉取远端最新提交；`fetch/push` 超时上限调整为 10 分钟，其他 Git 操作仍为 2 分钟。超时和输出超限时清理子进程树，避免 SSH 继续占用输出管道。

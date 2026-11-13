@@ -1,0 +1,27 @@
+// Reuse the existing day/night/system appearance state.
+.appearance-image
+  > .appearance-image-day
+    display none !important
+  > .appearance-image-night
+    display block !important
+
+html[data-appearance='day'] .appearance-image
+  > .appearance-image-day
+    display block !important
+  > .appearance-image-night
+    display none !important
+
+@media (prefers-color-scheme: light)
+  html[data-appearance='system'] .appearance-image
+    > .appearance-image-day
+      display block !important
+    > .appearance-image-night
+      display none !important
+
+.appearance-image.about-welcome
+  width min(100%, 360px)
+  margin 0 auto 2rem
+  > img
+    width 100%
+    height auto
+    margin 0

@@ -59,6 +59,8 @@
         enable: true
         user: ""
         avatar: ""
+        avatar_day: ""
+        avatar_night: ""
         description: ""
       social:
         enable: true
@@ -1341,3 +1343,13 @@ source、主题、宿主 scripts 和配置复制到独立目录，复用已安�
 ### Commit Message 规范
 
 详见 [贡献指南](./CONTRIBUTING.md)（中文）| [Contributing](./CONTRIBUTING_en.md)（English）。
+
+### 日夜图片 / Appearance images
+
+`sidebar.info.avatar_day` 与 `avatar_night` 可分别指定日夜头像，未配置的一侧回退到原有 `avatar`。两项都留空时保留单图行为。切换复用主题的日／夜／跟随系统状态。
+
+Set `sidebar.info.avatar_day` and `avatar_night` for appearance-specific avatars. An omitted variant falls back to the existing avatar; omitting both preserves the single-image behavior. Images follow the existing day/night/system setting.
+
+正文可以使用 `.appearance-image` 容器，包含 `.appearance-image-day`、`.appearance-image-night` 两张图片；请提供相同尺寸和替代文本。关于页迎宾图可附加 `.about-welcome`，最大宽度为 360px。
+
+Page content can use an `.appearance-image` container with `.appearance-image-day` and `.appearance-image-night` images of equal dimensions and equivalent alt text. Add `.about-welcome` for a centered welcome image capped at 360px.

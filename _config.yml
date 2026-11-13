@@ -48,6 +48,10 @@ sidebar:
     # User avatar, override the 'global.avatar' in the theme configuration
     avatar:
 
+    # 可选日夜头像；留空时使用 avatar / Optional day/night avatars; fall back to avatar
+    avatar_day:
+    avatar_night:
+
     # 用户简介，覆盖默认配置中的 description
     # User description, override the 'description' in the default configuration
     description:

@@ -13,7 +13,12 @@
 #sidebar-info(class= showToc ? 'hide' : '')
   .author-info
     .author-info-avatar
-      img.author-info-avatar-img(src=url_for(author_avatar))
+      if theme.sidebar.info.avatar_day || theme.sidebar.info.avatar_night
+        .appearance-image
+          img.author-info-avatar-img.appearance-image-day(src=url_for(theme.sidebar.info.avatar_day || author_avatar) alt=author_name width="120" height="120")
+          img.author-info-avatar-img.appearance-image-night(src=url_for(theme.sidebar.info.avatar_night || author_avatar) alt=author_name width="120" height="120")
+      else
+        img.author-info-avatar-img(src=url_for(author_avatar) alt=author_name width="120" height="120")
     .author-info-name= author_name
     .author-info-description= author_description
     if social_links
