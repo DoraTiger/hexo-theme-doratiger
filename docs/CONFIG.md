@@ -1350,6 +1350,6 @@ source、主题、宿主 scripts 和配置复制到独立目录，复用已安�
 
 Set `sidebar.info.avatar_day` and `avatar_night` for appearance-specific avatars. An omitted variant falls back to the existing avatar; omitting both preserves the single-image behavior. Images follow the existing day/night/system setting.
 
-正文可以使用 `.appearance-image` 容器，包含 `.appearance-image-day`、`.appearance-image-night` 两张图片；请提供相同尺寸和替代文本。关于页迎宾图可附加 `.about-welcome`，最大宽度为 360px。
+正文可以使用 `.appearance-image` 容器，包含 `.appearance-image-day`、`.appearance-image-night` 两张图片；请提供相同尺寸和替代文本。关于页迎宾图可附加 `.about-welcome`，最大宽度为 240px。
 
-Page content can use an `.appearance-image` container with `.appearance-image-day` and `.appearance-image-night` images of equal dimensions and equivalent alt text. Add `.about-welcome` for a centered welcome image capped at 360px.
+Page content can use an `.appearance-image` container with `.appearance-image-day` and `.appearance-image-night` images of equal dimensions and equivalent alt text. Add `.about-welcome` for a centered welcome image capped at 240px.
